@@ -482,6 +482,11 @@ Masuk
 </li>
 
 
+<li onclick="openPage('toko')">
+🛒 Toko Pembeli
+</li>
+
+
 <li onclick="openPage('pesanan')">
 🛍 Pesanan
 </li>
@@ -1172,7 +1177,111 @@ border-radius:8px;">
 
 
 
+<!-- ================= TOKO PEMBELI ================= -->
 
+
+<div id="toko" class="page">
+
+
+<div class="box">
+
+
+<h2>
+🛒 Toko Online
+</h2>
+
+
+<p>
+Pilih produk yang ingin kamu beli
+</p>
+
+
+<br>
+
+
+<div class="cards">
+
+
+<div class="card">
+
+
+<img 
+src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300"
+width="100%"
+style="border-radius:15px;">
+
+
+<h3>
+Smart Watch
+</h3>
+
+
+<p>
+Rp450.000
+</p>
+
+
+<button 
+class="btn"
+onclick="pesanProduk(
+'Smart Watch',
+450000
+)">
+
+Pesan
+
+</button>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+<img 
+src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300"
+width="100%"
+style="border-radius:15px;">
+
+
+<h3>
+Sepatu Sport
+</h3>
+
+
+<p>
+Rp350.000
+</p>
+
+
+<button 
+class="btn"
+onclick="pesanProduk(
+'Sepatu Sport',
+350000
+)">
+
+Pesan
+
+</button>
+
+
+</div>
+
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
 
 
 
@@ -1772,7 +1881,142 @@ rows[i].style.display="none";
 }
 
 
+<div id="keranjang"
+class="box"
+style="
+margin:25px;
+display:none;
+">
 
+
+<h2>
+🛍 Keranjang Saya
+</h2>
+
+
+<p id="isiKeranjang">
+
+</p>
+
+
+<button 
+class="btn"
+onclick="checkout()">
+
+Checkout
+
+</button>
+
+
+</div>
+
+let pesananSaya=[];
+
+
+
+function pesanProduk(nama,harga){
+
+
+pesananSaya.push({
+
+produk:nama,
+
+harga:harga
+
+});
+
+
+
+document.getElementById("keranjang")
+.style.display="block";
+
+
+
+tampilkanKeranjang();
+
+
+}
+
+
+
+
+
+function tampilkanKeranjang(){
+
+
+let hasil="";
+
+
+let total=0;
+
+
+
+pesananSaya.forEach(function(item){
+
+
+hasil += 
+item.produk+
+" - Rp"+
+item.harga+
+"<br>";
+
+
+
+total += item.harga;
+
+
+
+});
+
+
+
+hasil +=
+"<br>Total : Rp"+
+total;
+
+
+
+document.getElementById("isiKeranjang")
+.innerHTML=hasil;
+
+
+}
+
+
+
+
+
+function checkout(){
+
+
+let nama =
+prompt("Masukkan nama pembeli");
+
+
+
+if(nama==null || nama==""){
+
+return;
+
+}
+
+
+
+alert(
+"Pesanan berhasil dibuat!\n"+
+"Terima kasih "+nama
+);
+
+
+
+pesananSaya=[];
+
+
+document.getElementById("isiKeranjang")
+.innerHTML="";
+
+
+}
 
 
 
