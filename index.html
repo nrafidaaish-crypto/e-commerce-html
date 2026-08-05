@@ -1025,42 +1025,51 @@ Menunggu
 <br>
 
 
-<table>
-
+<<table>
 
 <tr>
-
 <th>ID</th>
-
 <th>Pembeli</th>
-
 <th>Produk</th>
-
+<th>Total</th>
 <th>Status</th>
-
 </tr>
 
-
+<tbody id="pesananBody">
 
 <tr>
-
-<td>
-001
-</td>
-
-<td>
-Ana
-</td>
-
-<td>
-Cardigan Perempuan
-</td>
-
-<td>
-Selesai
-</td>
-
+<td>001</td>
+<td>Ana</td>
+<td>Cardigan Perempuan</td>
+<td>Rp200.000</td>
+<td>Selesai</td>
 </tr>
+
+<tr>
+<td>002</td>
+<td>Leya</td>
+<td>Flatshoes</td>
+<td>Rp150.000</td>
+<td>Dikirim</td>
+</tr>
+
+<tr>
+<td>003</td>
+<td>Karla</td>
+<td>Sneakers Pink</td>
+<td>Rp350.000</td>
+<td>Diproses</td>
+</tr>
+
+<tr>
+<td>004</td>
+<td>Bulan</td>
+<td>Heels</td>
+<td>Rp250.000</td>
+<td>Menunggu</td>
+</tr>
+
+</tbody>
 
 </table>
 
@@ -1801,7 +1810,33 @@ alert(
 "Pesanan berhasil dibuat!"
 );
 
+let body = document.getElementById("pesananBody");
 
+let daftarProduk = "";
+
+keranjang.forEach(function(item){
+
+daftarProduk += item.nama + ", ";
+
+});
+
+let nomor = body.rows.length + 1;
+
+body.innerHTML += `
+<tr>
+
+<td>${String(nomor).padStart(3,'0')}</td>
+
+<td>${nama}</td>
+
+<td>${daftarProduk}</td>
+
+<td>Rp${total.toLocaleString("id-ID")}</td>
+
+<td>Diproses</td>
+
+</tr>
+`;
 
 keranjang=[];
 
