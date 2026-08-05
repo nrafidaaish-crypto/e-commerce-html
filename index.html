@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Seller Dashboard</title>
+<title>SellerPro Dashboard</title>
+
 
 <style>
 
@@ -12,236 +15,403 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
+    font-family:"Segoe UI", sans-serif;
 }
+
 
 body{
-    background:#f5f7fb;
-    color:#333;
+    background:#f1f5f9;
+    color:#1e293b;
 }
 
 
-/* LOGIN */
+
+/* ================= LOGIN ================= */
+
 
 .login-page{
+
     height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    background:linear-gradient(135deg,#2563eb,#60a5fa);
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #60a5fa
+    );
+
 }
+
+
 
 .login-box{
-    width:350px;
+
+    width:370px;
     background:white;
     padding:35px;
-    border-radius:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,.2);
+    border-radius:25px;
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+
 }
 
-.login-box h2{
+
+
+.login-box h1{
+
     text-align:center;
-    margin-bottom:25px;
     color:#2563eb;
+    margin-bottom:25px;
+
 }
+
+
+
+.login-box p{
+
+    text-align:center;
+    color:#64748b;
+    margin-bottom:20px;
+
+}
+
+
 
 .login-box input{
+
     width:100%;
-    padding:12px;
-    margin:10px 0;
+    padding:14px;
+    margin-bottom:15px;
     border:1px solid #ddd;
-    border-radius:10px;
+    border-radius:12px;
+    outline:none;
+
 }
+
+
 
 .login-box button{
+
     width:100%;
-    padding:12px;
+    padding:14px;
     border:none;
+    border-radius:12px;
     background:#2563eb;
     color:white;
-    border-radius:10px;
+    font-size:16px;
     cursor:pointer;
+
 }
 
 
-/* DASHBOARD */
+
+.login-box button:hover{
+
+    background:#1d4ed8;
+
+}
+
+
+
+/* ================= DASHBOARD ================= */
+
 
 .dashboard{
+
     display:none;
-    min-height:100vh;
+
 }
+
 
 
 /* SIDEBAR */
 
+
 .sidebar{
+
     position:fixed;
+    left:0;
+    top:0;
     width:250px;
     height:100vh;
     background:white;
     padding:25px;
     box-shadow:3px 0 15px rgba(0,0,0,.08);
+
 }
 
+
+
 .logo{
+
     font-size:25px;
     font-weight:bold;
     color:#2563eb;
     margin-bottom:35px;
+
 }
+
+
 
 .menu{
+
     list-style:none;
+
 }
 
+
+
 .menu li{
+
     padding:14px;
     margin:8px 0;
     border-radius:12px;
     cursor:pointer;
+    transition:.3s;
+
 }
+
+
 
 .menu li:hover{
+
     background:#dbeafe;
     color:#2563eb;
+
 }
 
 
-/* CONTENT */
 
-.content{
+
+/* MAIN */
+
+
+.main{
+
     margin-left:250px;
-    padding:30px;
+    padding:25px;
+
 }
 
 
-.topbar{
+
+.header{
+
     background:white;
     padding:20px;
-    border-radius:18px;
+    border-radius:20px;
     display:flex;
     justify-content:space-between;
     align-items:center;
     margin-bottom:25px;
+
 }
+
 
 
 .profile{
+
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:12px;
+
 }
 
+
+
 .profile img{
-    width:40px;
-    height:40px;
+
+    width:45px;
+    height:45px;
     border-radius:50%;
+
 }
+
+
 
 
 /* CARD */
 
+
 .cards{
+
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:20px;
+
 }
+
 
 
 .card{
+
     background:white;
     padding:25px;
-    border-radius:18px;
+    border-radius:20px;
     box-shadow:0 5px 20px rgba(0,0,0,.05);
+
 }
 
-.card h3{
-    font-size:14px;
-    color:#777;
+
+
+.card h4{
+
+    color:#64748b;
+
 }
 
-.card p{
-    font-size:25px;
-    font-weight:bold;
-    margin-top:10px;
+
+
+.card h2{
+
     color:#2563eb;
+    margin-top:10px;
+
 }
 
 
-/* SECTION */
 
-.section{
+
+
+/* CONTENT */
+
+
+.page{
+
+    display:none;
+
+}
+
+
+
+.active{
+
+    display:block;
+
+}
+
+
+
+.box{
+
     background:white;
     padding:25px;
+    border-radius:20px;
     margin-top:25px;
-    border-radius:18px;
+
 }
 
 
-.section h2{
-    margin-bottom:20px;
-}
 
-
-/* TABLE */
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-table th{
-    background:#2563eb;
-    color:white;
-    padding:12px;
-}
-
-table td{
-    padding:12px;
-    border-bottom:1px solid #eee;
-}
 
 
 /* BUTTON */
 
+
 .btn{
-    padding:10px 18px;
+
     background:#2563eb;
     color:white;
     border:none;
+    padding:10px 18px;
     border-radius:10px;
     cursor:pointer;
+
 }
 
-.btn-danger{
-    background:#ef4444;
+
+
+.btn:hover{
+
+    background:#1d4ed8;
+
 }
+
+
+
+.btn-danger{
+
+    background:#ef4444;
+
+}
+
+
+
+
+
+/* TABLE */
+
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+
+}
+
+
+
+th{
+
+    background:#2563eb;
+    color:white;
+    padding:12px;
+
+}
+
+
+
+td{
+
+    padding:12px;
+    border-bottom:1px solid #ddd;
+
+}
+
+
+
 
 
 /* RESPONSIVE */
 
+
 @media(max-width:900px){
 
+
 .sidebar{
+
     width:80px;
+
 }
+
 
 .logo{
+
     display:none;
+
 }
 
-.content{
+
+.main{
+
     margin-left:80px;
+
 }
+
 
 .cards{
+
     grid-template-columns:repeat(2,1fr);
+
 }
+
 
 }
 
 
 </style>
+
 
 </head>
 
@@ -251,19 +421,37 @@ table td{
 
 <!-- LOGIN -->
 
-<div class="login-page" id="login">
+<div class="login-page" id="loginPage">
+
 
 <div class="login-box">
 
-<h2>Seller Login</h2>
 
-<input type="text" id="username" placeholder="Username">
+<h1>🛒 SellerPro</h1>
 
-<input type="password" id="password" placeholder="Password">
 
-<button onclick="login()">Masuk</button>
+<p>Masuk ke Dashboard Penjual</p>
+
+
+<input 
+type="text" 
+id="username"
+placeholder="Username">
+
+
+<input 
+type="password"
+id="password"
+placeholder="Password">
+
+
+<button onclick="login()">
+Masuk
+</button>
+
 
 </div>
+
 
 </div>
 
@@ -276,6 +464,7 @@ table td{
 
 <div class="sidebar">
 
+
 <div class="logo">
 🛒 SellerPro
 </div>
@@ -283,102 +472,175 @@ table td{
 
 <ul class="menu">
 
-<li onclick="showPage('home')">🏠 Dashboard</li>
+<li onclick="openPage('home')">
+🏠 Dashboard
+</li>
 
-<li onclick="showPage('produk')">📦 Produk</li>
 
-<li onclick="showPage('pesanan')">🛍 Pesanan</li>
+<li onclick="openPage('produk')">
+📦 Produk
+</li>
 
-<li onclick="showPage('pelanggan')">👥 Pelanggan</li>
 
-<li onclick="showPage('laporan')">📊 Laporan</li>
+<li onclick="openPage('pesanan')">
+🛍 Pesanan
+</li>
 
-<li onclick="showPage('profil')">⚙ Profil</li>
 
-<li onclick="logout()">🚪 Logout</li>
+<li onclick="openPage('pelanggan')">
+👥 Pelanggan
+</li>
+
+
+<li onclick="openPage('laporan')">
+📊 Laporan
+</li>
+
+
+<li onclick="logout()">
+🚪 Keluar
+</li>
+
 
 </ul>
+
 
 </div>
 
 
 
-<div class="content">
+<div class="main">
 
 
-<div class="topbar">
+<div class="header">
 
-<h2>Dashboard Penjual</h2>
+
+<h2>
+Dashboard Penjual
+</h2>
+
 
 <div class="profile">
-
-<button class="btn" onclick="cekPesanan()">
-🔔
-</button>
 
 
 <img src="https://i.pravatar.cc/100">
 
-<span>Admin Toko</span>
+
+<span>
+Admin Toko
+</span>
 
 
 </div>
 
+
 </div>
 
+<!-- ================= HOME ================= -->
 
 
-<div id="home">
+<div id="home" class="page active">
+
 
 <div class="cards">
 
 
 <div class="card">
-<h3>Total Produk</h3>
-<p>125</p>
+
+<h4>Total Produk</h4>
+
+<h2 id="totalProduk">
+12
+</h2>
+
 </div>
+
 
 
 <div class="card">
-<h3>Pesanan Baru</h3>
-<p>32</p>
+
+<h4>Pesanan Baru</h4>
+
+<h2>
+35
+</h2>
+
 </div>
+
 
 
 <div class="card">
-<h3>Pendapatan</h3>
-<p>Rp 8.5 jt</p>
+
+<h4>Pendapatan</h4>
+
+<h2>
+Rp 8.500.000
+</h2>
+
 </div>
+
 
 
 <div class="card">
-<h3>Pelanggan</h3>
-<p>560</p>
+
+<h4>Pelanggan</h4>
+
+<h2>
+560
+</h2>
+
 </div>
 
 
+
 </div>
 
 
-<div class="section">
 
-<h2>Selamat Datang di Seller Dashboard</h2>
+
+<div class="box">
+
+
+<h2>
+Selamat Datang 👋
+</h2>
+
+
+<br>
+
 
 <p>
-Kelola produk, pesanan, pelanggan, dan laporan penjualan toko kamu dengan mudah.
+Kelola toko kamu dengan mudah melalui SellerPro Dashboard.
+Kamu dapat mengatur produk, melihat pesanan,
+dan memantau perkembangan penjualan.
 </p>
 
+
+</div>
+
+
 </div>
 
 
-</div>
-<!-- PRODUK -->
 
-<div id="produk" style="display:none;">
 
-<div class="section">
 
-<h2>Manajemen Produk</h2>
+
+<!-- ================= PRODUK ================= -->
+
+
+<div id="produk" class="page">
+
+
+<div class="box">
+
+
+<h2>
+Manajemen Produk
+</h2>
+
+
+<br>
 
 
 <button class="btn" onclick="tambahProduk()">
@@ -386,128 +648,91 @@ Kelola produk, pesanan, pelanggan, dan laporan penjualan toko kamu dengan mudah.
 </button>
 
 
-<br><br>
+
+<input 
+id="search"
+onkeyup="cariProduk()"
+placeholder="🔍 Cari produk..."
+style="
+padding:10px;
+margin-left:15px;
+border-radius:10px;
+border:1px solid #ddd;
+">
+
+
+
 
 
 <table>
 
+
 <thead>
 
 <tr>
+
 <th>Gambar</th>
-<th>Nama Produk</th>
+
+<th>Nama</th>
+
 <th>Kategori</th>
+
 <th>Harga</th>
+
 <th>Stok</th>
+
 <th>Aksi</th>
+
+
 </tr>
+
 
 </thead>
 
 
-<tbody id="produkTable">
-
-
-<tr>
-
-<td>
-<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100"
-width="60"
-style="border-radius:10px;">
-</td>
-
-<td>Smart Watch</td>
-
-<td>Elektronik</td>
-
-<td>Rp 450.000</td>
-
-<td>20</td>
-
-
-<td>
-
-<button class="btn" onclick="editProduk(this)">
-Edit
-</button>
-
-<button class="btn btn-danger" onclick="hapusProduk(this)">
-Hapus
-</button>
-
-</td>
-
-
-</tr>
+<tbody id="produkList">
 
 
 
 <tr>
 
+
 <td>
 
-<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=100"
+<img 
+src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100"
 width="60"
-style="border-radius:10px;">
+style="border-radius:10px">
 
 </td>
 
 
-<td>Sepatu Sport</td>
-
-<td>Fashion</td>
-
-<td>Rp 350.000</td>
-
-<td>35</td>
-
-
 <td>
-
-<button class="btn" onclick="editProduk(this)">
-Edit
-</button>
-
-
-<button class="btn btn-danger" onclick="hapusProduk(this)">
-Hapus
-</button>
-
-
-</td>
-
-</tr>
-
-
-
-<tr>
-
-<td>
-
-<img src="https://images.unsplash.com/photo-1585386959984-a41552231658?w=100"
-width="60"
-style="border-radius:10px;">
-
+Smart Watch
 </td>
 
 
-<td>Parfum Premium</td>
+<td>
+Elektronik
+</td>
 
-<td>Kecantikan</td>
 
-<td>Rp 200.000</td>
+<td>
+Rp450.000
+</td>
 
-<td>50</td>
+
+<td>
+20
+</td>
 
 
 <td>
 
-<button class="btn" onclick="editProduk(this)">
-Edit
-</button>
 
-
-<button class="btn btn-danger" onclick="hapusProduk(this)">
+<button 
+class="btn-danger btn"
+onclick="hapusProduk(this)">
 Hapus
 </button>
 
@@ -516,64 +741,130 @@ Hapus
 
 
 </tr>
+
+
+
+
+
+<tr>
+
+
+<td>
+
+<img 
+src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=100"
+width="60"
+style="border-radius:10px">
+
+</td>
+
+
+<td>
+Sepatu Sport
+</td>
+
+
+<td>
+Fashion
+</td>
+
+
+<td>
+Rp350.000
+</td>
+
+
+<td>
+35
+</td>
+
+
+<td>
+
+
+<button 
+class="btn-danger btn"
+onclick="hapusProduk(this)">
+Hapus
+</button>
+
+
+</td>
+
+
+</tr>
+
+
 
 
 </tbody>
+
 
 </table>
 
 
 </div>
 
+
 </div>
 
 
 
 
 
-<!-- PESANAN -->
-
-<div id="pesanan" style="display:none;">
 
 
-<div class="section">
+<!-- ================= PESANAN ================= -->
 
 
-<h2>Daftar Pesanan</h2>
+<div id="pesanan" class="page">
+
+
+<div class="box">
+
+
+<h2>
+Daftar Pesanan
+</h2>
+
 
 
 <table>
 
+
 <tr>
 
-<th>ID Pesanan</th>
+<th>ID</th>
 
 <th>Pelanggan</th>
 
 <th>Produk</th>
 
-<th>Total</th>
-
 <th>Status</th>
 
+
 </tr>
+
 
 
 <tr>
 
-<td>#00125</td>
-
-<td>Aisyah</td>
-
-<td>Smart Watch</td>
-
-<td>Rp450.000</td>
+<td>
+#001
+</td>
 
 <td>
-<span style="color:green">
+Aisyah
+</td>
+
+<td>
+Smart Watch
+</td>
+
+<td>
 Selesai
-</span>
 </td>
+
 
 </tr>
 
@@ -581,19 +872,22 @@ Selesai
 
 <tr>
 
-<td>#00126</td>
-
-<td>Raka</td>
-
-<td>Sepatu Sport</td>
-
-<td>Rp350.000</td>
+<td>
+#002
+</td>
 
 <td>
-<span style="color:orange">
+Raka
+</td>
+
+<td>
+Sepatu Sport
+</td>
+
+<td>
 Diproses
-</span>
 </td>
+
 
 </tr>
 
@@ -601,19 +895,22 @@ Diproses
 
 <tr>
 
-<td>#00127</td>
-
-<td>Dina</td>
-
-<td>Parfum Premium</td>
-
-<td>Rp200.000</td>
+<td>
+#003
+</td>
 
 <td>
-<span style="color:red">
-Menunggu
-</span>
+Dina
 </td>
+
+<td>
+Parfum
+</td>
+
+<td>
+Menunggu
+</td>
+
 
 </tr>
 
@@ -621,25 +918,32 @@ Menunggu
 </table>
 
 
-</div>
-
 
 </div>
 
 
+</div>
 
 
 
-<!-- PELANGGAN -->
 
 
-<div id="pelanggan" style="display:none;">
 
 
-<div class="section">
+
+<!-- ================= PELANGGAN ================= -->
 
 
-<h2>Data Pelanggan</h2>
+<div id="pelanggan" class="page">
+
+
+<div class="box">
+
+
+<h2>
+Data Pelanggan
+</h2>
+
 
 
 <table>
@@ -655,19 +959,6 @@ Menunggu
 
 <th>Total Belanja</th>
 
-</tr>
-
-
-
-<tr>
-
-<td>01</td>
-
-<td>Aisyah</td>
-
-<td>aisyah@gmail.com</td>
-
-<td>Rp1.200.000</td>
 
 </tr>
 
@@ -675,47 +966,75 @@ Menunggu
 
 <tr>
 
-<td>02</td>
+<td>
+01
+</td>
 
-<td>Raka</td>
+<td>
+Aisyah
+</td>
 
-<td>raka@gmail.com</td>
+<td>
+aisyah@gmail.com
+</td>
 
-<td>Rp750.000</td>
+<td>
+Rp1.200.000
+</td>
+
 
 </tr>
+
 
 
 
 <tr>
 
-<td>03</td>
+<td>
+02
+</td>
 
-<td>Dina</td>
+<td>
+Raka
+</td>
 
-<td>dina@gmail.com</td>
+<td>
+raka@gmail.com
+</td>
 
-<td>Rp500.000</td>
+<td>
+Rp750.000
+</td>
+
 
 </tr>
+
 
 
 </table>
 
 
-</div>
-
 
 </div>
-<!-- LAPORAN -->
-
-<div id="laporan" style="display:none;">
 
 
-<div class="section">
+</div>
+
+<!-- ================= LAPORAN ================= -->
 
 
-<h2>Laporan Penjualan</h2>
+<div id="laporan" class="page">
+
+
+<div class="box">
+
+
+<h2>
+Laporan Penjualan
+</h2>
+
+
+<br>
 
 
 <div class="cards">
@@ -723,132 +1042,127 @@ Menunggu
 
 <div class="card">
 
-<h3>Penjualan Hari Ini</h3>
+<h4>
+Penjualan Hari Ini
+</h4>
 
-<p>Rp 850.000</p>
+<h2>
+Rp850.000
+</h2>
+
+</div>
+
+
+
+<div class="card">
+
+<h4>
+Produk Terjual
+</h4>
+
+<h2>
+45
+</h2>
+
+</div>
+
+
+
+<div class="card">
+
+<h4>
+Keuntungan
+</h4>
+
+<h2>
+Rp350.000
+</h2>
 
 </div>
 
 
 <div class="card">
 
-<h3>Produk Terjual</h3>
+<h4>
+Total Transaksi
+</h4>
 
-<p>45</p>
-
-</div>
-
-
-<div class="card">
-
-<h3>Keuntungan</h3>
-
-<p>Rp 350.000</p>
-
-</div>
-
-
-<div class="card">
-
-<h3>Total Transaksi</h3>
-
-<p>78</p>
+<h2>
+78
+</h2>
 
 </div>
 
 
 </div>
 
+
+
+
+<br><br>
+
+
+<h3>
+Grafik Penjualan Mingguan
+</h3>
 
 
 <br>
 
 
-<h3>Grafik Penjualan Mingguan</h3>
-
-
 <div style="
 height:250px;
+background:#f8fafc;
+border-radius:15px;
 display:flex;
 align-items:end;
 gap:25px;
 padding:30px;
-background:#f8fafc;
-border-radius:15px;
 ">
-
-
-<div style="height:80px;width:40px;background:#2563eb;border-radius:8px;"></div>
-
-<div style="height:140px;width:40px;background:#2563eb;border-radius:8px;"></div>
-
-<div style="height:190px;width:40px;background:#2563eb;border-radius:8px;"></div>
-
-<div style="height:120px;width:40px;background:#2563eb;border-radius:8px;"></div>
-
-<div style="height:220px;width:40px;background:#2563eb;border-radius:8px;"></div>
-
-<div style="height:160px;width:40px;background:#2563eb;border-radius:8px;"></div>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-<!-- PROFIL TOKO -->
-
-
-<div id="profil" style="display:none;">
-
-
-<div class="section">
-
-
-<h2>Profil Toko</h2>
 
 
 <div style="
-display:flex;
-gap:20px;
-align-items:center;
-">
+height:80px;
+width:35px;
+background:#2563eb;
+border-radius:8px;">
+</div>
 
 
-<img src="https://i.pravatar.cc/150?img=12"
-style="
-width:100px;
-height:100px;
-border-radius:50%;
-">
+<div style="
+height:150px;
+width:35px;
+background:#2563eb;
+border-radius:8px;">
+</div>
 
 
-<div>
+<div style="
+height:200px;
+width:35px;
+background:#2563eb;
+border-radius:8px;">
+</div>
 
 
-<h3>Toko SellerPro</h3>
-
-<p>
-Menjual berbagai produk elektronik,
-fashion, dan kebutuhan sehari-hari.
-</p>
-
-
-<p>
-📍 Jakarta, Indonesia
-</p>
+<div style="
+height:120px;
+width:35px;
+background:#2563eb;
+border-radius:8px;">
+</div>
 
 
-<p>
-📞 0812-3456-7890
-</p>
+<div style="
+height:220px;
+width:35px;
+background:#2563eb;
+border-radius:8px;">
+</div>
+
+
+</div>
+
 
 
 </div>
@@ -857,27 +1171,15 @@ fashion, dan kebutuhan sehari-hari.
 </div>
 
 
-</div>
-
-
-</div>
-
-
-
-
-</div>
-
-
-</div>
 
 
 
 
 
-<!-- MODAL TAMBAH PRODUK -->
+<!-- ================= MODAL TAMBAH PRODUK ================= -->
 
 
-<div id="modalProduk" 
+<div id="modal" 
 style="
 display:none;
 position:fixed;
@@ -885,10 +1187,11 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,.4);
-justify-content:center;
+background:rgba(0,0,0,.5);
 align-items:center;
+justify-content:center;
 ">
+
 
 
 <div style="
@@ -899,72 +1202,99 @@ border-radius:20px;
 ">
 
 
-<h2>Tambah Produk</h2>
+<h2>
+Tambah Produk
+</h2>
 
 
-<input id="namaProduk"
+
+<br>
+
+
+
+<input
+id="nama"
 placeholder="Nama Produk"
 style="
 width:100%;
 padding:12px;
-margin:8px 0;
+margin-bottom:10px;
 border-radius:10px;
 border:1px solid #ddd;
 ">
 
 
-<input id="kategoriProduk"
+
+<input
+id="kategori"
 placeholder="Kategori"
 style="
 width:100%;
 padding:12px;
-margin:8px 0;
+margin-bottom:10px;
 border-radius:10px;
 border:1px solid #ddd;
 ">
 
 
-<input id="hargaProduk"
+
+<input
+id="harga"
 placeholder="Harga"
 style="
 width:100%;
 padding:12px;
-margin:8px 0;
+margin-bottom:10px;
 border-radius:10px;
 border:1px solid #ddd;
 ">
 
 
-<input id="stokProduk"
+
+<input
+id="stok"
 placeholder="Stok"
 style="
 width:100%;
 padding:12px;
-margin:8px 0;
+margin-bottom:10px;
 border-radius:10px;
 border:1px solid #ddd;
 ">
 
 
-<input id="gambarProduk"
+
+<input
+id="gambar"
 placeholder="URL Gambar"
 style="
 width:100%;
 padding:12px;
-margin:8px 0;
+margin-bottom:15px;
 border-radius:10px;
 border:1px solid #ddd;
 ">
 
 
 
-<button class="btn" onclick="simpanProduk()">
+
+
+<button 
+class="btn"
+onclick="simpanProduk()">
+
 Simpan
+
 </button>
 
 
-<button class="btn btn-danger" onclick="tutupModal()">
+
+<button 
+class="btn btn-danger"
+onclick="tutupModal()">
+
 Batal
+
 </button>
 
 
@@ -973,44 +1303,145 @@ Batal
 
 
 </div>
+
+
+
+
+
+
+
+<!-- ================= PROFIL ================= -->
+
+
+<div id="profil" class="page">
+
+
+<div class="box">
+
+
+<h2>
+Profil Toko
+</h2>
+
+
+<br>
+
+
+<div style="
+display:flex;
+gap:20px;
+align-items:center;
+">
+
+
+
+<img 
+src="https://i.pravatar.cc/150?img=12"
+style="
+width:100px;
+height:100px;
+border-radius:50%;
+">
+
+
+
+<div>
+
+
+<h3>
+SellerPro Store
+</h3>
+
+
+<p>
+Toko online modern dengan berbagai produk pilihan.
+</p>
+
+
+<p>
+📍 Indonesia
+</p>
+
+
+<p>
+📞 0812-3456-7890
+</p>
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
 <script>
 
 
-// LOGIN
+// ================= LOGIN =================
+
 
 function login(){
 
-let user = document.getElementById("username").value;
-let pass = document.getElementById("password").value;
+
+let username =
+document.getElementById("username").value;
 
 
-if(user=="admin" && pass=="12345"){
+let password =
+document.getElementById("password").value;
 
-document.getElementById("login").style.display="none";
+
+
+if(username=="admin" && password=="12345"){
+
+
+document.getElementById("loginPage").style.display="none";
+
 
 document.getElementById("dashboard").style.display="block";
+
+
+openPage("home");
+
+
 
 }
 
 else{
 
-alert("Username atau password salah!");
+
+alert("Username atau password salah!\nGunakan admin / 12345");
+
 
 }
 
 
+
 }
 
 
 
 
-// LOGOUT
+
+
+// ================= LOGOUT =================
+
+
 
 function logout(){
 
+
 document.getElementById("dashboard").style.display="none";
 
-document.getElementById("login").style.display="flex";
+
+document.getElementById("loginPage").style.display="flex";
+
 
 
 }
@@ -1019,29 +1450,33 @@ document.getElementById("login").style.display="flex";
 
 
 
-// PINDAH HALAMAN
-
-function showPage(page){
 
 
-let pages=[
-"home",
-"produk",
-"pesanan",
-"pelanggan",
-"laporan",
-"profil"
-];
+// ================= MENU =================
+
+
+
+function openPage(page){
+
+
+let pages =
+document.querySelectorAll(".page");
+
 
 
 pages.forEach(function(item){
 
-document.getElementById(item).style.display="none";
+
+item.classList.remove("active");
+
 
 });
 
 
-document.getElementById(page).style.display="block";
+
+document.getElementById(page)
+.classList.add("active");
+
 
 
 }
@@ -1050,20 +1485,32 @@ document.getElementById(page).style.display="block";
 
 
 
-// MODAL PRODUK
+
+
+
+// ================= TAMBAH PRODUK =================
+
 
 
 function tambahProduk(){
 
-document.getElementById("modalProduk").style.display="flex";
+
+document.getElementById("modal")
+.style.display="flex";
+
 
 }
+
+
+
 
 
 
 function tutupModal(){
 
-document.getElementById("modalProduk").style.display="none";
+
+document.getElementById("modal")
+.style.display="none";
 
 
 }
@@ -1072,30 +1519,35 @@ document.getElementById("modalProduk").style.display="none";
 
 
 
-// TAMBAH PRODUK KE TABEL
 
 
 function simpanProduk(){
 
 
 let nama =
-document.getElementById("namaProduk").value;
+document.getElementById("nama").value;
+
 
 
 let kategori =
-document.getElementById("kategoriProduk").value;
+document.getElementById("kategori").value;
+
 
 
 let harga =
-document.getElementById("hargaProduk").value;
+document.getElementById("harga").value;
+
 
 
 let stok =
-document.getElementById("stokProduk").value;
+document.getElementById("stok").value;
+
 
 
 let gambar =
-document.getElementById("gambarProduk").value;
+document.getElementById("gambar").value;
+
+
 
 
 
@@ -1106,16 +1558,22 @@ harga=="" ||
 stok==""
 ){
 
-alert("Data produk belum lengkap!");
+
+alert("Data produk belum lengkap");
+
 
 return;
+
 
 }
 
 
 
+
+
+
 let table =
-document.getElementById("produkTable");
+document.getElementById("produkList");
 
 
 
@@ -1128,49 +1586,54 @@ row.innerHTML=`
 
 <td>
 
-<img src="${gambar || 
+<img 
+src="${gambar || 
 'https://via.placeholder.com/100'}"
 
 width="60"
 
-style="border-radius:10px;">
+style="border-radius:10px">
 
 </td>
 
 
-<td>${nama}</td>
+<td>
+${nama}
+</td>
 
 
-<td>${kategori}</td>
+<td>
+${kategori}
+</td>
 
 
-<td>Rp ${harga}</td>
+<td>
+Rp${harga}
+</td>
 
 
-<td>${stok}</td>
-
+<td>
+${stok}
+</td>
 
 
 <td>
 
-
-<button class="btn"
-onclick="editProduk(this)">
-Edit
-</button>
-
-
-
-<button class="btn btn-danger"
+<button 
+class="btn btn-danger"
 onclick="hapusProduk(this)">
-Hapus
-</button>
 
+Hapus
+
+</button>
 
 </td>
 
-
 `;
+
+
+
+updateJumlahProduk();
 
 
 
@@ -1178,7 +1641,15 @@ tutupModal();
 
 
 
-alert("Produk berhasil ditambahkan!");
+document.getElementById("nama").value="";
+document.getElementById("kategori").value="";
+document.getElementById("harga").value="";
+document.getElementById("stok").value="";
+document.getElementById("gambar").value="";
+
+
+
+alert("Produk berhasil ditambahkan");
 
 
 
@@ -1187,7 +1658,11 @@ alert("Produk berhasil ditambahkan!");
 
 
 
-// HAPUS PRODUK
+
+
+
+// ================= HAPUS PRODUK =================
+
 
 
 function hapusProduk(button){
@@ -1197,61 +1672,12 @@ let row =
 button.parentElement.parentElement;
 
 
+
 row.remove();
 
 
-alert("Produk berhasil dihapus");
 
-
-}
-
-
-
-
-
-// EDIT PRODUK
-
-
-function editProduk(button){
-
-
-let row =
-button.parentElement.parentElement;
-
-
-
-let nama =
-prompt(
-"Ubah nama produk:",
-row.cells[1].innerHTML
-);
-
-
-
-if(nama!=null && nama!=""){
-
-row.cells[1].innerHTML=nama;
-
-
-}
-
-
-
-let harga =
-prompt(
-"Ubah harga:",
-row.cells[3].innerHTML.replace("Rp ","")
-);
-
-
-
-if(harga!=null && harga!=""){
-
-row.cells[3].innerHTML=
-"Rp "+harga;
-
-
-}
+updateJumlahProduk();
 
 
 
@@ -1260,57 +1686,53 @@ row.cells[3].innerHTML=
 
 
 
-// ANIMASI CARD DASHBOARD
-
-document.addEventListener("DOMContentLoaded",function(){
-
-let cards=document.querySelectorAll(".card");
 
 
-cards.forEach((card,index)=>{
 
-card.style.opacity="0";
-
-card.style.transform="translateY(20px)";
+// ================= JUMLAH PRODUK =================
 
 
-setTimeout(()=>{
 
-card.style.transition="0.5s";
-
-card.style.opacity="1";
-
-card.style.transform="translateY(0)";
+function updateJumlahProduk(){
 
 
-},index*150);
+let jumlah =
+document.getElementById("produkList")
+.rows.length;
 
 
-});
+
+document.getElementById("totalProduk")
+.innerHTML=jumlah;
 
 
-});
+}
 
 
 
 
 
-// SEARCH PRODUK
+
+
+// ================= SEARCH =================
+
 
 
 function cariProduk(){
 
 
-let input =
-document.getElementById("searchProduk").value
+let keyword =
+document.getElementById("search")
+.value
 .toLowerCase();
 
 
 
 let rows =
 document
-.getElementById("produkTable")
-.getElementsByTagName("tr");
+.getElementById("produkList")
+.rows;
+
 
 
 
@@ -1325,73 +1747,29 @@ rows[i]
 
 
 
-if(nama.includes(input)){
+
+if(nama.includes(keyword)){
+
 
 rows[i].style.display="";
+
 
 }
 
 else{
 
+
 rows[i].style.display="none";
 
-}
-
-
-}
-
 
 }
 
 
 
-
-
-// NOTIFIKASI PESANAN
-
-
-function cekPesanan(){
-
-
-alert(
-"🔔 Ada 3 pesanan baru yang perlu diproses!"
-);
-
-
 }
 
 
-
-
-// FORMAT RUPIAH
-
-
-function rupiah(angka){
-
-
-return new Intl.NumberFormat(
-"id-ID",
-{
-style:"currency",
-currency:"IDR"
 }
-
-).format(angka);
-
-
-}
-
-<input 
-id="searchProduk"
-onkeyup="cariProduk()"
-placeholder="🔍 Cari produk..."
-style="
-width:250px;
-padding:10px;
-margin-left:15px;
-border-radius:10px;
-border:1px solid #ddd;
-">
 
 
 
@@ -1399,6 +1777,7 @@ border:1px solid #ddd;
 
 
 </script>
+
 
 
 </body>
