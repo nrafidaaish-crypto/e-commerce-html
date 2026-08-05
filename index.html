@@ -1,771 +1,1028 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Michelle Store</title>
+
+<title>Michelle Store Marketplace</title>
 
 <style>
+
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Segoe UI,sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
 }
 
 body{
-background:#fff7fb;
-color:#333;
+    background:#f8fafc;
+    color:#1e293b;
 }
 
-header{
-background:white;
-padding:15px 30px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 2px 10px rgba(0,0,0,.08);
-position:sticky;
-top:0;
-z-index:100;
+
+/* HEADER */
+
+.header{
+
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:white;
+    height:70px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 35px;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+
 }
+
 
 .logo{
-font-size:24px;
-font-weight:bold;
-color:#ff4fa3;
+
+    font-size:25px;
+    font-weight:bold;
+    color:#ec4899;
+
 }
 
-nav a{
-text-decoration:none;
-color:#555;
-margin-left:18px;
-font-weight:600;
-transition:.3s;
+
+.user{
+
+    display:flex;
+    align-items:center;
+    gap:15px;
+
 }
 
-nav a:hover{
-color:#ff4fa3;
+
+.user img{
+
+    width:40px;
+    height:40px;
+    border-radius:50%;
+
 }
 
-.hero{
-padding:70px 20px;
-text-align:center;
-background:linear-gradient(135deg,#ffd7ea,#ffffff);
-}
 
-.hero h1{
-font-size:42px;
-color:#ff4fa3;
-margin-bottom:15px;
-}
 
-.hero p{
-font-size:18px;
-color:#666;
-margin-bottom:30px;
-}
 
-.btn{
-display:inline-block;
-padding:13px 30px;
-background:#ff4fa3;
-color:white;
-border-radius:30px;
-text-decoration:none;
-font-weight:bold;
-transition:.3s;
-}
+/* LAYOUT */
 
-.btn:hover{
-background:#ff2b90;
-}
 
 .container{
-max-width:1200px;
-margin:auto;
-padding:30px 20px;
+
+    display:flex;
+
 }
 
-.section-title{
-font-size:28px;
-color:#ff4fa3;
-margin-bottom:20px;
+
+
+.sidebar{
+
+    width:230px;
+    min-height:calc(100vh - 70px);
+    background:white;
+    padding:25px;
+    box-shadow:2px 0 10px rgba(0,0,0,.05);
+
 }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
+
+.sidebar h3{
+
+    color:#ec4899;
+    margin-bottom:20px;
+
 }
+
+
+.sidebar li{
+
+    list-style:none;
+    padding:13px;
+    margin:8px 0;
+    border-radius:12px;
+    cursor:pointer;
+
+}
+
+
+.sidebar li:hover{
+
+    background:#fce7f3;
+    color:#ec4899;
+
+}
+
+
+
+
+
+.main{
+
+    flex:1;
+    padding:30px;
+
+}
+
+
+
+
+.page{
+
+    display:none;
+
+}
+
+
+.active{
+
+    display:block;
+
+}
+
+
+
+
+/* BANNER */
+
+
+.banner{
+
+    background:linear-gradient(
+        135deg,
+        #f9a8d4,
+        #ec4899
+    );
+
+    padding:35px;
+    border-radius:25px;
+    color:white;
+    margin-bottom:25px;
+
+}
+
+
+
+
+/* CARD */
+
+
+.cards{
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+
+}
+
 
 .card{
-background:white;
-border-radius:18px;
-padding:20px;
-box-shadow:0 5px 15px rgba(0,0,0,.08);
-transition:.3s;
+
+    background:white;
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.06);
+
 }
 
-.card:hover{
-transform:translateY(-5px);
+
+
+
+/* PRODUK */
+
+
+.product-grid{
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+
 }
 
-.card h3{
-margin-bottom:10px;
-color:#ff4fa3;
+
+.product{
+
+    background:white;
+    border-radius:20px;
+    padding:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+
 }
 
-footer{
-margin-top:60px;
-background:#ff4fa3;
-color:white;
-padding:25px;
-text-align:center;
+
+.product img{
+
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    border-radius:15px;
+
 }
 
-.hidden{
-display:none;
+
+
+.product h3{
+
+    margin-top:15px;
+
 }
+
+
+
+.price{
+
+    color:#ec4899;
+    font-weight:bold;
+    margin:10px 0;
+
+}
+
+
 
 button{
-cursor:pointer;
-border:none;
+
+    border:none;
+    padding:12px 18px;
+    border-radius:12px;
+    cursor:pointer;
+
 }
 
-.search-box{
-width:100%;
-padding:12px;
-border-radius:10px;
-border:1px solid #ddd;
-margin-bottom:20px;
-font-size:16px;
+
+
+.btn{
+
+    background:#ec4899;
+    color:white;
+
 }
+
+
+
+.btn:hover{
+
+    background:#db2777;
+
+}
+
+
+
+
+/* TABLE */
+
 
 table{
-width:100%;
-border-collapse:collapse;
-background:white;
-border-radius:12px;
-overflow:hidden;
+
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+
 }
 
-table th{
-background:#ff4fa3;
-color:white;
-padding:12px;
+
+
+th{
+
+    background:#ec4899;
+    color:white;
+    padding:12px;
+
 }
 
-table td{
-padding:12px;
-border-bottom:1px solid #eee;
-text-align:center;
+
+
+td{
+
+    padding:12px;
+    border-bottom:1px solid #eee;
+
 }
 
-.status{
-padding:5px 12px;
-border-radius:20px;
-font-size:13px;
-color:white;
+
+
+
+
+/* CART */
+
+
+.cart-box{
+
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    margin-top:20px;
+
 }
 
-.selesai{
-background:#28a745;
+
+
+.checkout{
+
+    background:#16a34a;
+    color:white;
+
 }
 
-.kirim{
-background:#007bff;
+
+
+
+@media(max-width:900px){
+
+
+.sidebar{
+
+    width:80px;
+
 }
 
-.proses{
-background:#ff9800;
+
+.sidebar h3{
+
+    display:none;
+
 }
 
-.tunggu{
-background:#6c757d;
+
+.main{
+
+    padding:15px;
+
 }
+
+
+.product-grid,
+.cards{
+
+    grid-template-columns:1fr;
+
+}
+
+
+}
+
+
 </style>
+
 </head>
+
 
 <body>
 
-<header>
+
+<!-- HEADER -->
+
+
+<div class="header">
+
 
 <div class="logo">
-🏪 Michelle Store
+
+🛍 Michelle Store
+
 </div>
 
-<nav>
-<a href="#">Home</a>
-<a href="#">Dashboard</a>
-<a href="#">Produk</a>
-<a href="#">Keranjang</a>
-<a href="#">Checkout</a>
-<a href="#">Riwayat</a>
-<a href="#">Pelanggan</a>
-<a href="#">Laporan</a>
-</nav>
 
-</header>
 
-<section class="hero">
+<div class="user">
 
-<h1>Selamat Datang di Michelle Store</h1>
 
-<p>
-Temukan berbagai produk fashion wanita terbaik
-dengan harga terjangkau.
-</p>
+<span>
+Michelle
+</span>
 
-<a class="btn" href="#">
-Belanja Sekarang
-</a>
 
-</section>
+<img src="https://i.pravatar.cc/100?img=47">
+
+
+</div>
+
+
+</div>
+
+
+
+
 
 <div class="container">
 
-<h2 class="section-title">
-Dashboard
+
+<!-- SIDEBAR -->
+
+
+<div class="sidebar">
+
+
+<h3>
+Menu
+</h3>
+
+
+<ul>
+
+
+<li onclick="openPage('home')">
+🏠 Home
+</li>
+
+
+<li onclick="openPage('produk')">
+🛒 Produk
+</li>
+
+
+<li onclick="openPage('keranjang')">
+🛍 Keranjang
+</li>
+
+
+<li onclick="openPage('pesanan')">
+📦 Pesanan
+</li>
+
+
+<li onclick="openPage('pelanggan')">
+👥 Pelanggan
+</li>
+
+
+<li onclick="openPage('laporan')">
+📊 Laporan
+</li>
+
+
+</ul>
+
+
+</div>
+
+
+
+<div class="main">
+
+
+
+<!-- ================= HOME ================= -->
+
+
+<div id="home" class="page active">
+
+
+<div class="banner">
+
+
+<h1>
+Selamat Datang di Michelle Store ✨
+</h1>
+
+
+<p>
+Belanja fashion perempuan dengan mudah dan aman.
+</p>
+
+
+<br>
+
+
+<p>
+Dipercaya oleh Michelle, Ana, dan Leya
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="cards">
+
+
+<div class="card">
+
+<h3>
+Produk Terjual
+</h3>
+
+<h2>
+1.250+
 </h2>
 
-<div class="grid">
+</div>
+
+
 
 <div class="card">
-<h3>Total Produk</h3>
-<h2 id="totalProduk">7</h2>
+
+<h3>
+Pelanggan
+</h3>
+
+<h2>
+560
+</h2>
+
 </div>
+
+
+
 
 <div class="card">
-<h3>Total Pembeli</h3>
-<h2 id="totalPembeli">5</h2>
-</div>
 
-<div class="card">
-<h3>Total Pesanan</h3>
-<h2 id="totalPesanan">5</h2>
-</div>
+<h3>
+Rating Toko
+</h3>
 
-<div class="card">
-<h3>Pemilik</h3>
-<h2>Michelle</h2>
-</div>
+<h2>
+⭐ 4.9
+</h2>
 
 </div>
 
+
+
 </div>
 
-<footer>
 
-Michelle Store © 2026
 
-<br><br>
 
-Website Marketplace Modern
-Tema Pink & Putih
 
-</footer>
+</div>
 
-<script>
 
-// JavaScript akan ditambahkan
-// pada bagian berikutnya.
+
+
+
 
 
 <!-- ================= PRODUK ================= -->
 
-<div class="container">
 
-<h2 class="section-title">
-🛍 Produk
+<div id="produk" class="page">
+
+
+<h2>
+🛒 Produk Terbaru
 </h2>
 
-<input
-type="text"
-id="search"
-class="search-box"
-placeholder="Cari produk..."
-onkeyup="cariProduk()">
-
-<div class="grid" id="produkContainer">
-
-</div>
-
-</div>
-
-const produk = [
-
-{
-id:1,
-nama:"Flatshoes",
-harga:150000,
-stok:10
-},
-
-{
-id:2,
-nama:"Cardigan Perempuan",
-harga:200000,
-stok:8
-},
-
-{
-id:3,
-nama:"Jam Tangan Perempuan",
-harga:300000,
-stok:5
-},
-
-{
-id:4,
-nama:"Pouch Make Up",
-harga:75000,
-stok:15
-},
-
-{
-id:5,
-nama:"Tumblr Lucu",
-harga:50000,
-stok:12
-},
-
-{
-id:6,
-nama:"Sneakers Pink",
-harga:350000,
-stok:6
-},
-
-{
-id:7,
-nama:"Heels",
-harga:250000,
-stok:7
-}
-
-];
-
-let keranjang=[];
-
-function formatRupiah(angka){
-
-return "Rp"+angka.toLocaleString("id-ID");
-
-}
-
-function tampilProduk(data=produk){
-
-const box=document.getElementById("produkContainer");
-
-box.innerHTML="";
-
-data.forEach(item=>{
-
-box.innerHTML+=`
-
-<div class="card">
-
-<h3>${item.nama}</h3>
-
-<p><b>${formatRupiah(item.harga)}</b></p>
-
-<p>Stok : ${item.stok}</p>
 
 <br>
 
-<button class="btn"
-onclick="tambahKeranjang(${item.id})">
 
-Tambah ke Keranjang
+
+<div class="product-grid">
+
+
+
+<!-- FLATSHOES -->
+
+
+<div class="product">
+
+
+<img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500">
+
+
+<h3>
+Flatshoes
+</h3>
+
+
+<p>
+Sepatu wanita nyaman untuk aktivitas sehari-hari.
+</p>
+
+
+<div class="price">
+Rp150.000
+</div>
+
+
+
+<button 
+class="btn"
+onclick="tambahKeranjang(
+'Flatshoes',
+150000
+)">
+
++ Keranjang
 
 </button>
 
+
 </div>
 
-`;
 
-});
 
-}
 
-function cariProduk(){
 
-let keyword=document
-.getElementById("search")
-.value
-.toLowerCase();
 
-let hasil=produk.filter(p=>
 
-p.nama.toLowerCase().includes(keyword)
+<!-- CARDIGAN -->
 
-);
 
-tampilProduk(hasil);
+<div class="product">
 
-}
 
-function tambahKeranjang(id){
+<img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500">
 
-let item=produk.find(p=>p.id==id);
 
-if(item.stok<=0){
+<h3>
+Cardigan Perempuan
+</h3>
 
-alert("Stok habis");
 
-return;
+<p>
+Cardigan lembut dengan desain modern.
+</p>
 
-}
 
-keranjang.push({
+<div class="price">
+Rp200.000
+</div>
 
-...item,
-qty:1
 
-});
 
-alert(item.nama+" ditambahkan ke keranjang.");
+<button 
+class="btn"
+onclick="tambahKeranjang(
+'Cardigan Perempuan',
+200000
+)">
 
-}
-
-tampilProduk();
-
-const pembeli=[
-"Ana",
-"Leya",
-"Eva",
-"Karla",
-"Bulan"
-];
-
-let riwayat=[
-
-{
-id:"001",
-pembeli:"Ana",
-produk:"Cardigan Perempuan",
-total:200000,
-status:"Selesai"
-},
-
-{
-id:"002",
-pembeli:"Leya",
-produk:"Flatshoes",
-total:150000,
-status:"Dikirim"
-},
-
-{
-id:"003",
-pembeli:"Eva",
-produk:"Pouch Make Up",
-total:75000,
-status:"Diproses"
-},
-
-{
-id:"004",
-pembeli:"Karla",
-produk:"Sneakers Pink",
-total:350000,
-status:"Selesai"
-},
-
-{
-id:"005",
-pembeli:"Bulan",
-produk:"Heels",
-total:250000,
-status:"Menunggu"
-}
-
-];
-
-function tampilKeranjang(){
-
-let html="";
-
-if(keranjang.length==0){
-
-html="<p>Keranjang masih kosong.</p>";
-
-}else{
-
-keranjang.forEach((item,index)=>{
-
-html+=`
-
-<div class="card">
-
-<h3>${item.nama}</h3>
-
-<p>${formatRupiah(item.harga)}</p>
-
-<p>Qty : ${item.qty}</p>
-
-<button class="btn"
-onclick="hapusKeranjang(${index})">
-
-Hapus
++ Keranjang
 
 </button>
 
+
 </div>
 
-`;
 
-});
 
-}
 
-document.getElementById("isiKeranjang").innerHTML=html;
 
-let total=0;
 
-keranjang.forEach(item=>{
 
-total+=item.harga*item.qty;
 
-});
+<!-- JAM TANGAN -->
 
-document.getElementById("totalBelanja").innerHTML=formatRupiah(total);
 
-}
+<div class="product">
 
-function hapusKeranjang(index){
 
-keranjang.splice(index,1);
+<img src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=500">
 
-tampilKeranjang();
 
-}
+<h3>
+Jam Tangan Perempuan
+</h3>
 
-function isiDropdown(){
 
-const select=document.getElementById("namaPembeli");
+<p>
+Jam tangan elegan untuk melengkapi gaya.
+</p>
 
-pembeli.forEach(nama=>{
 
-select.innerHTML+=`
+<div class="price">
+Rp300.000
+</div>
 
-<option value="${nama}">
 
-${nama}
 
-</option>
+<button 
+class="btn"
+onclick="tambahKeranjang(
+'Jam Tangan Perempuan',
+300000
+)">
 
-`;
++ Keranjang
 
-});
+</button>
 
-}
 
-<div class="container">
+</div>
 
-<h2 class="section-title">
-🛒 Keranjang
+<!-- POUCH MAKE UP -->
+
+<div class="product">
+
+
+<img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500">
+
+
+<h3>
+Pouch Make Up
+</h3>
+
+
+<p>
+Tempat kosmetik praktis dan cantik untuk dibawa bepergian.
+</p>
+
+
+<div class="price">
+Rp75.000
+</div>
+
+
+<button 
+class="btn"
+onclick="tambahKeranjang(
+'Pouch Make Up',
+75000
+)">
+
++ Keranjang
+
+</button>
+
+
+</div>
+
+
+
+
+
+<!-- TUMBLR LUCU -->
+
+
+<div class="product">
+
+
+<img src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500">
+
+
+<h3>
+Tumblr Lucu
+</h3>
+
+
+<p>
+Botol minum dengan desain unik dan kekinian.
+</p>
+
+
+<div class="price">
+Rp50.000
+</div>
+
+
+<button 
+class="btn"
+onclick="tambahKeranjang(
+'Tumblr Lucu',
+50000
+)">
+
++ Keranjang
+
+</button>
+
+
+</div>
+
+
+
+
+
+<!-- SNEAKERS PINK -->
+
+
+<div class="product">
+
+
+<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500">
+
+
+<h3>
+Sneakers Pink
+</h3>
+
+
+<p>
+Sneakers wanita dengan warna pink yang stylish.
+</p>
+
+
+<div class="price">
+Rp350.000
+</div>
+
+
+<button 
+class="btn"
+onclick="tambahKeranjang(
+'Sneakers Pink',
+350000
+)">
+
++ Keranjang
+
+</button>
+
+
+</div>
+
+
+
+
+
+<!-- HEELS -->
+
+
+<div class="product">
+
+
+<img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500">
+
+
+<h3>
+Heels
+</h3>
+
+
+<p>
+Sepatu heels elegan untuk acara spesial.
+</p>
+
+
+<div class="price">
+Rp250.000
+</div>
+
+
+<button 
+class="btn"
+onclick="tambahKeranjang(
+'Heels',
+250000
+)">
+
++ Keranjang
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- ================= KERANJANG ================= -->
+
+
+<div id="keranjang" class="page">
+
+
+<h2>
+🛍 Keranjang Belanja
 </h2>
+
+
+
+<div class="cart-box">
+
 
 <div id="isiKeranjang">
 
+
+Keranjang masih kosong.
+
+
 </div>
 
+
+
 <br>
 
-<h3>
-Total :
-<span id="totalBelanja">
-Rp0
-</span>
+
+<h3 id="totalHarga">
+Total : Rp0
 </h3>
 
+
+
 <br>
 
-<h2 class="section-title">
-💳 Checkout
-</h2>
 
-<select
-id="namaPembeli"
-class="search-box">
-
-<option value="">
-Pilih Pembeli
-</option>
-
-</select>
-
-<br><br>
-
-<button
-class="btn"
+<button 
+class="checkout"
 onclick="checkout()">
 
-Checkout
+Checkout Sekarang
 
 </button>
 
+
+
 </div>
 
 
-function checkout(){
+</div>
 
-if(keranjang.length==0){
 
-alert("Keranjang masih kosong.");
 
-return;
 
-}
 
-const nama=document.getElementById("namaPembeli").value;
 
-if(nama==""){
 
-alert("Pilih pembeli terlebih dahulu.");
+<!-- ================= PESANAN ================= -->
 
-return;
 
-}
-
-let total=0;
-
-let daftarProduk=[];
-
-keranjang.forEach(item=>{
-
-total+=item.harga*item.qty;
-
-daftarProduk.push(item.nama);
-
-let p=produk.find(x=>x.id==item.id);
-
-if(p){
-
-p.stok-=item.qty;
-
-if(p.stok<0)p.stok=0;
-
-}
-
-});
-
-let nomor=(riwayat.length+1)
-.toString()
-.padStart(3,"0");
-
-riwayat.push({
-
-id:nomor,
-
-pembeli:nama,
-
-produk:daftarProduk.join(", "),
-
-total:total,
-
-status:"Diproses"
-
-});
-
-keranjang=[];
-
-document.getElementById("namaPembeli").value="";
-
-tampilKeranjang();
-
-tampilProduk();
-
-tampilRiwayat();
-
-updateDashboard();
-
-alert("Checkout berhasil.");
-
-}
-
-function tampilRiwayat(){
-
-let html="";
-
-riwayat.forEach(item=>{
-
-let warna="proses";
-
-if(item.status=="Selesai")warna="selesai";
-if(item.status=="Dikirim")warna="kirim";
-if(item.status=="Menunggu")warna="tunggu";
-
-html+=`
+<div id="pesanan" class="page">
 
 <tr>
 
-<td>${item.id}</td>
-
-<td>${item.pembeli}</td>
-
-<td>${item.produk}</td>
-
-<td>${formatRupiah(item.total)}</td>
+<td>
+003
+</td>
 
 <td>
+Eva
+</td>
 
-<span class="status ${warna}">
+<td>
+Pouch Make Up
+</td>
 
-${item.status}
-
-</span>
-
+<td>
+Dikirim
 </td>
 
 </tr>
 
-`;
-
-});
-
-document.getElementById("isiRiwayat").innerHTML=html;
-
-}
-
-function updateDashboard(){
-
-document.getElementById("totalProduk").innerHTML=produk.length;
-
-document.getElementById("totalPembeli").innerHTML=pembeli.length;
-
-document.getElementById("totalPesanan").innerHTML=riwayat.length;
-
-}
-
-window.onload=function(){
-
-tampilProduk();
-
-tampilKeranjang();
-
-tampilRiwayat();
-
-isiDropdown();
-
-updateDashboard();
-
-}
 
 
-<div class="container">
+<tr>
 
-<h2 class="section-title">
+<td>
+004
+</td>
 
-📦 Riwayat Pesanan
+<td>
+Karla
+</td>
 
+<td>
+Sneakers Pink
+</td>
+
+<td>
+Diproses
+</td>
+
+</tr>
+
+
+
+<tr>
+
+<td>
+005
+</td>
+
+<td>
+Bulan
+</td>
+
+<td>
+Heels
+</td>
+
+<td>
+Menunggu
+</td>
+
+</tr>
+
+
+<h2>
+📦 Pesanan Saya
 </h2>
+
+
+<br>
+
 
 <table>
 
-<thead>
 
 <tr>
 
@@ -775,134 +1032,807 @@ updateDashboard();
 
 <th>Produk</th>
 
-<th>Total</th>
+<th>Status</th>
+
+</tr>
+
+
+
+<tr>
+
+<td>
+001
+</td>
+
+<td>
+Ana
+</td>
+
+<td>
+Cardigan Perempuan
+</td>
+
+<td>
+Selesai
+</td>
+
+</tr>
+
+</table>
+
+<tr>
+
+<td>
+002
+</td>
+
+<td>
+Leya
+</td>
+
+<td>
+Flatshoes
+</td>
+
+<td>
+Dikirim
+</td>
+
+</tr>
+
+
+
+<tr>
+
+<td>
+003
+</td>
+
+<td>
+Eva
+</td>
+
+<td>
+Pouch Make Up
+</td>
+
+<td>
+Dikirim
+</td>
+
+</tr>
+
+
+
+<tr>
+
+<td>
+004
+</td>
+
+<td>
+Karla
+</td>
+
+<td>
+Sneakers Pink
+</td>
+
+<td>
+Diproses
+</td>
+
+</tr>
+
+
+
+<tr>
+
+<td>
+005
+</td>
+
+<td>
+Bulan
+</td>
+
+<td>
+Heels
+</td>
+
+<td>
+Menunggu
+</td>
+
+</tr>
+
+
+
+</table>
+
+
+<!-- ================= PELANGGAN ================= -->
+
+
+<div id="pelanggan" class="page">
+
+
+<h2>
+👥 Data Pelanggan
+</h2>
+
+
+<br>
+
+
+<table>
+
+
+<tr>
+
+<th>ID</th>
+
+<th>Nama</th>
+
+<th>Aktivitas</th>
 
 <th>Status</th>
 
 </tr>
 
-</thead>
 
-<tbody id="isiRiwayat">
+<tr>
+<td>01</td>
+<td>Ana</td>
+<td>Membeli Cardigan Perempuan</td>
+<td>Aktif</td>
+</tr>
 
-</tbody>
+
+<tr>
+<td>02</td>
+<td>Leya</td>
+<td>Membeli Flatshoes</td>
+<td>Aktif</td>
+</tr>
+
+
+<tr>
+<td>03</td>
+<td>Eva</td>
+<td>Membeli Pouch Make Up</td>
+<td>Aktif</td>
+</tr>
+
+
+<tr>
+<td>04</td>
+<td>Karla</td>
+<td>Membeli Sneakers Pink</td>
+<td>Aktif</td>
+</tr>
+
+
+<tr>
+<td>05</td>
+<td>Bulan</td>
+<td>Membeli Jam Tangan Perempuan</td>
+<td>Aktif</td>
+</tr>
+
 
 </table>
 
+
 </div>
 
-<div class="container">
 
-<h2 class="section-title">
 
-👥 Data Pelanggan
 
+
+
+
+<!-- ================= LAPORAN ================= -->
+
+
+<div id="laporan" class="page">
+
+
+<h2>
+📊 Laporan Penjualan
 </h2>
 
-<div class="grid">
-
-<div class="card">
-<h3>Ana</h3>
-</div>
-
-<div class="card">
-<h3>Leya</h3>
-</div>
-
-<div class="card">
-<h3>Eva</h3>
-</div>
-
-<div class="card">
-<h3>Karla</h3>
-</div>
-
-<div class="card">
-<h3>Bulan</h3>
-</div>
-
-</div>
-
-</div>
-
-<div class="container">
-
-<h2 class="section-title">
-
-📊 Laporan
-
-</h2>
-
-<div class="card">
-
-<p>Total Produk :
-<b id="totalProduk"></b></p>
 
 <br>
 
-<p>Total Pembeli :
-<b id="totalPembeli"></b></p>
+
+
+<div class="cards">
+
+
+<div class="card">
+
+<h3>
+Total Pendapatan
+</h3>
+
+<h2>
+Rp15.000.000
+</h2>
+
+
+</div>
+
+
+
+
+<div class="card">
+
+<h3>
+Barang Terjual
+</h3>
+
+<h2>
+250
+</h2>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+<h3>
+Pesanan Selesai
+</h3>
+
+<h2>
+230
+</h2>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+<br><br>
+
+
+<h3>
+Grafik Penjualan
+</h3>
+
 
 <br>
 
-<p>Total Pesanan :
-<b id="totalPesanan"></b></p>
+
+<div style="
+height:220px;
+background:#fce7f3;
+border-radius:20px;
+display:flex;
+align-items:end;
+gap:25px;
+padding:30px;
+">
+
+
+
+<div style="
+height:80px;
+width:40px;
+background:#ec4899;
+border-radius:10px;
+"></div>
+
+
+
+
+<div style="
+height:150px;
+width:40px;
+background:#ec4899;
+border-radius:10px;
+"></div>
+
+
+
+
+<div style="
+height:190px;
+width:40px;
+background:#ec4899;
+border-radius:10px;
+"></div>
+
+
+
+
+<div style="
+height:120px;
+width:40px;
+background:#ec4899;
+border-radius:10px;
+"></div>
+
+
+
+<div style="
+height:210px;
+width:40px;
+background:#ec4899;
+border-radius:10px;
+"></div>
+
+
 
 </div>
 
+
+
 </div>
 
 
-function tambahKeranjang(id){
 
-let item=produk.find(p=>p.id==id);
 
-if(item.stok<=0){
 
-alert("Stok habis");
 
-return;
 
-}
+<!-- ================= CHECKOUT POPUP ================= -->
 
-let ada=keranjang.find(k=>k.id==id);
 
-if(ada){
+<div id="checkoutBox"
 
-if(ada.qty<item.stok){
+style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.5);
+align-items:center;
+justify-content:center;
+">
 
-ada.qty++;
 
-}else{
 
-alert("Jumlah melebihi stok.");
+<div style="
+background:white;
+width:380px;
+padding:30px;
+border-radius:25px;
+">
 
-return;
 
-}
 
-}else{
+<h2>
+Checkout Pesanan
+</h2>
 
-keranjang.push({
 
-...item,
+<br>
 
-qty:1
+
+
+<input
+id="namaPembeli"
+placeholder="Nama Pembeli"
+style="
+width:100%;
+padding:12px;
+margin-bottom:12px;
+border-radius:10px;
+border:1px solid #ddd;
+">
+
+
+
+<input
+id="alamat"
+placeholder="Alamat Pengiriman"
+style="
+width:100%;
+padding:12px;
+margin-bottom:12px;
+border-radius:10px;
+border:1px solid #ddd;
+">
+
+
+
+<select
+id="pembayaran"
+style="
+width:100%;
+padding:12px;
+margin-bottom:15px;
+border-radius:10px;
+border:1px solid #ddd;
+">
+
+
+<option>
+Transfer Bank
+</option>
+
+
+<option>
+COD
+</option>
+
+
+<option>
+E-Wallet
+</option>
+
+
+</select>
+
+
+
+<button 
+class="checkout"
+onclick="buatPesanan()">
+
+Buat Pesanan
+
+</button>
+
+
+
+
+<button
+class="btn"
+onclick="tutupCheckout()">
+
+Batal
+
+</button>
+
+
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+// ================= NAVIGASI HALAMAN =================
+
+
+function openPage(page){
+
+
+let pages = document.querySelectorAll(".page");
+
+
+pages.forEach(function(item){
+
+item.classList.remove("active");
 
 });
 
+
+
+document.getElementById(page)
+.classList.add("active");
+
+
 }
 
-tampilKeranjang();
 
-alert(item.nama+" ditambahkan ke keranjang.");
+
+
+
+
+
+// ================= KERANJANG =================
+
+
+
+let keranjang = [];
+
+
+
+function tambahKeranjang(nama,harga){
+
+
+keranjang.push({
+
+nama:nama,
+
+harga:harga
+
+});
+
+
+
+tampilkanKeranjang();
+
+
+
+alert(
+nama + 
+" berhasil ditambahkan ke keranjang!"
+);
+
+
+
+openPage("keranjang");
+
 
 }
+
+
+
+
+
+
+function tampilkanKeranjang(){
+
+
+let isi = document.getElementById("isiKeranjang");
+
+
+let total = document.getElementById("totalHarga");
+
+
+
+if(keranjang.length==0){
+
+
+isi.innerHTML="Keranjang masih kosong";
+
+
+total.innerHTML="Total : Rp0";
+
+
+return;
+
+
+}
+
+
+
+let hasil="";
+
+let jumlah=0;
+
+
+
+keranjang.forEach(function(item,index){
+
+
+
+hasil +=
+
+`
+<p>
+${index+1}. ${item.nama}
+-
+Rp${item.harga.toLocaleString("id-ID")}
+
+<button 
+onclick="hapusKeranjang(${index})"
+style="
+background:#ef4444;
+color:white;
+padding:5px 10px;
+margin-left:10px;
+border-radius:8px;
+">
+
+X
+
+</button>
+
+</p>
+`;
+
+
+
+jumlah += item.harga;
+
+
+
+});
+
+
+
+isi.innerHTML=hasil;
+
+
+total.innerHTML=
+"Total : Rp"+
+jumlah.toLocaleString("id-ID");
+
+
+}
+
+
+
+
+
+
+function hapusKeranjang(index){
+
+
+keranjang.splice(index,1);
+
+
+tampilkanKeranjang();
+
+
+}
+
+
+
+
+
+
+
+// ================= CHECKOUT =================
+
+
+
+function checkout(){
+
+
+if(keranjang.length==0){
+
+
+alert(
+"Keranjang masih kosong!"
+);
+
+
+return;
+
+
+}
+
+
+
+document.getElementById("checkoutBox")
+.style.display="flex";
+
+
+}
+
+
+
+
+function tutupCheckout(){
+
+
+document.getElementById("checkoutBox")
+.style.display="none";
+
+
+}
+
+
+
+
+
+
+
+function buatPesanan(){
+
+
+let nama =
+document.getElementById("namaPembeli")
+.value;
+
+
+
+let alamat =
+document.getElementById("alamat")
+.value;
+
+
+
+let bayar =
+document.getElementById("pembayaran")
+.value;
+
+
+
+
+
+if(
+nama=="" ||
+alamat==""
+
+){
+
+
+alert(
+"Data checkout belum lengkap!"
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+let total=0;
+
+
+
+keranjang.forEach(function(item){
+
+
+total += item.harga;
+
+
+});
+
+
+
+
+
+alert(
+
+"Pesanan berhasil dibuat!\n\n"+
+"Nama : "+nama+
+"\nAlamat : "+alamat+
+"\nPembayaran : "+bayar+
+"\nTotal : Rp"+
+total.toLocaleString("id-ID")
+
+);
+
+
+
+
+
+keranjang=[];
+
+
+tampilkanKeranjang();
+
+
+tutupCheckout();
+
+
+
+openPage("pesanan");
+
+
+}
+
 
 
 
 
 </script>
 
+
+
+</div>
+
+
+</div>
+
+
 </body>
+
 </html>
