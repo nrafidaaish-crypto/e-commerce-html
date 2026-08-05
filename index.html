@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <div class="logo">
+        <h2>MyShop</h2>
+        <p>Seller Center</p>
+    </div>
+
+    <ul>
+
+        <li onclick="showPage('dashboard')">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
+        </li>
+
+        <li onclick="showPage('produk')">
+            <i class="fa-solid fa-box"></i>
+            Produk
+        </li>
+
+        <li onclick="showPage('pesanan')">
+            <i class="fa-solid fa-cart-shopping"></i>
+            Pesanan
+        </li>
+
+        <li onclick="showPage('pelanggan')">
+            <i class="fa-solid fa-users"></i>
+            Pelanggan
+        </li>
+
+        <li onclick="showPage('laporan')">
+            <i class="fa-solid fa-chart-line"></i>
+            Laporan
+        </li>
+
+        <li onclick="showPage('profil')">
+            <i class="fa-solid fa-user"></i>
+            Profil
+        </li>
+
+    </ul>
+
+</div>
+
+<div class="main">
+
+<header>
+
+<h2>Dashboard Penjual E-Commerce</h2>
+
+<div class="user">
+<i class="fa-solid fa-user-circle"></i>
+Admin
+</div>
+
+</header>
+
+<section id="dashboard" class="page active">
+
+<h1>Dashboard</h1>
+
+<div class="cards">
+
+<div class="card">
+<h2>150</h2>
+<p>Total Produk</p>
+</div>
+
+<div class="card">
+<h2>40</h2>
+<p>Pesanan</p>
+</div>
+
+<div class="card">
+<h2>27</h2>
+<p>Pelanggan</p>
+</div>
+
+<div class="card">
+<h2>Rp12.500.000</h2>
+<p>Pendapatan</p>
+</div>
+
+</div>
+
+</section>
+
+<section id="produk" class="page">
+
+<h1>Kelola Produk</h1>
+
+<button>+ Tambah Produk</button>
+
+<table>
+
+<tr>
+
+<th>ID</th>
+<th>Nama</th>
+<th>Harga</th>
+<th>Stok</th>
+
+</tr>
+
+<tr>
+
+<td>001</td>
+<td>Sepatu Sneakers</td>
+<td>Rp250.000</td>
+<td>20</td>
+
+</tr>
+
+<tr>
+
+<td>002</td>
+<td>Kaos Polos</td>
+<td>Rp80.000</td>
+<td>45</td>
+
+</tr>
+
+</table>
+
+</section>
+
+<section id="pesanan" class="page">
+
+<h1>Daftar Pesanan</h1>
+
+<table>
+
+<tr>
+
+<th>No</th>
+<th>Pembeli</th>
+<th>Status</th>
+
+</tr>
+
+<tr>
+
+<td>1</td>
+<td>Andi</td>
+<td>Diproses</td>
+
+</tr>
+
+<tr>
+
+<td>2</td>
+<td>Siti</td>
+<td>Dikirim</td>
+
+</tr>
+
+</table>
+
+</section>
+
+<section id="pelanggan" class="page">
+
+<h1>Data Pelanggan</h1>
+
+<ul>
+
+<li>Andi</li>
+<li>Siti</li>
+<li>Budi</li>
+
+</ul>
+
+</section>
+
+<section id="laporan" class="page">
+
+<h1>Laporan Penjualan</h1>
+
+<p>Total Pendapatan Bulan Ini</p>
+
+<h2>Rp12.500.000</h2>
+
+</section>
+
+<section id="profil" class="page">
+
+<h1>Profil Toko</h1>
+
+<input type="text" placeholder="Nama Toko">
+
+<input type="email" placeholder="Email">
+
+<textarea placeholder="Alamat"></textarea>
+
+<button>Simpan</button>
+
+</section>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
