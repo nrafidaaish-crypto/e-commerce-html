@@ -1017,6 +1017,10 @@ Menunggu
 📦 Pesanan Saya
 </h2>
 
+<div id="riwayatPesanan">
+
+</div>
+
 
 <br>
 
@@ -1545,6 +1549,8 @@ document.getElementById(page)
 let keranjang = [];
 
 
+let riwayat = [];
+
 
 function tambahKeranjang(nama,harga){
 
@@ -1731,87 +1737,78 @@ document.getElementById("checkoutBox")
 
 function buatPesanan(){
 
-
 let nama =
-document.getElementById("namaPembeli")
-.value;
-
+document.getElementById("namaPembeli").value;
 
 
 let alamat =
-document.getElementById("alamat")
-.value;
-
+document.getElementById("alamat").value;
 
 
 let bayar =
-document.getElementById("pembayaran")
-.value;
+document.getElementById("pembayaran").value;
 
 
 
+if(nama=="" || alamat==""){
 
-
-if(
-nama=="" ||
-alamat==""
-
-){
-
-
-alert(
-"Data checkout belum lengkap!"
-);
-
+alert("Data checkout belum lengkap!");
 
 return;
-
 
 }
 
 
 
+let total = 0;
 
-
-let total=0;
-
+let daftarProduk = "";
 
 
 keranjang.forEach(function(item){
 
-
 total += item.harga;
 
+daftarProduk += item.nama + ", ";
 
 });
 
 
 
+riwayat.push({
+
+nama:nama,
+
+produk:daftarProduk,
+
+total:total,
+
+status:"Diproses",
+
+pembayaran:bayar,
+
+alamat:alamat
+
+});
+
+
+
+tampilkanRiwayat();
+
 
 
 alert(
-
-"Pesanan berhasil dibuat!\n\n"+
-"Nama : "+nama+
-"\nAlamat : "+alamat+
-"\nPembayaran : "+bayar+
-"\nTotal : Rp"+
-total.toLocaleString("id-ID")
-
+"Pesanan berhasil dibuat!"
 );
-
-
 
 
 
 keranjang=[];
 
-
 tampilkanKeranjang();
 
 
 tutupCheckout();
-
 
 
 openPage("pesanan");
@@ -1821,6 +1818,71 @@ openPage("pesanan");
 
 
 
+function tampilkanRiwayat(){
+
+let tempat =
+document.getElementById("riwayatPesanan");
+
+
+let hasil="";
+
+
+riwayat.forEach(function(item,index){
+
+
+hasil += `
+
+<div class="cart-box">
+
+
+<h3>
+Pesanan #${index+1}
+</h3>
+
+
+<p>
+👤 Pembeli : ${item.nama}
+</p>
+
+
+<p>
+🛍 Produk : ${item.produk}
+</p>
+
+
+<p>
+💰 Total : Rp${item.total.toLocaleString("id-ID")}
+</p>
+
+
+<p>
+💳 Pembayaran : ${item.pembayaran}
+</p>
+
+
+<p>
+📍 Alamat : ${item.alamat}
+</p>
+
+
+<p>
+Status :
+<b>${item.status}</b>
+</p>
+
+
+</div>
+
+`;
+
+
+});
+
+
+tempat.innerHTML = hasil;
+
+
+}
 
 
 </script>
