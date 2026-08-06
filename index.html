@@ -51,9 +51,11 @@
       box-shadow: 0 0 20px rgba(0,0,0,0.05);
     }
 
+    /* Hide Scrollbar */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+    /* Buttons & Form Elements */
     .btn {
       width: 100%;
       padding: 12px;
@@ -72,6 +74,7 @@
     .btn-primary:active { background-color: #e04e8d; transform: scale(0.98); }
     .btn-outline { border: 1.5px solid var(--primary); color: var(--primary); background: transparent; }
     .btn-secondary { background-color: var(--secondary); color: var(--primary); }
+    .btn-danger { background-color: #FF3B30; color: white; }
 
     .input-group {
       margin-bottom: 15px;
@@ -93,7 +96,9 @@
       outline: none;
     }
 
-    /* TOAST NOTIFICATION */
+    /* ==========================================================================
+       TOAST NOTIFICATION
+       ========================================================================== */
     #toast {
       position: fixed;
       top: -60px;
@@ -117,7 +122,9 @@
     #toast.show { top: 20px; }
     #toast i { color: var(--accent); }
 
-    /* HEADER & NAVIGATION */
+    /* ==========================================================================
+       HEADER & NAVIGATION
+       ========================================================================== */
     .sticky-header {
       position: sticky;
       top: 0;
@@ -182,10 +189,13 @@
     .nav-item i { font-size: 18px; }
     .nav-item.active { color: var(--primary); font-weight: 600; }
 
-    /* PAGES */
+    /* ==========================================================================
+       PAGES & VIEWS
+       ========================================================================== */
     .page { display: none; padding: 16px; }
     .page.active { display: block; }
 
+    /* LOGIN PAGE */
     #login-page {
       padding: 40px 24px;
       text-align: center;
@@ -233,6 +243,7 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
+    /* MARKETPLACE VIEW */
     .banner-slider {
       width: 100%;
       height: 140px;
@@ -245,6 +256,24 @@
       padding: 20px;
       color: white;
     }
+    .category-scroll {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+      padding-bottom: 5px;
+    }
+    .cat-chip {
+      padding: 8px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      white-space: nowrap;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .cat-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
 
     /* PRODUCT GRID */
     .product-grid {
@@ -273,10 +302,11 @@
     .product-meta { font-size: 10px; color: var(--text-muted); display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
     .badge-store { font-size: 9px; background: var(--secondary); color: var(--primary); padding: 2px 6px; border-radius: 4px; width: fit-content; margin-bottom: 4px; }
 
-    .detail-img { width: 100%; height: 320px; object-fit: cover; border-radius: 0 0 var(--radius) var(--radius); }
+    /* DETAIL PRODUCT PAGE & VARIANT SELECTION */
+    .detail-img { width: 100%; height: 320px; object-fit: cover; border-radius: 0 0 var(--radius) var(--radius); transition: all 0.3s ease; }
     .detail-container { padding: 16px; background: var(--surface); margin-top: -10px; border-radius: 16px 16px 0 0; }
     
-    /* MODAL OVERLAY VARIASI SAMPLING PHOTO */
+    /* VARIANT BOTTOM SHEET MODAL (PERSIS DENGAN ACOAN FOTO REFERENSI) */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -363,6 +393,23 @@
       font-weight: 600;
     }
 
+    /* REVIEWS SECTION */
+    .rating-summary-box {
+      background: #FAFAFA;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+      font-size: 12px;
+    }
+    .rating-summary-box h5 {
+      font-size: 12px;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
     .review-card {
       background: var(--surface);
       padding: 12px;
@@ -376,6 +423,7 @@
     .review-variant { font-size: 10px; color: var(--text-muted); margin-bottom: 6px; }
     .review-comment { font-size: 12px; color: #333; margin-bottom: 8px; line-height: 1.4; }
 
+    /* CART & CHECKOUT */
     .cart-item, .order-card {
       background: var(--surface);
       padding: 12px;
@@ -389,8 +437,9 @@
     .cart-details { flex: 1; }
     .checkout-summary { background: var(--surface); padding: 16px; border-radius: var(--radius); margin-top: 16px; }
     .summary-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; }
-    .summary-row.total { font-size: 15px; font-weight: 700; color: var(--primary); border-top: 1px dashed var(--border); padding-top: 8px; margin-top: 8px; }
+    .summary-row.total { font-size: 15px; font-weight: 700; color: var(--primary); border-top: 1px dashed var(--border); pt: 8px; margin-top: 8px; }
 
+    /* ADMIN DASHBOARD & PROFILES */
     .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
     .stat-card { background: var(--surface); padding: 16px; border-radius: var(--radius); box-shadow: var(--shadow); }
     .stat-card h4 { font-size: 11px; color: var(--text-muted); font-weight: 500; }
@@ -448,18 +497,19 @@
       </form>
     </div>
 
-    <!-- 2. CUSTOMER MARKETPLACE (HOME HASIL GABUNG SEMUA KATALOG) -->
+    <!-- 2. CUSTOMER MARKETPLACE (HOME) -->
     <div id="customer-home" class="page">
       <div class="banner-slider">
         <div>
-          <h3 style="font-size:16px;">Koleksi Mewah Terbaru!</h3>
-          <p style="font-size:11px; opacity:0.9;">Diskon Hingga 50% Semua Produk Tas</p>
+          <h3 style="font-size:16px;">Diskon Koleksi Pink!</h3>
+          <p style="font-size:11px; opacity:0.9;">Hingga 50% untuk Semua Koleksi Tas</p>
         </div>
         <i class="fa-solid fa-gift" style="font-size:40px; opacity:0.8;"></i>
       </div>
 
-      <div style="margin-bottom:12px; font-weight:700; font-size:14px; color:var(--primary);">
-        <i class="fa-solid fa-bag-shopping"></i> Semua Koleksi Tas
+      <!-- KATEGORI DISATUKAN MENJADI SEMUA PRODUK -->
+      <div class="category-scroll no-scrollbar">
+        <div class="cat-chip active">Semua Produk</div>
       </div>
 
       <div class="product-grid" id="customer-product-list"></div>
@@ -515,8 +565,8 @@
           <span>Total Pembayaran</span>
           <span id="checkout-total">Rp 0</span>
         </div>
-        <!-- TOMBOL MEMBUKA BOTTOM SHEET VARIASI SEPERTI DIPERINTAHKAN -->
-        <button class="btn btn-primary mt-10" onclick="openVariantSheet()">Lanjut Pilih Variasi & Beli</button>
+        <!-- PEMICU BOTTOMSHEET OPSI WARNA DAN JUMLAH SEPERTI FOTO SAMPLING -->
+        <button class="btn btn-primary mt-10" onclick="openVariantSheet()">Pilih Variasi Warna & Beli</button>
       </div>
     </div>
 
@@ -590,7 +640,7 @@
         </div>
         <div class="input-group">
           <label>Pilihan Warna (Pisahkan dengan koma)</label>
-          <input type="text" id="input-prod-colors" placeholder="INARA PUTIH, INARA HITAM, LAYLA BROWN" required>
+          <input type="text" id="input-prod-colors" placeholder="INARA PUTIH, INARA HITAM, INARA PINK" required>
         </div>
         <div class="input-group">
           <label>Harga (Rp)</label>
@@ -615,8 +665,14 @@
 
     <!-- 10. ADMIN REPORTS PAGE -->
     <div id="admin-reports-page" class="page">
+      <div class="category-scroll no-scrollbar">
+        <div class="cat-chip active" onclick="switchReportTab('harian', this)">Harian</div>
+        <div class="cat-chip" onclick="switchReportTab('bulanan', this)">Bulanan</div>
+        <div class="cat-chip" onclick="switchReportTab('tahunan', this)">Tahunan</div>
+      </div>
+
       <div class="checkout-summary" style="margin-top:0;">
-        <h4 id="report-title" style="margin-bottom:12px; font-size:14px; color:var(--primary);">Laporan Penjualan</h4>
+        <h4 id="report-title" style="margin-bottom:12px; font-size:14px; color:var(--primary);">Laporan Penjualan Harian</h4>
         <div class="summary-row">
           <span>Jumlah Transaksi</span>
           <span id="report-count">0</span>
@@ -655,15 +711,15 @@
       <button class="btn btn-outline" style="border-color:#FF3B30; color:#FF3B30;" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Keluar dari Akun Admin</button>
     </div>
 
-    <!-- BOTTOM SHEET VARIASI WARNA (DESAIN SAMA DENGAN ACUAN GAMBAR FOTO) -->
+    <!-- BOTTOM SHEET OVERLAY MODAL (PERSIS SESUAI TAMPILAN FOTO ACUAN) -->
     <div id="variant-sheet-modal" class="modal-overlay">
       <div class="modal-sheet">
         <div style="display:flex; gap:12px; border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:12px;">
-          <img id="sheet-prod-img" src="" style="width:75px; height:75px; object-fit:cover; border-radius:8px;" alt="Produk">
+          <img id="sheet-prod-img" src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=200" style="width:75px; height:75px; object-fit:cover; border-radius:8px;" alt="Produk">
           <div style="flex:1;">
             <button onclick="closeVariantSheet()" style="float:right; border:none; background:none; font-size:18px; color:#888; cursor:pointer;">&times;</button>
-            <div id="sheet-prod-price" style="color:#FF522B; font-weight:700; font-size:16px;">Rp 0</div>
-            <div id="sheet-prod-stock" style="font-size:11px; color:#777; margin-top:2px;">Stok: 0</div>
+            <div id="sheet-prod-price" style="color:#FF522B; font-weight:700; font-size:16px;">Rp 7.500</div>
+            <div id="sheet-prod-stock" style="font-size:11px; color:#777; margin-top:2px;">Stok: 99752</div>
           </div>
         </div>
 
@@ -701,7 +757,7 @@
     let selectedQuantity = 1;
     let historyStack = [];
 
-    // DATABASE PRODUK DENGAN LEBIH BANYAK VARIASI TAS DAN WARNA SAMPLING
+    /* TAMBAHAN KOLEKSI TAS DAN VARIASI WARNA WARNI LENGKAP */
     let products = [
       {
         id: 1,
@@ -713,31 +769,33 @@
         colors: [
           "INARA PUTIH", "INARA HITAM", "INARA PINK", "INARA BROWN", 
           "LAYLA BROWN", "LAYLA PNK", "LAYLA BLUE", "LANY HITAM", 
-          "LANY PUTIH", "NUR SMALL PUTIH", "NUR SMALL HITAM", "NUR SMALL BROWN", 
-          "NUR SMALL PINK", "GANCI MUTIARA", "GANCI BONEKA", "NUR SMALL COKSU"
+          "LANY PUTIH", "NUR SMALL PUTIH", "NUR SMALL HITAM", 
+          "NUR SMALL BROWN", "NUR SMALL PINK", "GANCI MUTIARA", 
+          "GANCI BONEKA", "NUR SMALL COKSU"
         ],
         colorMap: {
-          "INARA PUTIH": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=200",
-          "INARA HITAM": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=200",
-          "INARA PINK": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=200",
-          "INARA BROWN": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=200",
-          "LAYLA BROWN": "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=200",
-          "LAYLA PNK": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=200",
-          "LAYLA BLUE": "https://images.unsplash.com/photo-1614179689702-355944cd0918?auto=format&fit=crop&q=80&w=200",
-          "LANY HITAM": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=200",
-          "LANY PUTIH": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=200",
-          "NUR SMALL PUTIH": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=200",
-          "NUR SMALL HITAM": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=200",
-          "NUR SMALL BROWN": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=200",
-          "NUR SMALL PINK": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=200",
-          "GANCI MUTIARA": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=200",
-          "GANCI BONEKA": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=200",
-          "NUR SMALL COKSU": "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=200"
+          "INARA PUTIH": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=500",
+          "INARA HITAM": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=500",
+          "INARA PINK": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=500",
+          "INARA BROWN": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=500",
+          "LAYLA BROWN": "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=500",
+          "LAYLA PNK": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=500",
+          "LAYLA BLUE": "https://images.unsplash.com/photo-1614179689702-355944cd0918?auto=format&fit=crop&q=80&w=500",
+          "LANY HITAM": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=500",
+          "LANY PUTIH": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=500",
+          "NUR SMALL PUTIH": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=500",
+          "NUR SMALL HITAM": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=500",
+          "NUR SMALL BROWN": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=500",
+          "NUR SMALL PINK": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=500",
+          "GANCI MUTIARA": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=500",
+          "GANCI BONEKA": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=500",
+          "NUR SMALL COKSU": "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=500"
         },
         img: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=500",
         desc: "Shoulder bag sintetis premium dengan desain modern. Cocok untuk kuliah maupun hangout.",
         reviews: [
-          { name: "malik_abdulazis00", rating: 5, date: "02 Ags 2026", variant: "INARA PUTIH", comment: "Lucu banget tasnya, realpict juga sesuai gambar ❤️❤️ Next order lagi 🤭" }
+          { name: "malik_abdulazis00", rating: 5, date: "02 Ags 2026", variant: "Warna: GANCI BONEKA", comment: "Lucu banget tasnya, realpict juga sesuai gambar ❤️❤️ Next order lagi soalnya imut 🤭" },
+          { name: "Clarissa M.", rating: 5, date: "28 Jul 2026", variant: "Warna: INARA PINK", comment: "Bahan kulit sintetisnya halus dan kelihatan mewah banget. Jahitannya sangat rapi!" }
         ]
       },
       {
@@ -747,11 +805,12 @@
         stock: 450,
         rating: 4.8,
         sold: 98,
-        colors: ["LAYLA PNK", "LAYLA BLUE", "LANY HITAM"],
+        colors: ["LAYLA PNK", "LAYLA BLUE", "LANY HITAM", "LANY PUTIH"],
         colorMap: {
-          "LAYLA PNK": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=200",
-          "LAYLA BLUE": "https://images.unsplash.com/photo-1614179689702-355944cd0918?auto=format&fit=crop&q=80&w=200",
-          "LANY HITAM": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=200"
+          "LAYLA PNK": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=500",
+          "LAYLA BLUE": "https://images.unsplash.com/photo-1614179689702-355944cd0918?auto=format&fit=crop&q=80&w=500",
+          "LANY HITAM": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=500",
+          "LANY PUTIH": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=500"
         },
         img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=500",
         desc: "Tas selempang kecil yang imut dan praktis. Muat HP, dompet lipat, dan kosmetik.",
@@ -759,53 +818,53 @@
       },
       {
         id: 3,
-        name: "Vintage Canvas Large Tote Bag",
+        name: "Korean Canvas Tote Bag Casual",
         price: 95000,
-        stock: 120,
+        stock: 320,
         rating: 4.7,
         sold: 210,
-        colors: ["INARA PUTIH", "INARA HITAM", "NUR SMALL COKSU"],
+        colors: ["NUR SMALL PUTIH", "NUR SMALL HITAM", "NUR SMALL COKSU"],
         colorMap: {
-          "INARA PUTIH": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=200",
-          "INARA HITAM": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=200",
-          "NUR SMALL COKSU": "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=200"
+          "NUR SMALL PUTIH": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=500",
+          "NUR SMALL HITAM": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=500",
+          "NUR SMALL COKSU": "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=500"
         },
-        img: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=500",
-        desc: "Tote bag kanvas kasual muat laptop dan perlengkapan harian.",
+        img: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=500",
+        desc: "Tote bag bahan kanvas tebal berkualitas. Desain kasual ala Korea yang muat banyak barang.",
         reviews: []
       },
       {
         id: 4,
-        name: "Elegant Chain Quilted Handbag",
+        name: "Vintage Chain Sling Handle Bag",
         price: 210000,
-        stock: 85,
-        rating: 5.0,
-        sold: 76,
-        colors: ["INARA PINK", "INARA HITAM", "GANCI MUTIARA"],
+        stock: 180,
+        rating: 4.9,
+        sold: 75,
+        colors: ["INARA HITAM", "NUR SMALL BROWN", "INARA PUTIH"],
         colorMap: {
-          "INARA PINK": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=200",
-          "INARA HITAM": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=200",
-          "GANCI MUTIARA": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=200"
+          "INARA HITAM": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=500",
+          "NUR SMALL BROWN": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=500",
+          "INARA PUTIH": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=500"
         },
         img: "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&q=80&w=500",
-        desc: "Tas pesta pesta beraksen rantai emas nan mewah dan elegan.",
+        desc: "Tas pesta vintage dengan aksen rantai emas elegan dan bahan kulit halus.",
         reviews: []
       },
       {
         id: 5,
-        name: "Korean Minimalist Bucket Bag",
-        price: 145000,
-        stock: 300,
+        name: "Elegant Puffy Quilted Handbag",
+        price: 175000,
+        stock: 230,
         rating: 4.8,
-        sold: 115,
-        colors: ["NUR SMALL PUTIH", "NUR SMALL PINK", "LAYLA BLUE"],
+        sold: 130,
+        colors: ["NUR SMALL PINK", "LAYLA PNK", "INARA PUTIH"],
         colorMap: {
-          "NUR SMALL PUTIH": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=200",
-          "NUR SMALL PINK": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=200",
-          "LAYLA BLUE": "https://images.unsplash.com/photo-1614179689702-355944cd0918?auto=format&fit=crop&q=80&w=200"
+          "NUR SMALL PINK": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=500",
+          "LAYLA PNK": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=500",
+          "INARA PUTIH": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=500"
         },
-        img: "https://images.unsplash.com/photo-1614179689702-355944cd0918?auto=format&fit=crop&q=80&w=500",
-        desc: "Bucket bag gaya Korea dengan serutan imut dan bahan waterproof.",
+        img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=500",
+        desc: "Tas tangan empuk motif quilted yang super empuk dan nyaman digunakan sehari-hari.",
         reviews: []
       }
     ];
@@ -868,6 +927,7 @@
           break;
         case 'admin-reports-page':
           pageTitleEl.innerText = "Laporan Penjualan";
+          switchReportTab('harian');
           break;
         case 'admin-profile-page':
           pageTitleEl.innerText = "Profil Admin";
@@ -988,7 +1048,7 @@
       }
     }
 
-    // RENDER SEMUA PRODUK DALAM SATU WADAH HETEROJEN
+    /* MENAMPILKAN SEMUA PRODUK TANPA PEMISAHAN KATEGORI */
     function renderCustomerProducts() {
       const grid = document.getElementById('customer-product-list');
       grid.innerHTML = products.map(p => `
@@ -1067,7 +1127,7 @@
           <div style="color:#FFB800; font-size:10px; margin-bottom:2px;">
             ${'<i class="fa-solid fa-star"></i>'.repeat(r.rating)}
           </div>
-          <div class="review-variant">Variasi: ${r.variant || 'Standard'}</div>
+          <div class="review-variant">${r.variant || 'Variasi: Standard'}</div>
           <p class="review-comment">${r.comment}</p>
         </div>
       `).join('');
@@ -1157,15 +1217,6 @@
       const container = document.getElementById('checkout-items');
       let subtotal = 0;
 
-      if (cart.length === 0 && products.length > 0) {
-        cart = [{
-          product: products[0],
-          color: products[0].colors[0],
-          selectedImg: products[0].img,
-          qty: 1
-        }];
-      }
-
       container.innerHTML = cart.map(item => {
         const itemTotal = item.product.price * item.qty;
         subtotal += itemTotal;
@@ -1191,12 +1242,12 @@
       document.getElementById('checkout-total').innerText = `Rp ${total.toLocaleString('id-ID')}`;
     }
 
-    /* PENGATURAN BOTTOM SHEET SAMPLING WARNA MATERI GAMBAR */
+    /* PENGATURAN BOTTOM SHEET SESUAI TAMPILAN FOTO USER DENGAN SEMUA PILIHAN WARNA */
     function openVariantSheet() {
       const targetProd = cart[0]?.product || products[0];
       selectedDetailProduct = targetProd;
       selectedColor = targetProd.colors[0];
-      selectedQuantity = cart[0]?.qty || 1;
+      selectedQuantity = 1;
 
       document.getElementById('sheet-prod-img').src = targetProd.colorMap?.[selectedColor] || targetProd.img;
       document.getElementById('sheet-prod-price').innerText = `Rp ${targetProd.price.toLocaleString('id-ID')}`;
@@ -1206,11 +1257,11 @@
       const optsContainer = document.getElementById('sheet-variant-options');
       optsContainer.innerHTML = targetProd.colors.map((c, i) => {
         const thumbImg = targetProd.colorMap?.[c] || targetProd.img;
-        const isFire = (i === 0) ? '<span style="color:#FF522B;">🔥</span>' : '';
+        const isHot = i === 0 ? '<span style="color:#FF522B; margin-left:2px;">🔥</span>' : '';
         return `
           <div class="variant-card-btn ${i===0?'active':''}" onclick="selectSheetColor('${c}', this, '${thumbImg}')">
             <img src="${thumbImg}" alt="${c}">
-            <span>${c} ${isFire}</span>
+            <span>${c.toUpperCase()}</span> ${isHot}
           </div>
         `;
       }).join('');
@@ -1239,18 +1290,14 @@
     function processOrder() {
       if (cart.length === 0) return;
 
-      const subtotal = selectedDetailProduct.price * selectedQuantity;
+      const subtotal = cart.reduce((sum, item) => sum + (item.product.price * item.qty), 0);
       const total = subtotal + 15000;
 
       const newOrder = {
         id: 'GS-' + Math.floor(100000 + Math.random() * 900000),
         date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
-        customer: currentUser ? currentUser.name : 'Evaline',
-        items: [{
-          product: selectedDetailProduct,
-          color: selectedColor,
-          qty: selectedQuantity
-        }],
+        customer: currentUser.name,
+        items: cart.map(c => ({...c, color: selectedColor, qty: selectedQuantity})),
         total: total,
         payment: document.getElementById('payment-method').value,
         status: 'Diproses'
@@ -1284,7 +1331,7 @@
               • ${i.product.name} (${i.color}) x${i.qty}
             </div>
           `).join('')}
-          <div class="flex-between" style="border-top:1px dashed var(--border); padding-top:6px; margin-top:6px; font-size:12px;">
+          <div class="flex-between" style="border-top:1px dashed var(--border); pt:6px; margin-top:6px; font-size:12px;">
             <span>Total Pembayaran:</span>
             <strong style="color:var(--primary);">Rp ${order.total.toLocaleString('id-ID')}</strong>
           </div>
@@ -1398,6 +1445,23 @@
           </div>
         </div>
       `).join('');
+    }
+
+    function switchReportTab(type, el) {
+      if (el) {
+        document.querySelectorAll('#admin-reports-page .cat-chip').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+      }
+
+      const titleEl = document.getElementById('report-title');
+      const countEl = document.getElementById('report-count');
+      const revenueEl = document.getElementById('report-revenue');
+
+      const totalRevenue = orders.reduce((sum, o) => sum + o.total, 0);
+
+      titleEl.innerText = `Laporan Penjualan ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+      countEl.innerText = orders.length;
+      revenueEl.innerText = `Rp ${totalRevenue.toLocaleString('id-ID')}`;
     }
 
     function showToast(message) {
