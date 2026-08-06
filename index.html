@@ -256,24 +256,18 @@
       padding: 20px;
       color: white;
     }
-    .category-scroll {
+
+    .section-header {
       display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      margin-bottom: 20px;
-      padding-bottom: 5px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
     }
-    .cat-chip {
-      padding: 8px 16px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      white-space: nowrap;
-      font-size: 12px;
-      font-weight: 500;
-      cursor: pointer;
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-dark);
     }
-    .cat-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
 
     /* PRODUCT GRID */
     .product-grid {
@@ -306,7 +300,7 @@
     .detail-img { width: 100%; height: 320px; object-fit: cover; border-radius: 0 0 var(--radius) var(--radius); transition: all 0.3s ease; }
     .detail-container { padding: 16px; background: var(--surface); margin-top: -10px; border-radius: 16px 16px 0 0; }
     
-    /* VARIANT BOTTOM SHEET MODAL (PERSIS DENGAN ACOAN FOTO REFERENSI) */
+    /* VARIANT BOTTOM SHEET MODAL (DIUBAH KE WARNA PINK SAMA DENAN DESAIN POKOK) */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -361,9 +355,9 @@
       object-fit: cover;
     }
     .variant-card-btn.active {
-      border-color: #FF522B;
-      background: #FFF8F6;
-      color: #FF522B;
+      border-color: var(--primary);
+      background: #FFF0F6;
+      color: var(--primary);
       font-weight: 600;
     }
 
@@ -394,34 +388,18 @@
     }
 
     /* REVIEWS SECTION */
-    .rating-summary-box {
-      background: #FAFAFA;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px;
-      margin-bottom: 12px;
-      font-size: 12px;
-    }
-    .rating-summary-box h5 {
-      font-size: 12px;
-      color: var(--text-dark);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
     .review-card {
       background: var(--surface);
       padding: 12px;
       border-bottom: 1px solid var(--border);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       font-size: 12px;
     }
     .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
     .review-user { font-weight: 600; color: var(--text-dark); font-size: 12px; }
     .review-date { font-size: 10px; color: var(--text-muted); }
     .review-variant { font-size: 10px; color: var(--text-muted); margin-bottom: 6px; }
-    .review-comment { font-size: 12px; color: #333; margin-bottom: 8px; line-height: 1.4; }
+    .review-comment { font-size: 12px; color: #333; margin-bottom: 4px; line-height: 1.4; }
 
     /* CART & CHECKOUT */
     .cart-item, .order-card {
@@ -501,15 +479,15 @@
     <div id="customer-home" class="page">
       <div class="banner-slider">
         <div>
-          <h3 style="font-size:16px;">Diskon Koleksi Pink!</h3>
-          <p style="font-size:11px; opacity:0.9;">Hingga 50% untuk Semua Koleksi Tas</p>
+          <h3 style="font-size:16px;">Koleksi Tas Lengkap!</h3>
+          <p style="font-size:11px; opacity:0.9;">Diskon Hingga 50% Semua Produk</p>
         </div>
         <i class="fa-solid fa-gift" style="font-size:40px; opacity:0.8;"></i>
       </div>
 
-      <!-- KATEGORI DISATUKAN MENJADI SEMUA PRODUK -->
-      <div class="category-scroll no-scrollbar">
-        <div class="cat-chip active">Semua Produk</div>
+      <div class="section-header">
+        <span class="section-title">Semua Koleksi Tas</span>
+        <span style="font-size:11px; color:var(--text-muted);">Pilihan Terfavorit</span>
       </div>
 
       <div class="product-grid" id="customer-product-list"></div>
@@ -565,8 +543,7 @@
           <span>Total Pembayaran</span>
           <span id="checkout-total">Rp 0</span>
         </div>
-        <!-- PEMICU BOTTOMSHEET OPSI WARNA DAN JUMLAH SEPERTI FOTO SAMPLING -->
-        <button class="btn btn-primary mt-10" onclick="openVariantSheet()">Pilih Variasi Warna & Beli</button>
+        <button class="btn btn-primary mt-10" onclick="processOrder()">Konfirmasi Pembayaran & Buat Pesanan</button>
       </div>
     </div>
 
@@ -665,14 +642,8 @@
 
     <!-- 10. ADMIN REPORTS PAGE -->
     <div id="admin-reports-page" class="page">
-      <div class="category-scroll no-scrollbar">
-        <div class="cat-chip active" onclick="switchReportTab('harian', this)">Harian</div>
-        <div class="cat-chip" onclick="switchReportTab('bulanan', this)">Bulanan</div>
-        <div class="cat-chip" onclick="switchReportTab('tahunan', this)">Tahunan</div>
-      </div>
-
       <div class="checkout-summary" style="margin-top:0;">
-        <h4 id="report-title" style="margin-bottom:12px; font-size:14px; color:var(--primary);">Laporan Penjualan Harian</h4>
+        <h4 id="report-title" style="margin-bottom:12px; font-size:14px; color:var(--primary);">Laporan Penjualan</h4>
         <div class="summary-row">
           <span>Jumlah Transaksi</span>
           <span id="report-count">0</span>
@@ -711,15 +682,15 @@
       <button class="btn btn-outline" style="border-color:#FF3B30; color:#FF3B30;" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Keluar dari Akun Admin</button>
     </div>
 
-    <!-- BOTTOM SHEET OVERLAY MODAL (PERSIS SESUAI TAMPILAN FOTO ACUAN) -->
+    <!-- BOTTOM SHEET OVERLAY MODAL (SESUAI DESAIN DENGAN WARNA PINK) -->
     <div id="variant-sheet-modal" class="modal-overlay">
       <div class="modal-sheet">
         <div style="display:flex; gap:12px; border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:12px;">
           <img id="sheet-prod-img" src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=200" style="width:75px; height:75px; object-fit:cover; border-radius:8px;" alt="Produk">
           <div style="flex:1;">
             <button onclick="closeVariantSheet()" style="float:right; border:none; background:none; font-size:18px; color:#888; cursor:pointer;">&times;</button>
-            <div id="sheet-prod-price" style="color:#FF522B; font-weight:700; font-size:16px;">Rp 7.500</div>
-            <div id="sheet-prod-stock" style="font-size:11px; color:#777; margin-top:2px;">Stok: 99752</div>
+            <div id="sheet-prod-price" style="color:var(--primary); font-weight:700; font-size:16px;">Rp 0</div>
+            <div id="sheet-prod-stock" style="font-size:11px; color:#777; margin-top:2px;">Stok: 0</div>
           </div>
         </div>
 
@@ -727,7 +698,7 @@
           <i class="fa-solid fa-truck-fast"></i> Estimasi Sampai: 9 - 10 Ags
         </div>
 
-        <label style="font-size:12px; font-weight:600; color:var(--text-dark);">Warna</label>
+        <label style="font-size:12px; font-weight:600; color:var(--text-dark);">Pilih Warna</label>
         <div class="variant-grid" id="sheet-variant-options"></div>
 
         <div class="flex-between" style="margin-top:16px; margin-bottom:20px;">
@@ -739,7 +710,7 @@
           </div>
         </div>
 
-        <button class="btn" style="background:#FF522B; color:white; font-size:15px; border-radius:8px;" onclick="processOrder()">Beli Sekarang</button>
+        <button class="btn btn-primary" style="font-size:15px; border-radius:8px;" onclick="proceedFromSheetToCheckout()">Beli Sekarang</button>
       </div>
     </div>
 
@@ -757,11 +728,11 @@
     let selectedQuantity = 1;
     let historyStack = [];
 
-    /* TAMBAHAN KOLEKSI TAS DAN VARIASI WARNA WARNI LENGKAP */
+    /* DATABASE PRODUK LENGKAP DENGAN 10-15 ULASAN MASING-MASING */
     let products = [
       {
         id: 1,
-        name: "Aesthetic Leather Shoulder Bag",
+        name: "Aesthetic Leather Shoulder Bag Premium",
         price: 185000,
         stock: 99752,
         rating: 4.9,
@@ -794,8 +765,18 @@
         img: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=500",
         desc: "Shoulder bag sintetis premium dengan desain modern. Cocok untuk kuliah maupun hangout.",
         reviews: [
-          { name: "malik_abdulazis00", rating: 5, date: "02 Ags 2026", variant: "Warna: GANCI BONEKA", comment: "Lucu banget tasnya, realpict juga sesuai gambar ❤️❤️ Next order lagi soalnya imut 🤭" },
-          { name: "Clarissa M.", rating: 5, date: "28 Jul 2026", variant: "Warna: INARA PINK", comment: "Bahan kulit sintetisnya halus dan kelihatan mewah banget. Jahitannya sangat rapi!" }
+          { name: "malik_abdulazis00", rating: 5, date: "02 Ags 2026", variant: "Warna: GANCI BONEKA", comment: "Lucu banget tasnya, realpict juga sesuai gambar ❤️❤️ Next order lagi!" },
+          { name: "Clarissa M.", rating: 5, date: "28 Jul 2026", variant: "Warna: INARA PINK", comment: "Bahan kulit sintetisnya halus dan kelihatan mewah banget. Jahitannya rapi!" },
+          { name: "Siti_Rahmawati", rating: 5, date: "25 Jul 2026", variant: "Warna: INARA PUTIH", comment: "Pengiriman cepat sekali, packing aman pakai bubble wrap tebal." },
+          { name: "Amanda_Pratama", rating: 4, date: "20 Jul 2026", variant: "Warna: INARA HITAM", comment: "Bagus, tasnya pas buat acara formal maupun santai." },
+          { name: "Dinda_Putri", rating: 5, date: "18 Jul 2026", variant: "Warna: LAYLA PNK", comment: "Warna pinknya gemes banget, manis dan ngga pasaran." },
+          { name: "Nabila_Sari", rating: 5, date: "15 Jul 2026", variant: "Warna: LANY PUTIH", comment: "Kapasitas muatan cukup besar untuk HP, dompet dan peralatan makeup." },
+          { name: "Rina_Mulia", rating: 5, date: "12 Jul 2026", variant: "Warna: INARA BROWN", comment: "Cokelatnya estetik parah! Cocok dikombinasikan sama baju earth tone." },
+          { name: "Tania_Dewi", rating: 5, date: "10 Jul 2026", variant: "Warna: GANCI MUTIARA", comment: "Bonus gantungan mutiaranya bikin tas makin cantik." },
+          { name: "Vina_Lestari", rating: 4, date: "05 Jul 2026", variant: "Warna: NUR SMALL HITAM", comment: "Recommended banget buat hadiah teman atau pacar." },
+          { name: "Wulan_Dari", rating: 5, date: "01 Jul 2026", variant: "Warna: NUR SMALL PINK", comment: "Udah pembelian kedua di toko ini, selalu memuaskan!" },
+          { name: "Yulia_Anggraini", rating: 5, date: "28 Jun 2026", variant: "Warna: LAYLA BLUE", comment: "Birunya soft pastel bagus banget di kamera." },
+          { name: "Zahra_Kamila", rating: 5, date: "24 Jun 2026", variant: "Warna: NUR SMALL COKSU", comment: "Harganya affordable banget dengan kualitas segini mahal." }
         ]
       },
       {
@@ -814,11 +795,22 @@
         },
         img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=500",
         desc: "Tas selempang kecil yang imut dan praktis. Muat HP, dompet lipat, dan kosmetik.",
-        reviews: []
+        reviews: [
+          { name: "Bellani_P", rating: 5, date: "03 Ags 2026", variant: "Warna: LAYLA PNK", comment: "Ukurannya pas banget buat yang ga suka bawa tas berat." },
+          { name: "Citra_K", rating: 5, date: "01 Ags 2026", variant: "Warna: LANY HITAM", comment: "Rantainya kokoh dan ga gampang luntur warnanya." },
+          { name: "Dewi_S", rating: 4, date: "30 Jul 2026", variant: "Warna: LAYLA BLUE", comment: "Lucu abis, cocok dipake OOTD jalan-jalan mall." },
+          { name: "Elsa_F", rating: 5, date: "27 Jul 2026", variant: "Warna: LANY PUTIH", comment: "Bahan empuk dan nyaman dipakai seharian." },
+          { name: "Fitri_A", rating: 5, date: "24 Jul 2026", variant: "Warna: LAYLA PNK", comment: "Warna pink-nya manis banget kaya di foto!" },
+          { name: "Gita_N", rating: 5, date: "20 Jul 2026", variant: "Warna: LANY HITAM", comment: "Suka banget sama model rantainya elegan." },
+          { name: "Hana_R", rating: 5, date: "16 Jul 2026", variant: "Warna: LAYLA BLUE", comment: "Jahitannya rapi dan resleting lancar ga tersendat." },
+          { name: "Indah_M", rating: 4, date: "11 Jul 2026", variant: "Warna: LANY PUTIH", comment: "Cepat banget sampainya cuma 2 hari." },
+          { name: "Jelita_S", rating: 5, date: "08 Jul 2026", variant: "Warna: LAYLA PNK", comment: "Mantap penjual ramah, produk original sesuai deskripsi." },
+          { name: "Kartika_D", rating: 5, date: "03 Jul 2026", variant: "Warna: LANY HITAM", comment: "Top banget pokoknya recommended bgt toko ini." }
+        ]
       },
       {
         id: 3,
-        name: "Korean Canvas Tote Bag Casual",
+        name: "Korean Canvas Casual Tote Bag",
         price: 95000,
         stock: 320,
         rating: 4.7,
@@ -831,11 +823,22 @@
         },
         img: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=500",
         desc: "Tote bag bahan kanvas tebal berkualitas. Desain kasual ala Korea yang muat banyak barang.",
-        reviews: []
+        reviews: [
+          { name: "Lestari_A", rating: 5, date: "04 Ags 2026", variant: "Warna: NUR SMALL PUTIH", comment: "Muat laptop 14 inch, cocok banget buat kuliah sehari-hari!" },
+          { name: "Maya_S", rating: 5, date: "02 Ags 2026", variant: "Warna: NUR SMALL HITAM", comment: "Bahan kanvasnya tebal dan halus, gak kaku." },
+          { name: "Niken_P", rating: 4, date: "29 Jul 2026", variant: "Warna: NUR SMALL COKSU", comment: "Warna coksu nya estetik banget, jahitan kencang." },
+          { name: "Olivia_V", rating: 5, date: "26 Jul 2026", variant: "Warna: NUR SMALL PUTIH", comment: "Dapat harga diskon murah banget untuk totebag se-tebal ini." },
+          { name: "Priscillia_T", rating: 5, date: "22 Jul 2026", variant: "Warna: NUR SMALL HITAM", comment: "Simple dan aesthetic! Sering dipake ngampus." },
+          { name: "Qonita_H", rating: 5, date: "19 Jul 2026", variant: "Warna: NUR SMALL COKSU", comment: "Suka banget ada kantong kecil di bagian dalam." },
+          { name: "Ratna_W", rating: 4, date: "15 Jul 2026", variant: "Warna: NUR SMALL PUTIH", comment: "Bagus pengiriman cepat, packing sangat rapi." },
+          { name: "Selfi_M", rating: 5, date: "10 Jul 2026", variant: "Warna: NUR SMALL HITAM", comment: "Keren tasnya, teman kampus pada nanyain beli dimana." },
+          { name: "Tri_Utami", rating: 5, date: "06 Jul 2026", variant: "Warna: NUR SMALL COKSU", comment: "Beli dua sekaligus warna lain, memuaskan banget." },
+          { name: "Ulfah_K", rating: 5, date: "02 Jul 2026", variant: "Warna: NUR SMALL PUTIH", comment: "Kualitas bintang 5 harga kaki lima." }
+        ]
       },
       {
         id: 4,
-        name: "Vintage Chain Sling Handle Bag",
+        name: "Vintage Gold Chain Party Handbag",
         price: 210000,
         stock: 180,
         rating: 4.9,
@@ -848,11 +851,22 @@
         },
         img: "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&q=80&w=500",
         desc: "Tas pesta vintage dengan aksen rantai emas elegan dan bahan kulit halus.",
-        reviews: []
+        reviews: [
+          { name: "Valerie_C", rating: 5, date: "05 Ags 2026", variant: "Warna: INARA HITAM", comment: "Kelihatan kaya tas jutaan rupiah! Rantainya mewah abis." },
+          { name: "Winda_F", rating: 5, date: "01 Ags 2026", variant: "Warna: NUR SMALL BROWN", comment: "Dipake kondangan dipuji sama temen-temen." },
+          { name: "Xenia_G", rating: 5, date: "28 Jul 2026", variant: "Warna: INARA PUTIH", comment: "Warna putihnya bersih, furing di dalamnya halus." },
+          { name: "Yenny_L", rating: 4, date: "24 Jul 2026", variant: "Warna: INARA HITAM", comment: "Bagus vintage look banget, pengiriman lumayan cepat." },
+          { name: "Zulfa_A", rating: 5, date: "20 Jul 2026", variant: "Warna: NUR SMALL BROWN", comment: "Kualitas top markotop, kancing magnetnya kuat." },
+          { name: "Arini_H", rating: 5, date: "17 Jul 2026", variant: "Warna: INARA PUTIH", comment: "Packaging rapi ada dushbag nya juga!" },
+          { name: "Beby_C", rating: 5, date: "12 Jul 2026", variant: "Warna: INARA HITAM", comment: "Worth it banget sama harganya. Mulus no cacat." },
+          { name: "Cynthia_K", rating: 4, date: "09 Jul 2026", variant: "Warna: NUR SMALL BROWN", comment: "Suka banget model tas vintage gini, mewah." },
+          { name: "Desi_N", rating: 5, date: "04 Jul 2026", variant: "Warna: INARA PUTIH", comment: "Cantik bgt aslinya! Lebih bagus dr gambar." },
+          { name: "Erika_M", rating: 5, date: "30 Jun 2026", variant: "Warna: INARA HITAM", comment: "Terima kasih Seller! Respon ramah dan mantap." }
+        ]
       },
       {
         id: 5,
-        name: "Elegant Puffy Quilted Handbag",
+        name: "Puffy Quilted Soft Handle Bag",
         price: 175000,
         stock: 230,
         rating: 4.8,
@@ -865,7 +879,46 @@
         },
         img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=500",
         desc: "Tas tangan empuk motif quilted yang super empuk dan nyaman digunakan sehari-hari.",
-        reviews: []
+        reviews: [
+          { name: "Feby_A", rating: 5, date: "04 Ags 2026", variant: "Warna: NUR SMALL PINK", comment: "Empuuukk banget tasnya kaya awan! So cute 💕" },
+          { name: "Grace_S", rating: 5, date: "02 Ags 2026", variant: "Warna: LAYLA PNK", comment: "Warna pink cute banget! Ukuran muat banyak barang." },
+          { name: "Helena_P", rating: 4, date: "29 Jul 2026", variant: "Warna: INARA PUTIH", comment: "Lucu puffy bag gini lagi ngetrend." },
+          { name: "Irmawati", rating: 5, date: "25 Jul 2026", variant: "Warna: NUR SMALL PINK", comment: "Super soft dan jahitannya presisi banget." },
+          { name: "Jasmine_R", rating: 5, date: "21 Jul 2026", variant: "Warna: LAYLA PNK", comment: "Suka banget belanja disini pengiriman super sat-set." },
+          { name: "Kania_D", rating: 5, date: "16 Jul 2026", variant: "Warna: INARA PUTIH", comment: "Aslinya bagus banget, dapet gantungan pita juga." },
+          { name: "Lia_M", rating: 4, date: "12 Jul 2026", variant: "Warna: NUR SMALL PINK", comment: "Tas kesayangan sekarang kalu mau pergi main." },
+          { name: "Mona_L", rating: 5, date: "07 Jul 2026", variant: "Warna: LAYLA PNK", comment: "Bagus tidak mengecewakan sama sekali." },
+          { name: "Novi_S", rating: 5, date: "03 Jul 2026", variant: "Warna: INARA PUTIH", comment: "Kualitas bintang 5 porsi memuaskan!" },
+          { name: "Olla_R", rating: 5, date: "28 Jun 2026", variant: "Warna: NUR SMALL PINK", comment: "Sesuai foto 100%! Next beli varian lain." }
+        ]
+      },
+      {
+        id: 6,
+        name: "Classic Elegant Satchel Shoulder Bag",
+        price: 195000,
+        stock: 150,
+        rating: 4.9,
+        sold: 160,
+        colors: ["LANY HITAM", "LAYLA BROWN", "INARA PUTIH"],
+        colorMap: {
+          "LANY HITAM": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=500",
+          "LAYLA BROWN": "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=500",
+          "INARA PUTIH": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=500"
+        },
+        img: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=500",
+        desc: "Tas gaya klasik formal cocok untuk ke kantor maupun acara resmi.",
+        reviews: [
+          { name: "Putri_A", rating: 5, date: "05 Ags 2026", variant: "Warna: LANY HITAM", comment: "Cocok banget dipake ngantor, kelihatan profesional dan mahal." },
+          { name: "Queen_V", rating: 5, date: "02 Ags 2026", variant: "Warna: LAYLA BROWN", comment: "Bahan kulit sintetisnya premium ga kaku sama sekali." },
+          { name: "Rere_K", rating: 5, date: "30 Jul 2026", variant: "Warna: INARA PUTIH", comment: "Warna putihnya bagus ga gampang kotor." },
+          { name: "Siska_M", rating: 4, date: "26 Jul 2026", variant: "Warna: LANY HITAM", comment: "Resletingnya kuat, ada kompartemen rahasia di dalam." },
+          { name: "Tari_D", rating: 5, date: "21 Jul 2026", variant: "Warna: LAYLA BROWN", comment: "Pengiriman kilat cuma sehari sampe Jakarta." },
+          { name: "Utami_N", rating: 5, date: "17 Jul 2026", variant: "Warna: INARA PUTIH", comment: "Bagus banget recommended seller!" },
+          { name: "Vivi_L", rating: 5, date: "13 Jul 2026", variant: "Warna: LANY HITAM", comment: "Ukurannya sedang ga terlalu besar ga terlalu kecil." },
+          { name: "Wita_S", rating: 4, date: "09 Jul 2026", variant: "Warna: LAYLA BROWN", comment: "Warnanya persis kaya di foto produk." },
+          { name: "Yanti_F", rating: 5, date: "05 Jul 2026", variant: "Warna: INARA PUTIH", comment: "Suka bgt, bahan halus dan fleksibel." },
+          { name: "Zenia_P", rating: 5, date: "01 Jul 2026", variant: "Warna: LANY HITAM", comment: "Sudah order ke 3 kali selalu memuaskan." }
+        ]
       }
     ];
 
@@ -1048,7 +1101,7 @@
       }
     }
 
-    /* MENAMPILKAN SEMUA PRODUK TANPA PEMISAHAN KATEGORI */
+    /* RENDER SEMUA PRODUK */
     function renderCustomerProducts() {
       const grid = document.getElementById('customer-product-list');
       grid.innerHTML = products.map(p => `
@@ -1107,7 +1160,7 @@
 
           <div style="display:flex; gap:10px; margin-top:24px;">
             <button class="btn btn-outline" onclick="addToCart()"><i class="fa-solid fa-cart-plus"></i> + Keranjang</button>
-            <button class="btn btn-primary" onclick="buyNow()">Beli Sekarang</button>
+            <button class="btn btn-primary" onclick="openVariantSheet()">Beli Sekarang</button>
           </div>
         </div>
       `;
@@ -1148,18 +1201,6 @@
       }
       updateCartBadge();
       showToast(`Produk ditambahkan ke keranjang!`);
-    }
-
-    function buyNow() {
-      const activeImg = selectedDetailProduct.colorMap?.[selectedColor] || selectedDetailProduct.img;
-      cart = [{
-        product: selectedDetailProduct,
-        color: selectedColor,
-        selectedImg: activeImg,
-        qty: selectedQuantity
-      }];
-      updateCartBadge();
-      navigateTo('checkout-page');
     }
 
     function updateCartBadge() {
@@ -1225,7 +1266,7 @@
             <img src="${item.selectedImg || item.product.img}" class="cart-img" alt="${item.product.name}">
             <div class="cart-details">
               <div style="font-weight:600; font-size:13px;">${item.product.name}</div>
-              <div style="font-size:11px; color:var(--text-muted);">Warna: ${item.color}</div>
+              <div style="font-size:11px; color:var(--text-muted);">Warna Terpilih: <strong>${item.color}</strong></div>
               <div class="flex-between" style="margin-top:6px;">
                 <span style="font-weight:700; color:var(--primary); font-size:12px;">Rp ${item.product.price.toLocaleString('id-ID')}</span>
                 <span style="font-size:12px;">x${item.qty}</span>
@@ -1242,22 +1283,23 @@
       document.getElementById('checkout-total').innerText = `Rp ${total.toLocaleString('id-ID')}`;
     }
 
-    /* PENGATURAN BOTTOM SHEET SESUAI TAMPILAN FOTO USER DENGAN SEMUA PILIHAN WARNA */
+    /* POP-UP BOTTOM SHEET (DISETUAIKAN WARNA PINK & DIBUKA SEBELUM CHECKOUT) */
     function openVariantSheet() {
-      const targetProd = cart[0]?.product || products[0];
-      selectedDetailProduct = targetProd;
-      selectedColor = targetProd.colors[0];
+      if (!selectedDetailProduct) {
+        selectedDetailProduct = products[0];
+      }
+      selectedColor = selectedDetailProduct.colors[0];
       selectedQuantity = 1;
 
-      document.getElementById('sheet-prod-img').src = targetProd.colorMap?.[selectedColor] || targetProd.img;
-      document.getElementById('sheet-prod-price').innerText = `Rp ${targetProd.price.toLocaleString('id-ID')}`;
-      document.getElementById('sheet-prod-stock').innerText = `Stok: ${targetProd.stock}`;
+      document.getElementById('sheet-prod-img').src = selectedDetailProduct.colorMap?.[selectedColor] || selectedDetailProduct.img;
+      document.getElementById('sheet-prod-price').innerText = `Rp ${selectedDetailProduct.price.toLocaleString('id-ID')}`;
+      document.getElementById('sheet-prod-stock').innerText = `Stok: ${selectedDetailProduct.stock}`;
       document.getElementById('sheet-qty-val').innerText = selectedQuantity;
 
       const optsContainer = document.getElementById('sheet-variant-options');
-      optsContainer.innerHTML = targetProd.colors.map((c, i) => {
-        const thumbImg = targetProd.colorMap?.[c] || targetProd.img;
-        const isHot = i === 0 ? '<span style="color:#FF522B; margin-left:2px;">🔥</span>' : '';
+      optsContainer.innerHTML = selectedDetailProduct.colors.map((c, i) => {
+        const thumbImg = selectedDetailProduct.colorMap?.[c] || selectedDetailProduct.img;
+        const isHot = i === 0 ? '<span style="color:var(--primary); margin-left:2px;">🔥</span>' : '';
         return `
           <div class="variant-card-btn ${i===0?'active':''}" onclick="selectSheetColor('${c}', this, '${thumbImg}')">
             <img src="${thumbImg}" alt="${c}">
@@ -1287,6 +1329,21 @@
       document.getElementById('sheet-qty-val').innerText = selectedQuantity;
     }
 
+    /* LANGKAH MEMILIH WARNA -> LANJUT KE HALAMAN CHECKOUT PEMBAYARAN */
+    function proceedFromSheetToCheckout() {
+      const activeImg = selectedDetailProduct.colorMap?.[selectedColor] || selectedDetailProduct.img;
+      cart = [{
+        product: selectedDetailProduct,
+        color: selectedColor,
+        selectedImg: activeImg,
+        qty: selectedQuantity
+      }];
+      updateCartBadge();
+      closeVariantSheet();
+      navigateTo('checkout-page');
+    }
+
+    /* PROSES MEMBUAT PESANAN FINAL DI HALAMAN CHECKOUT */
     function processOrder() {
       if (cart.length === 0) return;
 
@@ -1306,7 +1363,6 @@
       orders.unshift(newOrder);
 
       cart = [];
-      closeVariantSheet();
       updateCartBadge();
       showToast("Pesanan Berhasil Dibuat!");
       navigateTo('customer-orders-page');
@@ -1448,11 +1504,6 @@
     }
 
     function switchReportTab(type, el) {
-      if (el) {
-        document.querySelectorAll('#admin-reports-page .cat-chip').forEach(c => c.classList.remove('active'));
-        el.classList.add('active');
-      }
-
       const titleEl = document.getElementById('report-title');
       const countEl = document.getElementById('report-count');
       const revenueEl = document.getElementById('report-revenue');
