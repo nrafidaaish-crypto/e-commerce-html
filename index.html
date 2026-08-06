@@ -2,8 +2,8 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Girl's Store - Marketplace Tas Wanita</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Girl's Store - Aesthetic Bag Marketplace</title>
     <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -11,13 +11,15 @@
     <style>
         :root {
             --primary-pink: #ff69b4;
-            --soft-pink: #ffdae9;
-            --deep-pink: #d81b60;
+            --soft-pink: #ffe4e1;
+            --accent-pink: #ff1493;
+            --deep-pink: #c71585;
             --bg-light: #fff5f8;
-            --text-dark: #4a4a4a;
-            --white: #ffffff;
-            --gray-light: #f2f2f2;
-            --orange-shopee: #ee4d2d;
+            --card-bg: #ffffff;
+            --text-dark: #333333;
+            --text-gray: #777777;
+            --shopee-orange: #ee4d2d;
+            --shadow-soft: 0 4px 15px rgba(255, 105, 180, 0.15);
         }
 
         * {
@@ -25,6 +27,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -33,28 +36,49 @@
             max-width: 480px;
             margin: 0 auto;
             min-height: 100vh;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.08);
             position: relative;
-            padding-bottom: 60px;
+            padding-bottom: 65px;
+            overflow-x: hidden;
         }
 
         /* Utility Classes */
         .hidden { display: none !important; }
-        .badge {
-            background-color: var(--deep-pink);
+        
+        /* Toast Notification Custom */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: 90%;
+            max-width: 400px;
+            pointer-events: none;
+        }
+        .toast {
+            background: linear-gradient(135deg, var(--deep-pink), var(--accent-pink));
             color: white;
-            border-radius: 50%;
-            padding: 2px 6px;
-            font-size: 10px;
-            position: absolute;
-            top: 2px;
-            right: 2px;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Top Navigation Header */
+        /* Header Sticky Ala Shopee */
         .app-header {
-            background: linear-gradient(135deg, #ff8da1, #ff69b4);
-            color: var(--white);
+            background: linear-gradient(135deg, #ff8da1, var(--primary-pink));
+            color: white;
             padding: 12px 15px;
             position: sticky;
             top: 0;
@@ -62,16 +86,17 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(255, 105, 180, 0.3);
+            box-shadow: 0 2px 10px rgba(255, 105, 180, 0.25);
         }
 
         .search-bar {
             background: white;
             border-radius: 20px;
-            padding: 6px 12px;
+            padding: 6px 14px;
             display: flex;
             align-items: center;
-            width: 75%;
+            flex: 1;
+            margin: 0 10px;
         }
 
         .search-bar input {
@@ -80,18 +105,31 @@
             margin-left: 8px;
             width: 100%;
             font-size: 12px;
+            color: #333;
         }
 
         .header-icons {
             display: flex;
-            gap: 15px;
+            gap: 16px;
             font-size: 18px;
-            position: relative;
         }
 
         .icon-btn {
             position: relative;
             cursor: pointer;
+        }
+
+        .badge {
+            background-color: var(--accent-pink);
+            color: white;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 9px;
+            font-weight: bold;
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            border: 1px solid white;
         }
 
         /* Bottom Navigation Bar */
@@ -100,12 +138,13 @@
             bottom: 0;
             width: 100%;
             max-width: 480px;
-            background: var(--white);
+            background: white;
             display: flex;
             justify-content: space-around;
             padding: 8px 0;
             border-top: 1px solid var(--soft-pink);
             z-index: 100;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.03);
         }
 
         .nav-item {
@@ -115,10 +154,11 @@
             font-size: 10px;
             color: #888;
             cursor: pointer;
+            transition: color 0.2s;
         }
 
         .nav-item.active {
-            color: var(--deep-pink);
+            color: var(--accent-pink);
             font-weight: 600;
         }
 
@@ -127,18 +167,12 @@
             margin-bottom: 2px;
         }
 
-        /* Login Screen */
+        /* Login Screen & Forms */
         .login-container {
             padding: 30px 20px;
             text-align: center;
             background: white;
             min-height: 100vh;
-        }
-
-        .login-container h2 {
-            color: var(--deep-pink);
-            margin-bottom: 20px;
-            font-weight: 700;
         }
 
         .form-group {
@@ -147,34 +181,42 @@
         }
 
         .form-group label {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             color: #666;
+            margin-bottom: 4px;
+            display: block;
         }
 
-        .form-group input, .form-group select {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
-            padding: 10px;
+            padding: 10px 14px;
             border: 1px solid var(--soft-pink);
-            border-radius: 8px;
-            margin-top: 5px;
+            border-radius: 12px;
             outline: none;
+            font-size: 12px;
+            background: #fffafa;
         }
 
         .btn-pink {
-            background-color: var(--primary-pink);
+            background: linear-gradient(135deg, var(--primary-pink), var(--accent-pink));
             color: white;
             border: none;
             padding: 12px;
             border-radius: 25px;
             width: 100%;
             font-weight: 600;
+            font-size: 13px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(255, 105, 180, 0.4);
-            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(255, 20, 147, 0.3);
+            transition: transform 0.1s;
         }
 
-        /* Product Grid (Shopee Style) */
+        .btn-pink:active {
+            transform: scale(0.98);
+        }
+
+        /* Product Grid (Foto 1 Lookalike) */
         .product-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -184,11 +226,11 @@
 
         .product-card {
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             cursor: pointer;
-            position: relative;
+            border: 1px solid #ffe6ef;
         }
 
         .product-card img {
@@ -209,13 +251,14 @@
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
+            color: #333;
         }
 
         .product-price {
-            color: var(--deep-pink);
+            color: var(--accent-pink);
             font-size: 14px;
-            font-weight: bold;
-            margin-top: 5px;
+            font-weight: 700;
+            margin-top: 4px;
         }
 
         .product-meta {
@@ -224,19 +267,20 @@
             align-items: center;
             font-size: 10px;
             color: #888;
-            margin-top: 5px;
+            margin-top: 6px;
         }
 
         .badge-mall {
-            background: var(--deep-pink);
+            background: var(--accent-pink);
             color: white;
-            font-size: 9px;
-            padding: 1px 4px;
+            font-size: 8px;
+            padding: 2px 4px;
             border-radius: 3px;
             font-weight: bold;
+            margin-right: 3px;
         }
 
-        /* Product Detail View */
+        /* Product Detail View (Foto 2 Lookalike) */
         .detail-container {
             background: white;
             min-height: 100vh;
@@ -248,12 +292,8 @@
             object-fit: cover;
         }
 
-        .detail-content {
-            padding: 15px;
-        }
-
         .detail-price-bar {
-            background: linear-gradient(90deg, #ff69b4, #ff8da1);
+            background: linear-gradient(90deg, var(--accent-pink), var(--primary-pink));
             color: white;
             padding: 10px 15px;
             display: flex;
@@ -261,29 +301,36 @@
             align-items: center;
         }
 
+        .detail-content {
+            padding: 15px;
+        }
+
         .color-variants {
             display: flex;
             gap: 8px;
             overflow-x: auto;
-            padding: 10px 0;
+            padding: 8px 0;
         }
 
         .color-chip {
-            padding: 5px 12px;
-            border: 1px solid #ddd;
-            border-radius: 15px;
+            padding: 6px 14px;
+            border: 1px solid var(--soft-pink);
+            border-radius: 20px;
             font-size: 11px;
             cursor: pointer;
             white-space: nowrap;
+            background: white;
+            color: #555;
         }
 
         .color-chip.selected {
-            border-color: var(--deep-pink);
-            color: var(--deep-pink);
+            border-color: var(--accent-pink);
+            color: var(--accent-pink);
             background: var(--soft-pink);
+            font-weight: 600;
         }
 
-        /* Variation Modal Popup */
+        /* Variation Modal Popup (Foto 4 Lookalike) */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -297,8 +344,8 @@
             background: white;
             width: 100%;
             border-radius: 20px 20px 0 0;
-            padding: 15px;
-            animation: slideUp 0.3s ease-out;
+            padding: 18px;
+            animation: slideUp 0.25s ease-out;
         }
 
         @keyframes slideUp {
@@ -306,71 +353,78 @@
             to { transform: translateY(0); }
         }
 
-        /* Profile Page */
-        .profile-header {
-            background: linear-gradient(135deg, #ff8da1, #ff69b4);
-            color: white;
-            padding: 25px 15px;
-            text-align: center;
-            border-radius: 0 0 20px 20px;
-        }
-
-        .profile-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 3px solid white;
-            object-fit: cover;
-            margin-bottom: 10px;
-        }
-
-        .profile-info-list {
-            background: white;
-            margin: 15px;
-            border-radius: 10px;
-            padding: 10px 15px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
-
-        .info-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--gray-light);
-            font-size: 12px;
-        }
-
-        /* Cart Page */
+        /* Cart Page (Foto 3 Lookalike) */
         .cart-item {
             display: flex;
             align-items: center;
             background: white;
-            padding: 10px;
+            padding: 12px;
             margin: 10px;
-            border-radius: 8px;
+            border-radius: 10px;
             gap: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            border: 1px solid var(--soft-pink);
         }
 
         .cart-item img {
-            width: 70px;
-            height: 70px;
+            width: 75px;
+            height: 75px;
             object-fit: cover;
-            border-radius: 5px;
+            border-radius: 8px;
         }
 
-        /* Admin Styles */
+        /* Profile Page */
+        .profile-header {
+            background: linear-gradient(135deg, #ff8da1, var(--primary-pink));
+            color: white;
+            padding: 30px 15px 20px 15px;
+            text-align: center;
+            border-radius: 0 0 25px 25px;
+        }
+
+        .profile-img {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            border: 3px solid white;
+            object-fit: cover;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .profile-card {
+            background: white;
+            margin: 15px;
+            border-radius: 12px;
+            padding: 12px 16px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--bg-light);
+            font-size: 11px;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        /* Admin Section */
         .admin-card {
             background: white;
             padding: 15px;
             margin: 10px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
         }
 
         .report-tab {
             display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 12px;
         }
 
         .report-tab button {
@@ -379,7 +433,9 @@
             border: 1px solid var(--primary-pink);
             background: white;
             color: var(--primary-pink);
-            border-radius: 5px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
             cursor: pointer;
         }
 
@@ -391,12 +447,15 @@
 </head>
 <body>
 
-    <!-- APP HEADER -->
+    <!-- CUSTOM TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container"></div>
+
+    <!-- APP STICKY HEADER -->
     <div id="main-header" class="app-header hidden">
         <i class="fa-solid fa-arrow-left icon-btn hidden" id="back-btn" onclick="goBack()"></i>
         <div class="search-bar">
             <i class="fa-solid fa-magnifying-glass" style="color: var(--primary-pink);"></i>
-            <input type="text" placeholder="Tas Selempang Cewek Kekinian">
+            <input type="text" placeholder="Tas Wanita Estetik & Cute...">
             <i class="fa-solid fa-camera" style="color: #aaa;"></i>
         </div>
         <div class="header-icons">
@@ -410,17 +469,17 @@
         </div>
     </div>
 
-    <!-- PAGE: LOGIN -->
+    <!-- PAGE 1: LOGIN -->
     <div id="login-page" class="login-container">
-        <div style="margin-top: 40px;">
-            <i class="fa-solid fa-bag-shopping" style="font-size: 50px; color: var(--primary-pink);"></i>
-            <h2 style="margin-top: 10px;">Girl's Store</h2>
-            <p style="font-size: 12px; color: #888; margin-bottom: 30px;">Aesthetic & Elegant Handbag Collection</p>
+        <div style="margin-top: 30px; margin-bottom: 25px;">
+            <i class="fa-solid fa-bag-shopping" style="font-size: 55px; color: var(--accent-pink);"></i>
+            <h2 style="margin-top: 10px; color: var(--accent-pink); font-weight: 700;">Girl's Store</h2>
+            <p style="font-size: 11px; color: #888;">Marketplace Tas Wanita Aesthetic & Cute</p>
         </div>
 
         <div class="form-group">
             <label>Login Sebagai:</label>
-            <select id="login-role" onchange="toggleLoginHint()">
+            <select id="login-role" onchange="autoFillCredentials()">
                 <option value="pelanggan">Pelanggan (Evaline)</option>
                 <option value="admin">Admin (GSTORE)</option>
             </select>
@@ -433,10 +492,10 @@
             <label>Password:</label>
             <input type="password" id="login-password" value="ev01">
         </div>
-        <button class="btn-pink" onclick="handleLogin()">MASUK</button>
+        <button class="btn-pink" style="margin-top: 10px;" onclick="handleLogin()">MASUK</button>
 
-        <div id="login-hint" style="font-size: 11px; color: #888; margin-top: 20px; text-align: left; background: var(--soft-pink); padding: 10px; border-radius: 8px;">
-            <b>Petunjuk Akses Login:</b><br>
+        <div style="font-size: 10px; color: #777; margin-top: 25px; text-align: left; background: var(--soft-pink); padding: 12px; border-radius: 10px;">
+            <b>Kredensial Akses Praktis:</b><br>
             • Pelanggan: Username: <b>evaline</b> | Password: <b>ev01</b><br>
             • Admin: Username: <b>GSTORE</b> | Password: <b>GS01</b>
         </div>
@@ -444,135 +503,139 @@
 
     <!-- ==================== POV PELANGGAN ==================== -->
 
-    <!-- PAGE: CUSTOMER HOME (KATALOG) -->
+    <!-- PAGE 2: HOME KATALOG (FOTO 1) -->
     <div id="customer-home-page" class="hidden">
-        <div style="padding: 10px; background: var(--soft-pink); font-size: 11px; text-align: center; color: var(--deep-pink); font-weight: 600;">
-            ✨ FLASH SALE TAS ELEGAN DISKON UP TO 50% ✨
+        <div style="padding: 8px; background: var(--soft-pink); font-size: 10px; text-align: center; color: var(--deep-pink); font-weight: 600;">
+            ✨ PROMO SUPER SALE DISKON S.D 70% KHUSUS HARI INI ✨
         </div>
         <div class="product-grid" id="product-list">
-            <!-- Dynamic Items Rendered by JS -->
+            <!-- Dynamic Items Loaded via JS -->
         </div>
     </div>
 
-    <!-- PAGE: PRODUCT DETAIL -->
+    <!-- PAGE 3: DETAIL PRODUK (FOTO 2) -->
     <div id="product-detail-page" class="hidden detail-container">
         <img id="detail-img" src="" class="detail-img">
         <div class="detail-price-bar">
             <div>
-                <span style="font-size: 11px;">FLASH SALE</span>
-                <div style="font-size: 18px; font-weight: bold;" id="detail-price">Rp 0</div>
+                <span style="font-size: 9px; background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px;">FLASH SALE</span>
+                <div style="font-size: 18px; font-weight: bold; margin-top: 2px;" id="detail-price">Rp 0</div>
             </div>
-            <div style="font-size: 10px; text-align: right;">
-                BERAKHIR DALAM <br><span style="background: white; color: var(--deep-pink); padding: 2px 4px; border-radius: 3px; font-weight: bold;">02 : 15 : 40</span>
+            <div style="font-size: 9px; text-align: right;">
+                BERAKHIR DALAM<br>
+                <span style="background: white; color: var(--accent-pink); padding: 2px 5px; border-radius: 3px; font-weight: bold;">01 : 45 : 20</span>
             </div>
         </div>
         <div class="detail-content">
-            <span class="badge-mall">Girl's Store Official</span>
-            <h3 id="detail-title" style="font-size: 14px; margin: 8px 0;">Nama Produk</h3>
-            <div style="font-size: 11px; color: #666; margin-bottom: 10px;">
+            <span class="badge-mall">Star+</span> <span style="font-size: 10px; color: #888;">Girl's Store Official</span>
+            <h3 id="detail-title" style="font-size: 14px; margin: 6px 0 8px 0; font-weight: 600;">Nama Produk</h3>
+            <div style="font-size: 11px; color: #666; margin-bottom: 12px;">
                 <i class="fa-solid fa-star" style="color: #ffc107;"></i> <span id="detail-rating">4.8</span> | 10RB+ Terjual
             </div>
 
-            <hr style="border: 0.5px solid var(--gray-light); margin: 10px 0;">
-            <div style="font-size: 12px; font-weight: 600;">Pilihan Warna:</div>
+            <hr style="border: 0.5px solid #ffe6ef; margin: 10px 0;">
+            <div style="font-size: 11px; font-weight: 600; margin-bottom: 5px;">Pilihan Variasi Warna:</div>
             <div class="color-variants" id="detail-colors">
                 <!-- Color chips -->
             </div>
 
-            <hr style="border: 0.5px solid var(--gray-light); margin: 10px 0;">
-            <div style="font-size: 12px; font-weight: 600; margin-bottom: 5px;">Deskripsi Produk:</div>
-            <p id="detail-desc" style="font-size: 11px; color: #555; line-height: 1.5;"></p>
+            <hr style="border: 0.5px solid #ffe6ef; margin: 10px 0;">
+            <div style="font-size: 11px; font-weight: 600; margin-bottom: 5px;">Deskripsi Produk:</div>
+            <p id="detail-desc" style="font-size: 11px; color: #555; line-height: 1.6;"></p>
 
-            <div style="margin-top: 20px; display: flex; gap: 10px;">
-                <button class="btn-pink" style="background: #ffa4d4; flex: 1;" onclick="openVariationModal('cart')">+ Keranjang</button>
+            <div style="margin-top: 25px; display: flex; gap: 10px;">
+                <button class="btn-pink" style="background: #ffb6c1; color: var(--deep-pink); flex: 1;" onclick="openVariationModal('cart')">+ Keranjang</button>
                 <button class="btn-pink" style="flex: 1;" onclick="openVariationModal('buy')">Beli Sekarang</button>
             </div>
         </div>
     </div>
 
-    <!-- VARIATION SELECTION MODAL (FOTO 4) -->
+    <!-- MODAL POPUP VARIASI (FOTO 4) -->
     <div id="variation-modal" class="modal-overlay hidden">
         <div class="modal-content">
-            <div style="display: flex; gap: 10px; position: relative;">
-                <img id="modal-img" src="" style="width: 70px; height: 70px; object-fit: cover; border-radius: 5px;">
+            <div style="display: flex; gap: 12px; position: relative;">
+                <img id="modal-img" src="" style="width: 75px; height: 75px; object-fit: cover; border-radius: 8px;">
                 <div>
-                    <div style="color: var(--deep-pink); font-weight: bold;" id="modal-price">Rp 0</div>
-                    <div style="font-size: 11px; color: #888;">Stok: 999</div>
+                    <div style="color: var(--accent-pink); font-weight: bold; font-size: 16px;" id="modal-price">Rp 0</div>
+                    <div style="font-size: 10px; color: #888; margin-top: 4px;">Stok: 9,999</div>
                 </div>
-                <i class="fa-solid fa-xmark" style="position: absolute; right: 0; top: 0; cursor: pointer;" onclick="closeVariationModal()"></i>
+                <i class="fa-solid fa-circle-xmark" style="position: absolute; right: 0; top: 0; font-size: 20px; color: #aaa; cursor: pointer;" onclick="closeVariationModal()"></i>
             </div>
+            
             <div style="margin-top: 15px;">
-                <div style="font-size: 12px; font-weight: 600; margin-bottom: 8px;">Pilih Warna / Variasi:</div>
+                <div style="font-size: 11px; font-weight: 600; margin-bottom: 8px;">Pilihan Warna:</div>
                 <div class="color-variants" id="modal-color-list" style="flex-wrap: wrap;">
-                    <!-- Color Options -->
+                    <!-- Color Options Dynamic -->
                 </div>
             </div>
+
             <div style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 12px; font-weight: 600;">Jumlah</span>
+                <span style="font-size: 11px; font-weight: 600;">Jumlah</span>
                 <div style="display: flex; gap: 10px; align-items: center;">
-                    <button style="width: 25px; height: 25px; border: 1px solid #ccc; background: white;" onclick="alterQty(-1)">-</button>
-                    <span id="modal-qty" style="font-size: 12px;">1</span>
-                    <button style="width: 25px; height: 25px; border: 1px solid #ccc; background: white;" onclick="alterQty(1)">+</button>
+                    <button style="width: 28px; height: 28px; border: 1px solid #ddd; background: white; border-radius: 4px;" onclick="alterQty(-1)">-</button>
+                    <span id="modal-qty" style="font-size: 12px; font-weight: 600;">1</span>
+                    <button style="width: 28px; height: 28px; border: 1px solid #ddd; background: white; border-radius: 4px;" onclick="alterQty(1)">+</button>
                 </div>
             </div>
+
             <button class="btn-pink" style="margin-top: 20px;" onclick="confirmVariation()">KONFIRMASI</button>
         </div>
     </div>
 
-    <!-- PAGE: CART (FOTO 3) -->
+    <!-- PAGE 4: KERANJANG BELANJA (FOTO 3) -->
     <div id="cart-page" class="hidden">
-        <div style="padding: 10px; font-size: 14px; font-weight: 600; background: white; border-bottom: 1px solid #eee;">
+        <div style="padding: 12px 15px; font-size: 13px; font-weight: 600; background: white; border-bottom: 1px solid #ffe6ef;">
             Keranjang Saya
         </div>
-        <div id="cart-items-container">
-            <!-- Items injected here -->
+        <div id="cart-items-container" style="padding-bottom: 120px;">
+            <!-- Cart items loaded here -->
         </div>
-        <div style="position: fixed; bottom: 50px; width: 100%; max-width: 480px; background: white; padding: 10px 15px; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+        <div style="position: fixed; bottom: 50px; width: 100%; max-width: 480px; background: white; padding: 10px 15px; border-top: 1px solid #ffe6ef; display: flex; justify-content: space-between; align-items: center; z-index: 99;">
             <div>
-                <span style="font-size: 11px; color: #666;">Total:</span>
-                <div style="color: var(--deep-pink); font-weight: bold; font-size: 14px;" id="cart-total-price">Rp 0</div>
+                <span style="font-size: 10px; color: #666;">Total Harga:</span>
+                <div style="color: var(--accent-pink); font-weight: bold; font-size: 15px;" id="cart-total-price">Rp 0</div>
             </div>
             <button class="btn-pink" style="width: auto; padding: 10px 25px;" onclick="proceedToCheckoutFromCart()">Checkout</button>
         </div>
     </div>
 
-    <!-- PAGE: CHECKOUT (FOTO 5) -->
-    <div id="checkout-page" class="hidden" style="background: #f5f5f5; min-height: 100vh; padding-bottom: 80px;">
+    <!-- PAGE 5: CHECKOUT & PEMBAYARAN (FOTO 5) -->
+    <div id="checkout-page" class="hidden" style="background: #f7f7f7; min-height: 100vh; padding-bottom: 90px;">
         <!-- Alamat Pengiriman -->
-        <div style="background: white; padding: 12px; margin-bottom: 8px;">
-            <div style="font-size: 12px; font-weight: bold; color: var(--deep-pink);"><i class="fa-solid fa-location-dot"></i> Alamat Pengiriman</div>
-            <div style="font-size: 11px; font-weight: bold; margin-top: 5px;" id="checkout-customer-name">Evaline Sydney (+62 861929306482)</div>
-            <div style="font-size: 11px; color: #666;" id="checkout-customer-address">Jl. Anggrek No 20, Bandung, Jawa Timur, Indonesia</div>
+        <div style="background: white; padding: 12px 15px; margin-bottom: 8px; border-bottom: 2px dashed var(--primary-pink);">
+            <div style="font-size: 11px; font-weight: bold; color: var(--accent-pink);"><i class="fa-solid fa-location-dot"></i> Alamat Pengiriman</div>
+            <div style="font-size: 11px; font-weight: bold; margin-top: 4px;" id="checkout-customer-name">Evaline Sydney (+62 861929306482)</div>
+            <div style="font-size: 10px; color: #666;" id="checkout-customer-address">Jl. Anggrek No 20, Bandung, Jawa Timur, Indonesia</div>
         </div>
 
         <!-- Rincian Produk -->
-        <div style="background: white; padding: 12px; margin-bottom: 8px;">
-            <div style="font-size: 11px; font-weight: bold; margin-bottom: 10px;">Girl's Store</div>
+        <div style="background: white; padding: 12px 15px; margin-bottom: 8px;">
+            <div style="font-size: 11px; font-weight: bold; margin-bottom: 10px;">Girl's Store Official</div>
             <div id="checkout-items-list"></div>
         </div>
 
         <!-- Opsi Pengiriman -->
-        <div style="background: white; padding: 12px; margin-bottom: 8px; font-size: 11px;">
+        <div style="background: white; padding: 12px 15px; margin-bottom: 8px; font-size: 11px;">
             <div style="display: flex; justify-content: space-between; font-weight: bold; color: #26aa99;">
                 <span>Opsi Pengiriman: Reguler</span>
                 <span>Rp 8.000</span>
             </div>
-            <div style="color: #888; font-size: 10px; margin-top: 2px;">Akan diterima dalam 2-3 hari</div>
+            <div style="color: #888; font-size: 10px; margin-top: 2px;">Garansi Tiba Dalam 2-3 Hari</div>
         </div>
 
         <!-- Payment Total Bar -->
         <div style="position: fixed; bottom: 0; width: 100%; max-width: 480px; background: white; padding: 10px 15px; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; z-index: 101;">
             <div>
                 <span style="font-size: 10px; color: #888;">Total Pembayaran</span>
-                <div style="color: var(--deep-pink); font-weight: bold; font-size: 15px;" id="checkout-final-price">Rp 0</div>
+                <div style="color: var(--accent-pink); font-weight: bold; font-size: 15px;" id="checkout-final-price">Rp 0</div>
             </div>
-            <button class="btn-pink" style="width: auto; padding: 10px 20px;" onclick="placeOrder()">Buat Pesanan</button>
+            <button class="btn-pink" style="width: auto; padding: 10px 22px;" onclick="placeOrder()">Buat Pesanan</button>
         </div>
     </div>
 
-    <!-- PAGE: ORDER HISTORY (PELANGGAN & ADMIN) -->
-    <div id="orders-page" class="hidden" style="padding: 10px;">
-        <h4 style="margin-bottom: 10px; color: var(--deep-pink);">Riwayat Pesanan</h4>
+    <!-- PAGE 6: RIWAYAT PESANAN -->
+    <div id="orders-page" class="hidden" style="padding: 12px;">
+        <h4 style="margin-bottom: 12px; color: var(--accent-pink); font-size: 13px;">Riwayat Pesanan Transaksi</h4>
         <div id="orders-history-list">
             <!-- Dynamic Orders -->
         </div>
@@ -580,98 +643,101 @@
 
     <!-- ==================== POV ADMIN ==================== -->
 
-    <!-- PAGE: ADMIN DASHBOARD -->
+    <!-- PAGE 7: ADMIN DASHBOARD -->
     <div id="admin-dashboard-page" class="hidden">
-        <div style="padding: 15px; background: var(--primary-pink); color: white; border-radius: 0 0 15px 15px;">
-            <h3>Dashboard Admin</h3>
-            <p style="font-size: 11px;">Selamat Datang, Sabine Rylee (GSTORE)</p>
+        <div style="padding: 18px 15px; background: linear-gradient(135deg, #ff8da1, var(--primary-pink)); color: white; border-radius: 0 0 20px 20px;">
+            <h3 style="font-size: 16px;">Dashboard Admin Toko</h3>
+            <p style="font-size: 11px; opacity: 0.9;">Selamat datang, Sabine Rylee (GSTORE)</p>
         </div>
 
-        <!-- Action Section -->
+        <!-- Form Input Barang -->
         <div class="admin-card">
-            <h4 style="font-size: 12px; margin-bottom: 10px;">Tambah Barang Baru</h4>
+            <h4 style="font-size: 12px; margin-bottom: 10px; color: var(--deep-pink);">+ Input Barang Baru</h4>
             <div class="form-group">
-                <input type="text" id="add-name" placeholder="Nama Tas">
+                <input type="text" id="add-name" placeholder="Nama Tas Wanita">
             </div>
             <div class="form-group">
                 <input type="number" id="add-price" placeholder="Harga (Rp)">
             </div>
             <div class="form-group">
-                <input type="text" id="add-img" placeholder="URL Gambar Tas">
+                <input type="text" id="add-img" placeholder="URL Gambar Tas (Opsional)">
             </div>
-            <button class="btn-pink" onclick="addNewProduct()" style="padding: 8px; font-size: 12px;">+ Input Barang</button>
+            <button class="btn-pink" onclick="addNewProduct()" style="padding: 10px; font-size: 12px;">Simpan & Tambahkan Barang</button>
         </div>
 
+        <!-- View Barang -->
         <div class="admin-card">
-            <h4 style="font-size: 12px; margin-bottom: 10px;">Daftar Barang (View)</h4>
-            <div id="admin-product-list" style="max-height: 200px; overflow-y: auto;">
+            <h4 style="font-size: 12px; margin-bottom: 10px; color: var(--deep-pink);">Daftar Stok Barang (View)</h4>
+            <div id="admin-product-list" style="max-height: 220px; overflow-y: auto;">
                 <!-- List for admin -->
             </div>
         </div>
     </div>
 
-    <!-- PAGE: ADMIN LAPORAN -->
+    <!-- PAGE 8: ADMIN LAPORAN -->
     <div id="admin-reports-page" class="hidden">
         <div class="admin-card">
-            <h3>Laporan Penjualan</h3>
-            <div class="report-tab" style="margin-top: 10px;">
+            <h3 style="font-size: 14px; color: var(--deep-pink);">Laporan Penjualan Toko</h3>
+            <div class="report-tab" style="margin-top: 12px;">
                 <button class="active" onclick="showReport('harian', this)">Harian</button>
                 <button onclick="showReport('bulanan', this)">Bulanan</button>
                 <button onclick="showReport('tahunan', this)">Tahunan</button>
             </div>
-            <div id="report-content" style="font-size: 12px; background: var(--bg-light); padding: 15px; border-radius: 8px;">
-                <!-- Report Dynamic Content -->
+            <div id="report-content" style="font-size: 12px; background: var(--bg-light); padding: 15px; border-radius: 10px; border: 1px solid var(--soft-pink);">
+                <!-- Dynamic Report Content -->
             </div>
         </div>
     </div>
 
-    <!-- PAGE: PROFILE (ADMIN / PELANGGAN) -->
+    <!-- PAGE 9: PROFILE (ADMIN & PELANGGAN) -->
     <div id="profile-page" class="hidden">
         <div class="profile-header">
             <img id="profile-img" src="" class="profile-img">
-            <h3 id="profile-name">Nama Profil</h3>
-            <p id="profile-role-tag" style="font-size: 11px; opacity: 0.9;">Role</p>
+            <h3 id="profile-name" style="font-size: 15px;">Nama Profil</h3>
+            <p id="profile-role-tag" style="font-size: 10px; opacity: 0.9; margin-top: 2px;">Role</p>
         </div>
-        <div class="profile-info-list">
-            <div class="info-item">
-                <span>E-Mail</span>
+        
+        <div class="profile-card">
+            <div class="info-row">
+                <span style="color: #777;">E-Mail</span>
                 <b id="profile-email">-</b>
             </div>
-            <div class="info-item">
-                <span>No. Telepon</span>
+            <div class="info-row">
+                <span style="color: #777;">No. Telepon</span>
                 <b id="profile-phone">-</b>
             </div>
-            <div class="info-item">
-                <span>Alamat</span>
+            <div class="info-row">
+                <span style="color: #777;">Alamat</span>
                 <b id="profile-address" style="text-align: right; max-width: 60%;">-</b>
             </div>
         </div>
+
         <div style="padding: 0 15px;">
-            <button class="btn-pink" style="background: #555;" onclick="logout()">LOGOUT</button>
+            <button class="btn-pink" style="background: #666; box-shadow: none;" onclick="logout()">LOGOUT / KELUAR</button>
         </div>
     </div>
 
     <!-- BOTTOM NAVBAR -->
     <div id="bottom-nav" class="navbar-bottom hidden">
-        <!-- Dynamic Nav Links depending on Role -->
+        <!-- Dynamic Nav Links via JS -->
     </div>
 
     <script>
         // DATA INITIALIZATION
-        const defaultProducts = [
-            { id: 1, name: "Shoulder Bag Charles & Keith", price: 450000, rating: 4.9, location: "JAKARTA SELATAN", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500", desc: "Shoulder bag sintetis leather impor elegan, kokoh dengan tali rantai adjustable." },
-            { id: 2, name: "Sling Bag CoralDaisy", price: 185000, rating: 4.8, location: "KOTA TANGERANG", img: "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=500", desc: "Sling bag cute motif floral minimalis sangat cocok untuk dipakai hang out sehari-hari." },
-            { id: 3, name: "Tote Bag Hermes", price: 1250000, rating: 5.0, location: "JAKARTA PUSAT", img: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500", desc: "Tote bag premium leather mewaha, muat laptop dan perlengkapan harian wanita karir." },
-            { id: 4, name: "Tote Bag Chanel", price: 1100000, rating: 4.9, location: "JAKARTA BARAT", img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500", desc: "Quilted Tote bag elegan bernuansa feminin dengan detail logo dan bahan premium." },
-            { id: 5, name: "Shoulder Bag Stradivarius", price: 299000, rating: 4.7, location: "KAB. BOGOR", img: "https://images.unsplash.com/photo-1591561954557-26941169b49e?w=500", desc: "Tas bahu santai kekinian berdesain simpel dan chic untuk kebutuhan outfit aesthetic." },
-            { id: 6, name: "Sling Bag Jims Honey", price: 145000, rating: 4.8, location: "BANDUNG", img: "https://images.unsplash.com/photo-1614179924047-e1ab49a0a0cf?w=500", desc: "Slingbag manis berukuran compact dengan compartment teratur untuk koin dan HP." },
-            { id: 7, name: "Sling Bag Mossdom", price: 179000, rating: 4.8, location: "KOTA BEKASI", img: "https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?w=500", desc: "Desain Korean look modern dengan warna pastel halus dan daya tahan bahan luar biasa." },
-            { id: 8, name: "Shoulder Bag Rainsmore", price: 210000, rating: 4.6, location: "KOTA DEPOK", img: "https://images.unsplash.com/photo-1523779107402-423531b7d5fa?w=500", desc: "Bahan waterproof sintetis dengan aksen pita cute di bagian sisi depan." },
-            { id: 9, name: "Tote Bag Bostanten", price: 320000, rating: 4.9, location: "JAKARTA UTARA", img: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500", desc: "Kapasitas besar, kulit sintetis tebal tidak gampang terkelupas, rapi & berkelas." },
-            { id: 10, name: "Shoulder Bag ZALORA", price: 250000, rating: 4.7, location: "JAKARTA SELATAN", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500", desc: "Trendy shoulder bag cocok disepadankan dengan dress casual maupun formal." }
-        ];
-
         const availableColors = ["Cream", "Putih", "Hitam", "Coklat Tua", "Maroon", "Pink", "Biru Muda"];
+
+        const defaultProducts = [
+            { id: 1, name: "Shoulder Bag Charles & Keith Premium", price: 450000, rating: 4.9, location: "JAKARTA SELATAN", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500", desc: "Shoulder bag sintetis leather impor elegan, kokoh dengan tali rantai adjustable dan ruang penyimpanan luas." },
+            { id: 2, name: "Sling Bag CoralDaisy Cute Series", price: 185000, rating: 4.8, location: "KOTA TANGERANG", img: "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=500", desc: "Sling bag cute motif halus minimalis sangat cocok untuk dipakai hang out harian bersama teman." },
+            { id: 3, name: "Tote Bag Hermes Leather Classy", price: 1250000, rating: 5.0, location: "JAKARTA PUSAT", img: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500", desc: "Tote bag premium leather mewah, muat laptop dan perlengkapan harian wanita karir secara rapi." },
+            { id: 4, name: "Tote Bag Chanel Quilted Elegant", price: 1100000, rating: 4.9, location: "JAKARTA BARAT", img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500", desc: "Quilted Tote bag elegan bernuansa feminin dengan detail jahitan presisi dan bahan tahan air." },
+            { id: 5, name: "Shoulder Bag Stradivarius Aesthetic", price: 299000, rating: 4.7, location: "KAB. BOGOR", img: "https://images.unsplash.com/photo-1591561954557-26941169b49e?w=500", desc: "Tas bahu santai kekinian berdesain simpel dan chic untuk melengkapi outfit estetik harianmu." },
+            { id: 6, name: "Sling Bag Jims Honey Sweet Pastel", price: 145000, rating: 4.8, location: "BANDUNG", img: "https://images.unsplash.com/photo-1614179924047-e1ab49a0a0cf?w=500", desc: "Slingbag manis berukuran compact dengan resleting ganda dan tempat khusus kartu." },
+            { id: 7, name: "Sling Bag Mossdom Korean Style", price: 179000, rating: 4.8, location: "KOTA BEKASI", img: "https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?w=500", desc: "Desain Korean look modern dengan warna pastel halus dan ketahanan bahan yang luar biasa." },
+            { id: 8, name: "Shoulder Bag Rainsmore Waterproof", price: 210000, rating: 4.6, location: "KOTA DEPOK", img: "https://images.unsplash.com/photo-1523779107402-423531b7d5fa?w=500", desc: "Bahan waterproof sintetis berkualitas tinggi dengan aksen cute yang anggun." },
+            { id: 9, name: "Tote Bag Bostanten Big Capacity", price: 320000, rating: 4.9, location: "JAKARTA UTARA", img: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500", desc: "Kapasitas besar, kulit sintetis tebal tidak mudah terkelupas, serta kuat menahan beban berat." },
+            { id: 10, name: "Shoulder Bag ZALORA Casual Chic", price: 250000, rating: 4.7, location: "JAKARTA SELATAN", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500", desc: "Trendy shoulder bag cocok disepadankan dengan dress casual maupun pakaian formal kerja." }
+        ];
 
         const userProfiles = {
             admin: {
@@ -692,24 +758,39 @@
             }
         };
 
-        // APP STATE
+        // STATE SYSTEM
         let products = [...defaultProducts];
         let cart = [];
         let orders = [];
         let currentUserRole = null;
-        let selectedProductForModal = null;
+        let selectedProduct = null;
         let selectedColor = availableColors[0];
         let modalQty = 1;
-        let modalActionTarget = 'cart'; // 'cart' or 'buy'
+        let modalTargetAction = 'cart';
 
-        // INITIALIZATION
+        // TOAST NOTIFICATION SYSTEM (No alert)
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerText = message;
+            container.appendChild(toast);
+
+            setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        // INITIAL LOAD
         window.onload = function() {
             renderCustomerProducts();
         };
 
-        function toggleLoginHint() {
+        function autoFillCredentials() {
             const role = document.getElementById('login-role').value;
-            if(role === 'admin') {
+            if (role === 'admin') {
                 document.getElementById('login-username').value = 'GSTORE';
                 document.getElementById('login-password').value = 'GS01';
             } else {
@@ -718,7 +799,7 @@
             }
         }
 
-        // LOGIN SYSTEM
+        // LOGIN PROCESS
         function handleLogin() {
             const role = document.getElementById('login-role').value;
             const un = document.getElementById('login-username').value;
@@ -729,12 +810,14 @@
                 setupNavigation();
                 showPage('admin-dashboard-page');
                 renderAdminProducts();
+                showToast('Login Berhasil sebagai Admin!');
             } else if (role === 'pelanggan' && un === 'evaline' && pw === 'ev01') {
                 currentUserRole = 'pelanggan';
                 setupNavigation();
                 showPage('customer-home-page');
+                showToast('Login Berhasil! Selamat Datang Evaline');
             } else {
-                alert('Username atau Password Salah!');
+                showToast('Username atau Password Anda Salah!');
             }
         }
 
@@ -743,9 +826,10 @@
             document.getElementById('main-header').classList.add('hidden');
             document.getElementById('bottom-nav').classList.add('hidden');
             showPage('login-page');
+            showToast('Anda telah keluar dari aplikasi.');
         }
 
-        // NAVIGATION SETUP
+        // NAVIGATION CONTROL
         function setupNavigation() {
             document.getElementById('main-header').classList.remove('hidden');
             const nav = document.getElementById('bottom-nav');
@@ -756,42 +840,36 @@
                     <div class="nav-item active" onclick="showPage('admin-dashboard-page', this)"><i class="fa-solid fa-chart-line"></i>Dashboard</div>
                     <div class="nav-item" onclick="showPage('admin-reports-page', this)"><i class="fa-solid fa-file-invoice-dollar"></i>Laporan</div>
                     <div class="nav-item" onclick="showPage('orders-page', this)"><i class="fa-solid fa-box"></i>Pesanan</div>
-                    <div class="nav-item" onclick="showPage('profile-page', this)"><i class="fa-solid fa-user"></i>Saya</div>
+                    <div class="nav-item" onclick="showPage('profile-page', this)"><i class="fa-solid fa-user"></i>Profil</div>
                 `;
             } else {
                 nav.innerHTML = `
                     <div class="nav-item active" onclick="showPage('customer-home-page', this)"><i class="fa-solid fa-house"></i>Beranda</div>
                     <div class="nav-item" onclick="showPage('orders-page', this)"><i class="fa-solid fa-receipt"></i>Pesanan</div>
-                    <div class="nav-item" onclick="showPage('profile-page', this)"><i class="fa-solid fa-user"></i>Saya</div>
+                    <div class="nav-item" onclick="showPage('profile-page', this)"><i class="fa-solid fa-user"></i>Profil</div>
                 `;
             }
         }
 
         function showPage(pageId, navEl = null) {
-            // Hide all pages
             const pages = ['login-page', 'customer-home-page', 'product-detail-page', 'cart-page', 'checkout-page', 'orders-page', 'admin-dashboard-page', 'admin-reports-page', 'profile-page'];
             pages.forEach(p => document.getElementById(p).classList.add('hidden'));
 
-            // Show selected page
             document.getElementById(pageId).classList.remove('hidden');
 
-            // Header Back Button
+            // Header Back Button Dynamic
             if (pageId === 'customer-home-page' || pageId === 'admin-dashboard-page' || pageId === 'login-page') {
                 document.getElementById('back-btn').classList.add('hidden');
             } else {
                 document.getElementById('back-btn').classList.remove('hidden');
             }
 
-            // Profile data binding
-            if (pageId === 'profile-page') {
-                loadProfileData();
-            }
+            // Bind profile info on view
+            if (pageId === 'profile-page') loadProfileData();
+            if (pageId === 'orders-page') renderOrderHistory();
+            if (pageId === 'cart-page') renderCartPage();
+            if (pageId === 'admin-reports-page') showReport('harian', document.querySelector('.report-tab button'));
 
-            if (pageId === 'orders-page') {
-                renderOrderHistory();
-            }
-
-            // Navbar Active state
             if (navEl) {
                 document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
                 navEl.classList.add('active');
@@ -799,21 +877,21 @@
         }
 
         function goBack() {
-            if(currentUserRole === 'admin') {
+            if (currentUserRole === 'admin') {
                 showPage('admin-dashboard-page');
             } else {
                 showPage('customer-home-page');
             }
         }
 
-        // RENDER PRODUCTS (FOTO 1 LOOK-ALIKE)
+        // RENDER PRODUCTS KATALOG (FOTO 1)
         function renderCustomerProducts() {
             const container = document.getElementById('product-list');
             container.innerHTML = products.map(p => `
                 <div class="product-card" onclick="openProductDetail(${p.id})">
                     <img src="${p.img}" alt="${p.name}">
                     <div class="product-info">
-                        <div class="product-title"><span class="badge-mall">Mall</span> ${p.name}</div>
+                        <div class="product-title"><span class="badge-mall">Mall</span>${p.name}</div>
                         <div class="product-price">Rp ${p.price.toLocaleString('id-ID')}</div>
                         <div class="product-meta">
                             <span><i class="fa-solid fa-star" style="color: #ffc107;"></i> ${p.rating}</span>
@@ -824,18 +902,16 @@
             `).join('');
         }
 
-        // DETAIL PRODUCT VIEW (FOTO 2)
+        // PRODUCT DETAIL PAGE (FOTO 2)
         function openProductDetail(id) {
-            const p = products.find(prod => prod.id === id);
-            selectedProductForModal = p;
+            selectedProduct = products.find(p => p.id === id);
 
-            document.getElementById('detail-img').src = p.img;
-            document.getElementById('detail-title').innerText = p.name;
-            document.getElementById('detail-price').innerText = `Rp ${p.price.toLocaleString('id-ID')}`;
-            document.getElementById('detail-rating').innerText = p.rating;
-            document.getElementById('detail-desc').innerText = p.desc;
+            document.getElementById('detail-img').src = selectedProduct.img;
+            document.getElementById('detail-title').innerText = selectedProduct.name;
+            document.getElementById('detail-price').innerText = `Rp ${selectedProduct.price.toLocaleString('id-ID')}`;
+            document.getElementById('detail-rating').innerText = selectedProduct.rating;
+            document.getElementById('detail-desc').innerText = selectedProduct.desc;
 
-            // Colors
             const colorContainer = document.getElementById('detail-colors');
             colorContainer.innerHTML = availableColors.map((c, i) => `
                 <div class="color-chip ${i===0?'selected':''}">${c}</div>
@@ -844,12 +920,12 @@
             showPage('product-detail-page');
         }
 
-        // VARIATION MODAL (FOTO 4)
-        function openVariationModal(actionTarget) {
-            modalActionTarget = actionTarget;
-            document.getElementById('modal-img').src = selectedProductForModal.img;
-            document.getElementById('modal-price').innerText = `Rp ${selectedProductForModal.price.toLocaleString('id-ID')}`;
-            
+        // VARIATION SELECTION MODAL (FOTO 4)
+        function openVariationModal(targetAction) {
+            modalTargetAction = targetAction;
+            document.getElementById('modal-img').src = selectedProduct.img;
+            document.getElementById('modal-price').innerText = `Rp ${selectedProduct.price.toLocaleString('id-ID')}`;
+
             const list = document.getElementById('modal-color-list');
             list.innerHTML = availableColors.map((c, idx) => `
                 <div class="color-chip ${idx === 0 ? 'selected' : ''}" onclick="selectModalColor('${c}', this)">${c}</div>
@@ -881,30 +957,29 @@
 
         function confirmVariation() {
             closeVariationModal();
-            if (modalActionTarget === 'cart') {
-                // Add to Cart
+            if (modalTargetAction === 'cart') {
                 cart.push({
-                    product: selectedProductForModal,
+                    product: selectedProduct,
                     color: selectedColor,
                     qty: modalQty
                 });
                 updateCartBadge();
-                alert('Produk berhasil ditambahkan ke keranjang!');
+                showToast(`+${modalQty} Barang berhasil masuk ke Keranjang!`);
             } else {
-                // Buy Direct -> Go to Checkout
-                renderCheckoutPage([{ product: selectedProductForModal, color: selectedColor, qty: modalQty }]);
+                renderCheckoutPage([{ product: selectedProduct, color: selectedColor, qty: modalQty }]);
             }
         }
 
         function updateCartBadge() {
-            document.getElementById('cart-badge').innerText = cart.length;
+            const count = cart.reduce((acc, curr) => acc + curr.qty, 0);
+            document.getElementById('cart-badge').innerText = count;
         }
 
         // CART PAGE LOGIC (FOTO 3)
         function renderCartPage() {
             const container = document.getElementById('cart-items-container');
             if (cart.length === 0) {
-                container.innerHTML = `<div style="text-align: center; padding: 40px; color: #888;">Keranjang belanja kamu masih kosong.</div>`;
+                container.innerHTML = `<div style="text-align: center; padding: 50px 20px; color: #888; font-size: 12px;">Keranjang belanja kamu masih kosong.</div>`;
                 document.getElementById('cart-total-price').innerText = "Rp 0";
                 return;
             }
@@ -914,15 +989,15 @@
                 total += item.product.price * item.qty;
                 return `
                     <div class="cart-item">
-                        <input type="checkbox" checked>
+                        <input type="checkbox" checked style="accent-color: var(--accent-pink);">
                         <img src="${item.product.img}">
                         <div style="flex: 1; font-size: 11px;">
-                            <b>${item.product.name}</b>
-                            <div style="color: #888;">Variasi: ${item.color}</div>
-                            <div style="color: var(--deep-pink); font-weight: bold; margin-top: 5px;">Rp ${item.product.price.toLocaleString('id-ID')}</div>
-                            <div style="margin-top: 5px;">Jumlah: ${item.qty}</div>
+                            <b style="color: #333;">${item.product.name}</b>
+                            <div style="color: #888; margin-top: 2px;">Warna: ${item.color}</div>
+                            <div style="color: var(--accent-pink); font-weight: bold; margin-top: 4px;">Rp ${item.product.price.toLocaleString('id-ID')}</div>
+                            <div style="margin-top: 4px; color: #555;">Jumlah: ${item.qty}</div>
                         </div>
-                        <i class="fa-solid fa-trash" style="color: #ff4d4d; cursor: pointer;" onclick="removeFromCart(${index})"></i>
+                        <i class="fa-solid fa-trash" style="color: #ff4d4d; cursor: pointer; padding: 5px;" onclick="removeFromCart(${index})"></i>
                     </div>
                 `;
             }).join('');
@@ -934,17 +1009,18 @@
             cart.splice(index, 1);
             updateCartBadge();
             renderCartPage();
+            showToast('Item berhasil dihapus dari keranjang');
         }
 
         function proceedToCheckoutFromCart() {
-            if (cart.length === 0) return alert('Keranjang kosong!');
+            if (cart.length === 0) return showToast('Keranjang kamu masih kosong!');
             renderCheckoutPage([...cart]);
         }
 
         // CHECKOUT PAGE LOGIC (FOTO 5)
-        let checkoutItems = [];
+        let activeCheckoutItems = [];
         function renderCheckoutPage(items) {
-            checkoutItems = items;
+            activeCheckoutItems = items;
             showPage('checkout-page');
 
             const container = document.getElementById('checkout-items-list');
@@ -954,17 +1030,17 @@
                 subtotal += (i.product.price * i.qty);
                 return `
                     <div style="display: flex; gap: 10px; margin-bottom: 10px; font-size: 11px;">
-                        <img src="${i.product.img}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                        <img src="${i.product.img}" style="width: 55px; height: 55px; object-fit: cover; border-radius: 6px;">
                         <div>
-                            <div>${i.product.name}</div>
+                            <div style="font-weight: 500;">${i.product.name}</div>
                             <div style="color: #888;">Variasi: ${i.color}</div>
-                            <div style="color: var(--deep-pink); font-weight: bold;">Rp ${i.product.price.toLocaleString('id-ID')} x ${i.qty}</div>
+                            <div style="color: var(--accent-pink); font-weight: bold;">Rp ${i.product.price.toLocaleString('id-ID')} x ${i.qty}</div>
                         </div>
                     </div>
                 `;
             }).join('');
 
-            const grandTotal = subtotal + 8000; // Ongkir
+            const grandTotal = subtotal + 8000;
             document.getElementById('checkout-final-price').innerText = `Rp ${grandTotal.toLocaleString('id-ID')}`;
         }
 
@@ -972,42 +1048,42 @@
             const newOrder = {
                 id: 'GST' + Math.floor(100000 + Math.random() * 900000),
                 customer: userProfiles.pelanggan.name,
-                items: checkoutItems,
+                items: activeCheckoutItems,
                 date: new Date().toLocaleDateString('id-ID'),
                 status: 'Perlu Dikemas'
             };
 
             orders.push(newOrder);
-            cart = []; // clear cart if checkout done
+            cart = [];
             updateCartBadge();
 
-            alert('Pembayaran Berhasil! Pesanan Anda telah dibuat.');
+            showToast('Pesanan Berhasil Dibuat & Dibayar!');
             showPage('orders-page');
         }
 
-        // ORDER HISTORY
+        // RENDER ORDER HISTORY
         function renderOrderHistory() {
             const container = document.getElementById('orders-history-list');
             if (orders.length === 0) {
-                container.innerHTML = `<div style="text-align: center; color: #888; padding: 20px;">Belum ada pesanan.</div>`;
+                container.innerHTML = `<div style="text-align: center; color: #888; padding: 30px; font-size: 12px;">Belum ada transaksi riwayat pesanan.</div>`;
                 return;
             }
 
             container.innerHTML = orders.map(o => `
-                <div style="background: white; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 11px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                    <div style="display: flex; justify-content: space-between; font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 5px;">
-                        <span>ID: ${o.id}</span>
-                        <span style="color: var(--deep-pink);">${o.status}</span>
+                <div style="background: white; padding: 12px; border-radius: 10px; margin-bottom: 10px; font-size: 11px; box-shadow: var(--shadow-soft);">
+                    <div style="display: flex; justify-content: space-between; font-weight: bold; border-bottom: 1px solid #ffe6ef; padding-bottom: 6px;">
+                        <span>No. Order: ${o.id}</span>
+                        <span style="color: var(--accent-pink);">${o.status}</span>
                     </div>
                     <div style="margin: 8px 0;">
-                        ${o.items.map(it => `<div>• ${it.product.name} (${it.color}) x${it.qty}</div>`).join('')}
+                        ${o.items.map(it => `<div style="margin-bottom: 3px;">• ${it.product.name} (${it.color}) x${it.qty}</div>`).join('')}
                     </div>
-                    <div style="text-align: right; color: #888; font-size: 10px;">Tanggal: ${o.date}</div>
+                    <div style="text-align: right; color: #888; font-size: 10px;">Tanggal Pembelian: ${o.date}</div>
                 </div>
             `).join('');
         }
 
-        // PROFILE LOADER
+        // PROFILE BINDING
         function loadProfileData() {
             const p = userProfiles[currentUserRole];
             document.getElementById('profile-img').src = p.img;
@@ -1018,13 +1094,13 @@
             document.getElementById('profile-address').innerText = p.address;
         }
 
-        // ADMIN FUNCTIONS
+        // ADMIN FEATURES
         function renderAdminProducts() {
             const container = document.getElementById('admin-product-list');
             container.innerHTML = products.map((p, idx) => `
-                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; padding: 5px 0; border-bottom: 1px solid #eee;">
-                    <span>${p.name} - Rp ${p.price.toLocaleString('id-ID')}</span>
-                    <i class="fa-solid fa-trash" style="color: red; cursor: pointer;" onclick="deleteProduct(${idx})"></i>
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; padding: 8px 0; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: 500;">${p.name} - Rp ${p.price.toLocaleString('id-ID')}</span>
+                    <i class="fa-solid fa-trash" style="color: #ff4d4d; cursor: pointer; padding: 4px;" onclick="deleteProduct(${idx})"></i>
                 </div>
             `).join('');
         }
@@ -1034,7 +1110,7 @@
             const price = parseInt(document.getElementById('add-price').value);
             const img = document.getElementById('add-img').value || "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500";
 
-            if (!name || !price) return alert('Isi nama dan harga!');
+            if (!name || !price) return showToast('Harap lengkapi Nama dan Harga produk!');
 
             products.push({
                 id: Date.now(),
@@ -1043,43 +1119,50 @@
                 rating: 5.0,
                 location: "JAKARTA SELATAN",
                 img: img,
-                desc: "Produk tas wanita terbaru dari Girl's Store."
+                desc: "Koleksi tas wanita terbaru dari toko Girl's Store dengan desain aesthetic & cute."
             });
 
             renderCustomerProducts();
             renderAdminProducts();
-            alert('Barang berhasil ditambahkan!');
+            showToast('Barang baru berhasil ditambahkan!');
+
             document.getElementById('add-name').value = '';
             document.getElementById('add-price').value = '';
+            document.getElementById('add-img').value = '';
         }
 
         function deleteProduct(idx) {
             products.splice(idx, 1);
             renderCustomerProducts();
             renderAdminProducts();
+            showToast('Barang berhasil dihapus!');
         }
 
         function showReport(type, btn) {
             document.querySelectorAll('.report-tab button').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            if(btn) btn.classList.add('active');
 
             const content = document.getElementById('report-content');
-            if(type === 'harian') {
-                content.innerHTML = `<b>Laporan Harian:</b><br>Total Transaksi: ${orders.length}<br>Pendapatan: Rp ${orders.reduce((acc, curr) => acc + 250000, 0).toLocaleString('id-ID')}`;
-            } else if(type === 'bulanan') {
-                content.innerHTML = `<b>Laporan Bulanan:</b><br>Total Transaksi: 142<br>Pendapatan: Rp 38.500.000`;
+            if (type === 'harian') {
+                content.innerHTML = `
+                    <b>Laporan Penjualan Harian:</b><br>
+                    • Transaksi Masuk: ${orders.length} Pesanan<br>
+                    • Total Pendapatan: Rp ${orders.reduce((acc, curr) => acc + 350000, 0).toLocaleString('id-ID')}
+                `;
+            } else if (type === 'bulanan') {
+                content.innerHTML = `
+                    <b>Laporan Penjualan Bulanan:</b><br>
+                    • Total Transaksi: 128 Pesanan<br>
+                    • Total Pendapatan: Rp 32.400.000
+                `;
             } else {
-                content.innerHTML = `<b>Laporan Tahunan:</b><br>Total Transaksi: 1,850<br>Pendapatan: Rp 450.000.000`;
+                content.innerHTML = `
+                    <b>Laporan Penjualan Tahunan:</b><br>
+                    • Total Transaksi: 1,540 Pesanan<br>
+                    • Total Pendapatan: Rp 412.000.000
+                `;
             }
         }
-
-        // Custom Show Page Hook for Cart
-        const originalShowPage = showPage;
-        showPage = function(pageId, navEl = null) {
-            if (pageId === 'cart-page') renderCartPage();
-            if (pageId === 'admin-reports-page') showReport('harian', document.querySelector('.report-tab button'));
-            originalShowPage(pageId, navEl);
-        };
     </script>
 </body>
 </html>
