@@ -1,1104 +1,599 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Michelle Store Marketplace</title>
-    <!-- Icon FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <title>Pasar Soft & Army - Prototype</title>
     <style>
+        /* --- CSS Reset & Variabel Warna --- */
         :root {
-            --sage-soft: #a3b18a;
-            --sage-light: #f4f6f0;
-            --army: #3a5a40;
-            --army-dark: #344e41;
+            --bg-color: #f7f7f7; /* Abu-abu sangat muda */
+            --primary-soft: #eafbea; /* Hijau muda soft */
             --white: #ffffff;
-            --gray-light: #f8faf9;
-            --text-dark: #2b2d42;
-            --text-muted: #6c757d;
+            --text-dark: #333333;
+            --army-green: #4a6741; /* Hijau Army untuk aksen */
+            --text-on-army: #ffffff;
+            --price-color: #ff5722; /* Warna harga (mirip Shopee) */
         }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-dark); padding-bottom: 70px; /* Jarak untuk nav bawah */ }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        /* --- Global Styles --- */
+        .page-header { background-color: var(--white); padding: 10px; text-align: center; font-size: 1.2rem; font-weight: bold; border-bottom: 1px solid #eee; }
+        .back-btn { float: left; cursor: pointer; color: var(--army-green); font-size: 1.5rem; line-height: 1.2rem; margin-right: 10px; }
+        .hidden { display: none !important; }
 
-        body {
-            background-color: var(--sage-light);
-            color: var(--text-dark);
-        }
+        /* --- Header (Atas) --- */
+        .top-header { background-color: var(--primary-soft); padding: 15px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; width: 100%; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .search-container { flex-grow: 1; margin-right: 15px; position: relative; }
+        .search-bar { width: 100%; padding: 10px 15px 10px 40px; border-radius: 20px; border: 1px solid #ccc; font-size: 0.9rem; }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #888; font-size: 1.1rem; }
+        .cart-icon { position: relative; cursor: pointer; font-size: 1.6rem; color: var(--army-green); }
+        .cart-count { position: absolute; top: -8px; right: -8px; background-color: var(--price-color); color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.75rem; font-weight: bold; }
 
-        /* LOGIN PAGE */
-        #loginPage {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: linear-gradient(135deg, var(--sage-soft), var(--army));
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
+        /* --- Container Utama --- */
+        main { padding-top: 80px; /* Jarak dari top-header */ }
 
-        .login-card {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-            text-align: center;
-        }
+        /* --- View 1: Halaman Login --- */
+        #login-view { padding: 40px; text-align: center; }
+        .login-box { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .login-box h2 { color: var(--army-green); margin-bottom: 20px; }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #555; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; }
+        .login-btn { background-color: var(--army-green); color: var(--text-on-army); border: none; padding: 12px; width: 100%; border-radius: 5px; font-size: 1.1rem; cursor: pointer; transition: opacity 0.2s; }
+        .login-btn:hover { opacity: 0.9; }
 
-        .login-card h2 {
-            color: var(--army);
-            margin-bottom: 20px;
-        }
+        /* --- View 2: Beranda & Barang (Grid) --- */
+        #home-view { padding: 10px; }
+        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .product-card { background-color: var(--white); border-radius: 8px; overflow: hidden; position: relative; box-shadow: 0 1px 3px rgba(0,0,0,0.05); cursor: pointer; display: flex; flex-direction: column; height: 100%; }
+        .product-card:active { transform: scale(0.98); }
+        .product-card img { width: 100%; height: 180px; object-fit: cover; }
+        .product-details { padding: 10px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-name { font-size: 0.9rem; line-height: 1.1rem; max-height: 2.2rem; overflow: hidden; margin-bottom: 5px; }
+        .product-price-row { display: flex; align-items: center; gap: 5px; margin-top: auto; }
+        .product-price { font-size: 1rem; font-weight: bold; color: var(--price-color); }
+        .product-rating { color: #fcc419; font-size: 0.8rem; margin-right: 5px; }
+        .sold-count { font-size: 0.75rem; color: #888; }
+        .special-promo { position: absolute; top: 5px; right: 5px; background: red; color: white; padding: 3px 6px; font-size: 0.7rem; border-radius: 4px; font-weight: bold; }
+        .mall-badge { position: absolute; top: 5px; left: 5px; background: #e31a2b; color: white; padding: 3px 6px; font-size: 0.7rem; border-radius: 2px; text-transform: uppercase; }
 
-        .input-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
+        /* --- View 3: Keranjang Belanja --- */
+        #cart-view { padding: 10px; }
+        .cart-item { background: white; border-radius: 8px; padding: 10px; margin-bottom: 10px; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .cart-item input[type="checkbox"] { transform: scale(1.5); margin-right: 10px; accent-color: var(--army-green); }
+        .cart-item img { width: 60px; height: 60px; border-radius: 5px; margin-right: 10px; object-fit: cover; }
+        .cart-item-details { flex-grow: 1; }
+        .cart-item-name { font-size: 0.9rem; font-weight: bold; margin-bottom: 3px; }
+        .cart-item-variation { font-size: 0.8rem; color: #666; margin-bottom: 3px; }
+        .cart-item-price { color: var(--price-color); font-weight: bold; }
+        .quantity-control { display: flex; align-items: center; border: 1px solid #ccc; border-radius: 4px; padding: 3px 6px; margin-left: auto; }
+        .qty-btn { cursor: pointer; color: #888; width: 20px; text-align: center; font-size: 1.2rem; user-select: none; }
+        .qty-input { border: none; width: 30px; text-align: center; color: var(--text-dark); font-size: 0.9rem; }
+        .cart-item-delete { color: #888; font-size: 1.1rem; cursor: pointer; margin-left: 10px; }
+        .cart-footer { background-color: var(--white); padding: 15px; position: fixed; bottom: 60px; width: 100%; border-top: 1px solid #eee; display: flex; align-items: center; justify-content: space-between; z-index: 99; left: 0;}
+        .total-price { font-size: 1.1rem; font-weight: bold; color: var(--price-color); }
+        .checkout-btn { background-color: var(--army-green); color: var(--text-on-army); border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-size: 1rem; }
 
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 13px;
-            color: var(--text-muted);
-        }
+        /* --- View 4: Detail Produk (Mirip Shopee Halaman 2) --- */
+        #product-detail-view { background-color: var(--bg-color); }
+        .product-main-img { width: 100%; height: 350px; object-fit: cover; background-color: white; }
+        .detail-card { background-color: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .detail-price { font-size: 1.6rem; font-weight: bold; color: var(--price-color); margin-bottom: 5px; }
+        .detail-name { font-size: 1.1rem; line-height: 1.4; color: #333; margin-bottom: 10px; }
+        .rating-sold-row { display: flex; align-items: center; font-size: 0.9rem; color: #555; gap: 15px; margin-bottom: 10px; }
+        .detail-mall-badge { background: #e31a2b; color: white; padding: 2px 5px; border-radius: 2px; font-size: 0.8rem; margin-right: 5px; }
+        .detail-stars { color: #fcc419; font-size: 1rem; }
 
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            outline: none;
-        }
+        /* Variasi (Geser/Tombol) */
+        .variation-container { display: flex; overflow-x: auto; gap: 10px; padding: 5px 0; -webkit-overflow-scrolling: touch; }
+        .variation-btn { background-color: #f5f5f5; border: 1px solid #eee; padding: 8px 15px; border-radius: 5px; cursor: pointer; white-space: nowrap; font-size: 0.9rem; border: 1px solid transparent;}
+        .variation-btn:hover, .variation-btn.selected { background-color: var(--primary-soft); border-color: var(--army-green); }
 
-        .btn-login {
-            width: 100%;
-            background: var(--army);
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+        /* Deskripsi, Toko, Ulasan */
+        .section-title { font-size: 1rem; font-weight: bold; color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
+        .description-text { font-size: 0.9rem; color: #666; line-height: 1.5; white-space: pre-wrap; }
+        .shop-info { display: flex; align-items: center; gap: 10px; }
+        .shop-avatar { width: 50px; height: 50px; border-radius: 50%; background: #ddd; }
+        .shop-name { font-size: 1rem; font-weight: bold; }
+        .shop-rating-info { font-size: 0.85rem; color: #777; }
+        .review-card { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+        .reviewer-info { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; margin-bottom: 5px; }
+        .reviewer-avatar { width: 30px; height: 30px; border-radius: 50%; background: #eee; }
+        .review-text { font-size: 0.9rem; color: #555; line-height: 1.4; }
 
-        .btn-login:hover {
-            background: var(--army-dark);
-        }
+        /* Tombol Bawah Detail Produk */
+        .detail-bottom-actions { position: fixed; bottom: 0; left: 0; width: 100%; display: flex; z-index: 1001; }
+        .action-icon-btn { flex: 0 0 auto; width: 25%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #555; border-right: 1px solid #eee; background-color: var(--white); font-size: 0.75rem; padding: 8px; cursor: pointer;}
+        .action-icon-btn svg { font-size: 1.3rem; margin-bottom: 2px; }
+        .add-to-cart-btn { flex-grow: 1; background-color: var(--primary-soft); color: var(--army-green); border: none; padding: 15px; font-size: 1rem; cursor: pointer; text-align: center; }
+        .buy-now-btn { flex-grow: 1; background-color: var(--army-green); color: var(--text-on-army); border: none; padding: 15px; font-size: 1rem; cursor: pointer; text-align: center; }
 
-        /* HEADER / NAVBAR */
-        .header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: var(--white);
-            height: 75px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 5%;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
+        /* --- View 5: Profil Pelanggan --- */
+        #profile-view { padding: 15px; text-align: center; }
+        .profile-header { background: linear-gradient(135deg, var(--primary-soft), var(--bg-color)); color: var(--text-dark); padding: 30px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .profile-pic { width: 80px; height: 80px; border-radius: 50%; background: white; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); margin-bottom: 10px; display: inline-block; overflow: hidden;}
+        .profile-pic img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-name { font-size: 1.3rem; font-weight: bold; }
+        .profile-level { font-size: 0.8rem; color: #666; background: rgba(255,255,255,0.7); padding: 2px 8px; border-radius: 10px; }
+        .profile-details-list { text-align: left; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .profile-list-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; cursor: pointer; font-size: 0.95rem; }
+        .profile-list-item:last-child { border-bottom: none; }
+        .profile-icon { color: var(--army-green); margin-right: 12px; font-size: 1.2rem; width: 25px; text-align: center; }
+        .profile-label { flex-grow: 1; }
+        .profile-info { color: #888; font-size: 0.9rem; }
+        .logout-btn { background-color: #f5f5f5; color: #ff5722; border: 1px solid #eee; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; margin-top: 20px;}
 
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--army);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
+        /* --- View 6: Riwayat Pesanan --- */
+        #orders-view { padding: 15px; }
+        .order-card { background: white; border-radius: 8px; padding: 15px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .order-header { display: flex; justify-content: space-between; font-size: 0.85rem; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
+        .order-id { font-weight: bold; }
+        .order-status { color: #4caf50; font-weight: bold; }
+        .order-items { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
+        .order-total-price { text-align: right; color: var(--price-color); font-weight: bold; font-size: 1.1rem; }
 
-        .search-bar {
-            flex: 0.5;
-            display: flex;
-            background: var(--sage-light);
-            border-radius: 25px;
-            padding: 8px 18px;
-            border: 1px solid #e2e8f0;
-        }
+        /* --- Navigasi Bawah (Fixed) --- */
+        .bottom-nav { background-color: var(--white); display: flex; justify-content: space-around; padding: 10px 0; position: fixed; bottom: 0; width: 100%; z-index: 1000; box-shadow: 0 -2px 5px rgba(0,0,0,0.05); border-top: 1px solid #eee; }
+        .nav-item { text-align: center; color: #555; text-decoration: none; font-size: 0.8rem; width: 20%; cursor: pointer; transition: color 0.2s; }
+        .nav-item svg { font-size: 1.5rem; margin-bottom: 2px; }
+        .nav-item.active { color: var(--army-green); }
+        .nav-item:active { background-color: #fcfcfc; }
 
-        .search-bar input {
-            border: none;
-            background: transparent;
-            width: 100%;
-            outline: none;
-            margin-left: 10px;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
-
-        .cart-icon-btn {
-            position: relative;
-            cursor: pointer;
-            font-size: 20px;
-            color: var(--army);
-        }
-
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -10px;
-            background: #e63946;
-            color: white;
-            font-size: 11px;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-        }
-
-        .user-profile-nav {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-
-        .user-profile-nav img {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        /* MAIN CONTAINER */
-        .app-container {
-            display: flex;
-            max-width: 1300px;
-            margin: 20px auto;
-            gap: 20px;
-            padding: 0 20px;
-        }
-
-        /* SIDEBAR */
-        .sidebar {
-            width: 240px;
-            background: var(--white);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-            height: fit-content;
-        }
-
-        .sidebar h4 {
-            color: var(--army);
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--sage-light);
-        }
-
-        .sidebar ul {
-            list-style: none;
-        }
-
-        .sidebar li {
-            padding: 12px 15px;
-            margin-bottom: 8px;
-            border-radius: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--text-dark);
-            font-weight: 500;
-            transition: 0.2s;
-        }
-
-        .sidebar li:hover, .sidebar li.active-menu {
-            background: var(--sage-soft);
-            color: var(--white);
-        }
-
-        .main-content {
-            flex: 1;
-        }
-
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        /* BANNER SHOPEE STYLE */
-        .banner {
-            background: linear-gradient(135deg, var(--sage-soft), var(--army));
-            color: white;
-            padding: 35px;
-            border-radius: 20px;
-            margin-bottom: 25px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .banner h1 { font-size: 28px; margin-bottom: 10px; }
-        .banner p { opacity: 0.9; }
-
-        /* PRODUCT GRID */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 16px;
-            padding: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            transition: 0.3s;
-            cursor: pointer;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-        }
-
-        .product-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 10px;
-        }
-
-        .product-title {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .product-price {
-            font-size: 16px;
-            font-weight: bold;
-            color: var(--army);
-            margin-bottom: 8px;
-        }
-
-        .product-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-        }
-
-        .btn-add-cart {
-            width: 100%;
-            background: var(--sage-soft);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .btn-add-cart:hover {
-            background: var(--army);
-        }
-
-        /* MODAL / POPUP PRODUCT DETAIL */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: white;
-            width: 90%;
-            max-width: 800px;
-            border-radius: 20px;
-            padding: 25px;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-muted);
-        }
-
-        .product-detail-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-        }
-
-        .gallery-main img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            border-radius: 15px;
-        }
-
-        .gallery-thumbs {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .gallery-thumbs img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 8px;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-
-        .gallery-thumbs img.active-thumb {
-            border-color: var(--army);
-        }
-
-        .variant-opt {
-            display: inline-block;
-            padding: 6px 14px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin-right: 8px;
-            margin-top: 5px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        .variant-opt.selected {
-            border-color: var(--army);
-            background: var(--sage-light);
-            color: var(--army);
-            font-weight: bold;
-        }
-
-        .qty-picker {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .qty-picker button {
-            width: 30px;
-            height: 30px;
-            border: 1px solid #ddd;
-            background: white;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        /* TABLES */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            margin-top: 15px;
-        }
-
-        th {
-            background: var(--army);
-            color: white;
-            padding: 14px;
-            text-align: left;
-        }
-
-        td {
-            padding: 14px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .card-box {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            margin-bottom: 15px;
-        }
-
-        /* DASHBOARD ADMIN CARDS */
-        .admin-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .admin-card {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            border-left: 5px solid var(--army);
-        }
-
-        @media(max-width: 768px) {
-            .app-container { flex-direction: column; }
-            .sidebar { width: 100%; }
-            .product-detail-layout { grid-template-columns: 1fr; }
-        }
+        /* Ikon SVG Sederhana (Untuk Placeholder) */
+        svg.icon { width: 1em; height: 1em; vertical-align: -0.125em; fill: currentColor; }
     </style>
 </head>
-
 <body>
 
-    <!-- LOGIN PAGE -->
-    <div id="loginPage">
-        <div class="login-card">
-            <h2>🛍️ Michelle Store</h2>
-            <p style="color:var(--text-muted); font-size:13px; margin-bottom: 20px;">Silahkan Login Terlebih Dahulu</p>
-            <div class="input-group">
-                <label>Username</label>
-                <input type="text" id="loginUser" placeholder="Masukkan Username">
-            </div>
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" id="loginPass" placeholder="Masukkan Password">
-            </div>
-            <button class="btn-login" onclick="login()">Masuk Aplikasi</button>
-            <div style="margin-top:15px; text-align:left; font-size:11px; color:#666;">
-                <b>Petunjuk Login:</b><br>
-                • Admin: <i>michelle / ADM01</i><br>
-                • Pelanggan: <i>ana / P001</i>, <i>leya / P002</i>, dst.
-            </div>
+    <!-- Header Atas (Akan Hilang di Halaman Tertentu) -->
+    <header class="top-header" id="main-header">
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Tas Selempang Cewek Kekinian">
+            <span class="search-icon">&#128269;</span> <!-- Ikon Kaca Pembesar -->
         </div>
-    </div>
-
-    <!-- HEADER / NAVIGATION BAR -->
-    <div class="header">
-        <div class="logo" onclick="openPage('home')">
-            <i class="fa-solid fa-bag-shopping"></i> Michelle Store
+        <div class="cart-icon" onclick="showView('cart-view')">
+            &#128722; <!-- Ikon Keranjang -->
+            <span class="cart-count" id="cart-counter-display">0</span>
         </div>
+    </header>
 
-        <div class="search-bar">
-            <i class="fa-solid fa-magnifying-glass" style="color: var(--text-muted);"></i>
-            <input type="text" placeholder="Cari fashion perempuan, makeup, aksesoris...">
-        </div>
+    <main>
+        <!-- ==============================================
+             VIEWS (Halaman) yang Bisa Diganti-ganti
+             ============================================== -->
 
-        <div class="header-actions">
-            <div class="cart-icon-btn" onclick="openPage('keranjang')">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span class="cart-badge" id="cartBadgeCount">0</span>
-            </div>
-            <div class="user-profile-nav" onclick="openProfileNav()">
-                <img id="navAvatar" src="https://i.pravatar.cc/100?img=47" alt="User">
-                <span id="navUsername" style="font-weight:600; font-size:14px;">User</span>
-            </div>
-            <button onclick="logout()" style="background:transparent; border:none; cursor:pointer; color:red; font-size:16px;">
-                <i class="fa-solid fa-right-from-bracket"></i>
-            </button>
-        </div>
-    </div>
-
-    <div class="app-container">
-
-        <!-- SIDEBAR NAV (Dinamis Berdasarkan Role) -->
-        <div class="sidebar">
-            <h4>Menu Utama</h4>
-            <ul id="sidebarMenuList">
-                <!-- Diisi JavaScript -->
-            </ul>
-        </div>
-
-        <!-- MAIN CONTENT AREA -->
-        <div class="main-content">
-
-            <!-- ================= HOME PAGE ================= -->
-            <div id="home" class="page active">
-                <div class="banner">
-                    <h1>Satu Sentuhan untuk Fashion Impianmu ✨</h1>
-                    <p>Diskon Hingga 50% untuk Pengguna Baru. Produk Asli dan Terpercaya.</p>
+        <!-- 1. Halaman Login -->
+        <section id="login-view" class="active-view">
+            <div class="login-box">
+                <h2>Login ke Akun Anda</h2>
+                <p style="font-size: 0.8rem; color: #777; margin-bottom: 15px;">Pelanggan: ana / P001<br>Admin: michelle / ADM01</p>
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" id="login-username" placeholder="Masukkan username">
                 </div>
-
-                <h3 style="margin-bottom: 15px; color:var(--army);">Rekomendasi Produk</h3>
-                <div class="product-grid" id="productGridList">
-                    <!-- Produk Di-render via JavaScript -->
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" placeholder="Masukkan password">
                 </div>
+                <button class="login-btn" onclick="handleLogin()">Login</button>
+            </div>
+        </section>
+
+        <!-- 2. Halaman Beranda & Produk (Tampilan Utama Setelah Login) -->
+        <section id="home-view" class="active-view hidden">
+            <!-- Iklan Banner (Placeholder) -->
+            <div style="background-color: #ddd; height: 120px; border-radius: 8px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; color: #777; font-size: 0.9rem;">
+                Spesial Banner Promo
             </div>
 
-            <!-- ================= KERANJANG PAGE ================= -->
-            <div id="keranjang" class="page">
-                <h3 style="color:var(--army); margin-bottom:15px;"><i class="fa-solid fa-cart-shopping"></i> Keranjang Belanja</h3>
-                <div class="card-box">
-                    <div id="isiKeranjang">Keranjang masih kosong.</div>
-                    <hr style="margin:20px 0; border:none; border-top:1px solid #eee;">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <h3 id="totalHarga">Total : Rp0</h3>
-                        <button class="btn-add-cart" style="width:200px; background:var(--army);" onclick="openCheckoutModal()">Checkout Sekarang</button>
-                    </div>
-                </div>
+            <div class="product-grid" id="product-list">
+                <!-- Produk akan dimasukkan melalui JavaScript -->
             </div>
+        </section>
 
-            <!-- ================= PESANAN SAYA (PELANGGAN) ================= -->
-            <div id="pesanan" class="page">
-                <h3 style="color:var(--army); margin-bottom:15px;"><i class="fa-solid fa-box"></i> Pesanan Saya</h3>
-                <div id="userOrderHistory">
-                    <!-- Khusus pesanan user yang sedang login -->
-                </div>
+        <!-- 3. Halaman Keranjang -->
+        <section id="cart-view" class="active-view hidden">
+            <div class="page-header">
+                <span class="back-btn" onclick="showView('home-view')">&lsaquo;</span>
+                Keranjang Saya
             </div>
+            <div style="padding-top: 10px;" id="cart-items-container">
+                <!-- Barang keranjang dimasukkan via JS -->
+            </div>
+            <div class="cart-footer">
+                <div style="font-size: 0.9rem; color: #555;">Total:</div>
+                <div class="total-price" id="cart-total-price">Rp0</div>
+                <button class="checkout-btn">Checkout</button>
+            </div>
+        </section>
 
-            <!-- ================= PROFIL PELANGGAN ================= -->
-            <div id="profil" class="page">
-                <h3 style="color:var(--army); margin-bottom:15px;"><i class="fa-solid fa-user"></i> Profil Saya</h3>
-                <div class="card-box" id="profileContent">
-                    <!-- Diisi JS -->
+        <!-- 4. Halaman Detail Produk (Muncuk jika produk di klik) -->
+        <section id="product-detail-view" class="active-view hidden">
+            <div class="page-header">
+                <span class="back-btn" onclick="showView('home-view')">&lsaquo;</span>
+                Detail Produk
+            </div>
+            <div id="product-detail-content">
+                <!-- Detail produk dimasukkan via JS -->
+            </div>
+        </section>
+
+        <!-- 5. Halaman Profil Pelanggan -->
+        <section id="profile-view" class="active-view hidden">
+            <div class="page-header">Profil</div>
+            <div class="profile-header">
+                <div class="profile-pic" id="profile-picture-container">
+                    <!-- Foto Profil dimasukkan via JS -->
+                </div>
+                <div class="profile-name" id="profile-display-name">...</div>
+                <span class="profile-level" id="profile-display-username">...</span>
+            </div>
+            <div class="profile-details-list">
+                <div class="profile-list-item">
+                    <span class="profile-icon">&#9993;</span>
+                    <span class="profile-label">Email</span>
+                    <span class="profile-info" id="profile-display-email">...</span>
+                </div>
+                <div class="profile-list-item">
+                    <span class="profile-icon">&#128222;</span>
+                    <span class="profile-label">Nomor Telepon</span>
+                    <span class="profile-info" id="profile-display-phone">...</span>
+                </div>
+                <div class="profile-list-item">
+                    <span class="profile-icon">&#128205;</span>
+                    <span class="profile-label">Alamat Utama</span>
+                    <span class="profile-info" id="profile-display-address">...</span>
                 </div>
             </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </section>
 
-            <!-- ================= DASHBOARD ADMIN ================= -->
-            <div id="adminDashboard" class="page">
-                <h3 style="color:var(--army); margin-bottom:15px;">Dashboard Ringkasan Admin</h3>
-                <div class="admin-cards">
-                    <div class="admin-card">
-                        <small>Total Penjualan</small>
-                        <h2>Rp 24.500.000</h2>
-                    </div>
-                    <div class="admin-card">
-                        <small>Total Pesanan</small>
-                        <h2>128 Pesanan</h2>
-                    </div>
-                    <div class="admin-card">
-                        <small>Pelanggan Aktif</small>
-                        <h2>5 Pelanggan</h2>
-                    </div>
-                </div>
+        <!-- 6. Halaman Riwayat Pesanan -->
+        <section id="orders-view" class="active-view hidden">
+            <div class="page-header">Pesanan Saya</div>
+            <div id="orders-list-container">
+                <!-- Pesanan dimasukkan via JS -->
             </div>
+        </section>
 
-            <!-- ================= INPUT / VIEW BARANG (ADMIN) ================= -->
-            <div id="adminProduk" class="page">
-                <h3 style="color:var(--army); margin-bottom:15px;">Manajemen Produk</h3>
-                <div class="card-box">
-                    <h4 style="margin-bottom:10px;">Tambah Produk Baru</h4>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                        <input type="text" id="newProdName" placeholder="Nama Barang" style="padding:10px; border:1px solid #ddd; border-radius:8px;">
-                        <input type="number" id="newProdPrice" placeholder="Harga (Rp)" style="padding:10px; border:1px solid #ddd; border-radius:8px;">
-                        <input type="text" id="newProdImg" placeholder="URL Gambar Produk" style="padding:10px; border:1px solid #ddd; border-radius:8px;">
-                        <input type="number" id="newProdStock" placeholder="Sisa Stok" style="padding:10px; border:1px solid #ddd; border-radius:8px;">
-                    </div>
-                    <button class="btn-add-cart" style="margin-top:10px; background:var(--army);" onclick="addNewProduct()">Simpan Produk Baru</button>
-                </div>
+    </main>
 
-                <h4 style="margin-top:20px;">Daftar Produk Aktif</h4>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Foto</th>
-                            <th>Nama Barang</th>
-                            <th>Harga</th>
-                            <th>Stok</th>
-                        </tr>
-                    </thead>
-                    <tbody id="adminTableProduct">
-                        <!-- Render JS -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- ================= LAPORAN ADMIN ================= -->
-            <div id="adminLaporan" class="page">
-                <h3 style="color:var(--army); margin-bottom:15px;">Laporan Penjualan (Toko)</h3>
-                <div class="card-box">
-                    <h4>Laporan Bulanan & Annual</h4>
-                    <br>
-                    <p><b>Total Pendapatan Bulan Ini:</b> Rp 15.400.000</p>
-                    <p><b>Target Tahunan:</b> 85% Tercapai</p>
-                    <br>
-                    <div style="height:150px; background:var(--sage-light); border-radius:12px; display:flex; align-items:flex-end; gap:15px; padding:20px;">
-                        <div style="height:40%; width:30px; background:var(--army); border-radius:5px;"></div>
-                        <div style="height:70%; width:30px; background:var(--army); border-radius:5px;"></div>
-                        <div style="height:90%; width:30px; background:var(--army); border-radius:5px;"></div>
-                        <div style="height:60%; width:30px; background:var(--army); border-radius:5px;"></div>
-                        <div style="height:100%; width:30px; background:var(--army); border-radius:5px;"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ================= RIWAYAT PESANAN SEMUA (ADMIN) ================= -->
-            <div id="adminPesanan" class="page">
-                <h3 style="color:var(--army); margin-bottom:15px;">Riwayat Pesanan Seluruh Pelanggan</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Pelanggan</th>
-                            <th>Detail Produk</th>
-                            <th>Total</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="adminAllOrdersTable">
-                        <!-- JS Render -->
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- PRODUCT DETAIL MODAL (SHOPEE STYLE) -->
-    <div class="modal-overlay" id="productModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <div class="product-detail-layout" id="modalProductBody">
-                <!-- JS Inject Detail -->
-            </div>
-        </div>
-    </div>
-
-    <!-- CHECKOUT MODAL POPUP -->
-    <div class="modal-overlay" id="checkoutModal">
-        <div class="modal-content" style="max-width:450px;">
-            <span class="close-modal" onclick="closeCheckoutModal()">&times;</span>
-            <h3 style="color:var(--army); margin-bottom:15px;">Konfirmasi Checkout</h3>
-            <div class="input-group">
-                <label>Alamat Pengiriman</label>
-                <input type="text" id="coAlamat" placeholder="Alamat lengkap">
-            </div>
-            <div class="input-group">
-                <label>Metode Pembayaran</label>
-                <select id="coPembayaran" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd;">
-                    <option value="COD">COD (Bayar di Tempat)</option>
-                    <option value="QRIS">QRIS / E-Wallet</option>
-                    <option value="Transfer Bank">Transfer Bank Virtual Account</option>
-                </select>
-            </div>
-            <button class="btn-add-cart" style="background:var(--army); margin-top:15px;" onclick="processCheckout()">Buat Pesanan Sekarang</button>
-        </div>
-    </div>
+    <!-- Navigasi Bawah (Selalu Muncul Setelah Login) -->
+    <nav class="bottom-nav hidden" id="main-nav">
+        <a class="nav-item active" onclick="showView('home-view')" id="nav-home">
+            <svg class="icon"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
+            <div>Beranda</div>
+        </a>
+        <a class="nav-item" onclick="showView('home-view')" id="nav-live"> <!-- Placeholder Live -->
+            <svg class="icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"></path></svg>
+            <div>Live & Video</div>
+        </a>
+        <a class="nav-item" onclick="showView('orders-view')" id="nav-orders"> <!-- Pesanan -->
+            <svg class="icon"><path d="M17 2H7c-1.1 0-1.99.9-1.99 2L5 22l7-3 7 3V4c0-1.1-.9-2-2-2z"></path></svg>
+            <div>Pesanan</div>
+        </a>
+        <a class="nav-item" onclick="showView('cart-view')" id="nav-notif"> <!-- Notif (Pakai icon lonceng) -->
+            <svg class="icon"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"></path></svg>
+            <div>Notifikasi</div>
+        </a>
+        <a class="nav-item" onclick="showView('profile-view')" id="nav-profile">
+            <svg class="icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path></svg>
+            <div>Saya</div>
+        </a>
+    </nav>
 
     <script>
-        // DATA PELANGGAN DEFAULT
-        const userData = {
-            "ana": { nama: "Ana", pass: "P001", email: "ana@gmail.com", telp: "081234567890", alamat: "Jl. Mawar No. 12, Jakarta", img: "https://i.pravatar.cc/100?img=1" },
-            "leya": { nama: "Leya", pass: "P002", email: "leya@gmail.com", telp: "082345678901", alamat: "Jl. Melati No. 45, Bandung", img: "https://i.pravatar.cc/100?img=5" },
-            "eva": { nama: "Eva", pass: "P003", email: "eva@gmail.com", telp: "083456789012", alamat: "Jl. Anggrek No. 88, Surabaya", img: "https://i.pravatar.cc/100?img=9" },
-            "karla": { nama: "Karla", pass: "P004", email: "karla@gmail.com", telp: "084567890123", alamat: "Jl. Kenanga No. 03, Semarang", img: "https://i.pravatar.cc/100?img=20" },
-            "bulan": { nama: "Bulan", pass: "P005", email: "bulan@gmail.com", telp: "085678901234", alamat: "Jl. Flamboyan No. 19, Yogyakarta", img: "https://i.pravatar.cc/100?img=32" }
-        };
+        /* --- JAVASCRIPT --- */
 
-        // DATABASE PRODUK KATALOG
-        let products = [
-            { id: 1, nama: "Flatshoes Elegant", harga: 150000, stok: 14, rating: 4.8, terjual: 120, foto: ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500", "https://images.unsplash.com/photo-1560343090-f0409e92791a?w=500"], deskripsi: "Sepatu flatshoes nyaman untuk dipakai sehari-hari atau ke kantor.", varian: ["Hitam", "Cream", "Pink"] },
-            { id: 2, nama: "Cardigan Perempuan Soft", harga: 200000, stok: 8, rating: 4.9, terjual: 310, foto: ["https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500"], deskripsi: "Cardigan berbahan rajut halus, tidak panas dan cocok untuk melengkapi outfit.", varian: ["Sage", "White", "Cream"] },
-            { id: 3, nama: "Jam Tangan Perempuan", harga: 300000, stok: 5, rating: 4.7, terjual: 85, foto: ["https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=500"], deskripsi: "Jam tangan rantai stainless anti karat, memberikan kesan mewah.", varian: ["Rosegold", "Silver"] },
-            { id: 4, nama: "Pouch Make Up Aesthetic", harga: 75000, stok: 25, rating: 4.9, terjual: 450, foto: ["https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500"], deskripsi: "Tempat kosmetik kapasitas luas dengan resleting kokoh dan tahan air.", varian: ["Lilac", "Pink", "Sage"] },
-            { id: 5, nama: "Tumblr Lucu Aesthetic", harga: 50000, stok: 30, rating: 4.8, terjual: 200, foto: ["https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500"], deskripsi: "Botol minum stainless steel tahan panas dan dingin hingga 12 jam.", varian: ["Hijau", "Pink", "Putih"] },
-            { id: 6, nama: "Sneakers Pink Trendy", harga: 350000, stok: 10, rating: 5.0, terjual: 95, foto: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"], deskripsi: "Sneakers ringan dengan sol empuk cocok untuk jalan-jalan seharian.", varian: ["Size 37", "Size 38", "Size 39"] },
-            { id: 7, nama: "Heels Minimalis", harga: 250000, stok: 7, rating: 4.6, terjual: 60, foto: ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500"], deskripsi: "Heels hak 5cm sangat kokoh dan membuat kaki tampak lebih jenjang.", varian: ["Cream", "Black"] },
-            { id: 8, nama: "Blouse Polkadot Casual", harga: 135000, stok: 18, rating: 4.8, terjual: 140, foto: ["https://images.unsplash.com/photo-1564257631407-4deb129f0549?w=500"], deskripsi: "Blouse motif polkadot bahan katun premium adem dan menyerap keringat.", varian: ["Black Polka", "White Polka"] },
-            { id: 9, nama: "Tote Bag Pink Elegan", harga: 110000, stok: 12, rating: 4.9, terjual: 230, foto: ["https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500"], deskripsi: "Tote bag bahan kulit sintetis tebal, muat laptop hingga 14 inch.", varian: ["Soft Pink", "Dusty Pink"] },
-            { id: 10, nama: "Jeans Highwaist Perempuan", harga: 210000, stok: 20, rating: 4.7, terjual: 180, foto: ["https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=500"], deskripsi: "Celana jeans model highwaist memberikan siluet pinggang lebih ramping.", varian: ["Light Blue", "Dark Blue"] },
-            { id: 11, nama: "Shoulder Bag Warna Coklat Tua", harga: 165000, stok: 9, rating: 4.9, terjual: 300, foto: ["https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500"], deskripsi: "Tas bahu bergaya vintage dengan aksen tali gesper emas.", varian: ["Coklat Tua", "Coklat Muda"] },
-            { id: 12, nama: "Heels Warna Cream", harga: 270000, stok: 6, rating: 4.8, terjual: 75, foto: ["https://images.unsplash.com/photo-1596147250786-df0291f0980d?w=500"], deskripsi: "Heels mewah warna cream cocok untuk acara pesta dan formal.", varian: ["Size 38", "Size 39"] },
-            { id: 13, nama: "Lipcream Dior Velvet", harga: 480000, stok: 15, rating: 5.0, terjual: 520, foto: ["https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=500"], deskripsi: "Lipcream tahan lama hingga 12 jam dengan hasil akhir velvety murni.", varian: ["Shade 999", "Shade 720"] },
-            { id: 14, nama: "Skincare YSL Serum", harga: 1250000, stok: 5, rating: 5.0, terjual: 90, foto: ["https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500"], deskripsi: "Serum mewah pencerah muka mencerahkan kulit kusam secara instan.", varian: ["30ml"] },
-            { id: 15, nama: "Sandal Crocs Clog", harga: 390000, stok: 11, rating: 4.9, terjual: 410, foto: ["https://images.unsplash.com/photo-1603808033192-082d6919d3e1?w=500"], deskripsi: "Sandal kenyamanan ekstra anti slip tahan terhadap air dan kotoran.", varian: ["White", "Sage", "Black"] }
+        // 1. Data Mock (Dummy Data)
+        const products = [
+            { id: 1, name: 'Tote Bag Pink Elegan - NAYS', price: 75000, img: 'tote-bag-pink.jpg', rating: 4.8, sold: '10RB+', location: 'KAB. BOGOR', isMall: true, isPromo: true, description: 'Tote bag kanvas premium. Ruang luas, cocok untuk kampus atau kerja. Bahan tebal dan awet.', varieties: ['Polos', 'Garis-garis'] },
+            { id: 2, name: 'Jeans Highwaist Perempuan Kaki Lebar', price: 125000, img: 'jeans-highwaist.jpg', rating: 4.9, sold: '5RB+', location: 'KOTA BANDUNG', isMall: false, isPromo: false, description: 'Jeans denim highwaist yang nyaman dan trendy. Membuat kaki terlihat lebih jenjang.', varieties: ['Biru Muda', 'Biru Tua', 'Hitam'], sizes: ['S', 'M', 'L', 'XL'] },
+            { id: 3, name: 'Shoulder Bag Warna Coklat Tua Kulit Sintetis', price: 95000, img: 'shoulder-bag-brown.jpg', rating: 4.7, sold: '2RB+', location: 'KOTA TANGERANG', isMall: true, isPromo: true, description: 'Tas bahu elegan dengan desain klasik. Bahan kulit sintetis berkualitas tinggi.', varieties: ['Coklat Tua', 'Hitam'] },
+            { id: 4, name: 'Lipcream DIOR Addict Shine Lipstick', price: 550000, img: 'lipcream-dior.jpg', rating: 5.0, sold: '800+', location: 'KOTA JAKARTA SELATAN', isMall: true, isPromo: false, description: 'Lipcream ikonik dari Dior. Warna intens, tahan lama, dan menutrisi bibir.', varieties: ['Beige', 'Red 999', 'Rose'] },
+            { id: 5, name: 'Blouse Polkadot Perempuan Lengan Panjang', price: 89000, img: 'blouse-polkadot.jpg', rating: 4.6, sold: '3RB+', location: 'KAB. SOLO', isMall: false, isPromo: false, description: 'Blouse modis dengan motif polkadot. Bahan katun adem dan nyaman dipakai seharian.', varieties: ['Hitam', 'Putih', 'Biru Laut'], sizes: ['M', 'L', 'XL'] },
+            { id: 6, name: 'Pouch Make Up Waterproof Cantik', price: 35000, img: 'pouch-makeup.jpg', rating: 4.9, sold: '15RB+', location: 'KOTA SURABAYA', isMall: false, isPromo: true, description: 'Pouch kosmetik fungsional. Bahan waterproof, muat banyak peralatan make up Anda.', varieties: ['Pink Soft', 'Hijau Muda', 'Hitam Floral'] },
+            { id: 7, name: 'Skincare YSL Pure Shots Night Serum 30ml', price: 1200000, img: 'skincare-ysl.jpg', rating: 5.0, sold: '1RB+', location: 'KOTA JAKARTA PUSAT', isMall: true, isPromo: false, description: 'Serum malam premium dari YSL. Membantu meregenerasi kulit, menyamarkan tanda penuaan.', varieties: ['Serum', 'Toner'] },
+            { id: 8, name: 'Sandal CROCS Classic Clog Unisex', price: 650000, img: 'sandal-crocs.jpg', rating: 4.8, sold: '9RB+', location: 'KAB. TANGERANG', isMall: true, isPromo: false, description: 'Sandal ikonik Crocs. Sangat ringan, empuk, dan anti slip. Cocok untuk semua umur.', varieties: ['Putih', 'Hitam', 'Navy', 'Merah'], sizes: ['36-37', '38-39', '40-41', '42-43'] }
         ];
 
-        // SESSION STATE
-        let currentUser = null; // null jika belum login
-        let cart = [];
-        let globalOrders = [
-            { id: "ORD-01", buyer: "Ana", items: "Cardigan Perempuan Soft (1)", total: 200000, status: "Selesai" },
-            { id: "ORD-02", buyer: "Leya", items: "Flatshoes Elegant (1)", total: 150000, status: "Dikirim" }
+        const customers = [
+            { username: 'ana', password: 'P001', name: 'Ana Febriyanti', email: 'ana.f@mail.com', phone: '081234567890', address: 'Jl. Merdeka No. 1, Jakarta Pusat', pic: 'avatar-ana.jpg', level: 'Member Emas' },
+            { username: 'leya', password: 'P002', name: 'Leya Anggraeni', email: 'leya.a@mail.com', phone: '081298765432', address: 'Jl. Kenanga No. 12, Bandung', pic: 'avatar-leya.jpg', level: 'Member Perak' }
+            // Tambahkan user eva, karla, bulan sesuai pola
         ];
 
-        // INITIAL LOAD
-        window.onload = function() {
-            renderProducts();
-        };
+        // 2. State Aplikasi
+        let currentUserId = null;
+        let userOrders = [];
+        let shoppingCart = [];
 
-        // LOGIN SYSTEM
-        function login() {
-            const u = document.getElementById("loginUser").value.toLowerCase();
-            const p = document.getElementById("loginPass").value;
+        // 3. Fungsi Navigasi & View
+        function showView(viewId) {
+            // Tutup semua halaman
+            const views = document.querySelectorAll('.active-view');
+            views.forEach(view => view.classList.add('hidden'));
 
-            if (u === "michelle" && p === "ADM01") {
-                currentUser = { role: "admin", nama: "Michelle (Admin)", img: "https://i.pravatar.cc/100?img=47" };
-            } else if (userData[u] && userData[u].pass === p) {
-                currentUser = { role: "user", username: u, ...userData[u] };
+            // Tampilkan halaman yang dipilih
+            document.getElementById(viewId).classList.remove('hidden');
+
+            // Update Navigasi Bawah
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+
+            if (viewId === 'home-view') document.getElementById('nav-home').classList.add('active');
+            else if (viewId === 'profile-view') document.getElementById('nav-profile').classList.add('active');
+            else if (viewId === 'cart-view') {
+                document.getElementById('main-header').classList.add('hidden'); // Sembunyikan header atas di keranjang
+                populateCart();
+            } else if (viewId === 'product-detail-view') {
+                document.getElementById('main-header').classList.add('hidden'); // Sembunyikan header atas di detail
+            } else if (viewId === 'orders-view') {
+                document.getElementById('nav-orders').classList.add('active');
+                populateOrders();
             } else {
-                alert("Username atau Password Salah!");
-                return;
+                document.getElementById('main-header').classList.remove('hidden'); // Munculkan kembali header atas
             }
+        }
 
-            document.getElementById("loginPage").style.display = "none";
-            setupNavigation();
+        // 4. Sistem Login & Logout
+        function handleLogin() {
+            const u = document.getElementById('login-username').value;
+            const p = document.getElementById('login-password').value;
+
+            const user = customers.find(c => c.username === u && c.password === p);
+
+            if (user) {
+                currentUserId = user.username;
+                alert(`Login sukses! Selamat datang, ${user.name}`);
+                
+                // Masukkan data profil
+                document.getElementById('profile-display-name').textContent = user.name;
+                document.getElementById('profile-display-username').textContent = `@${user.username}`;
+                document.getElementById('profile-display-email').textContent = user.email;
+                document.getElementById('profile-display-phone').textContent = user.phone;
+                document.getElementById('profile-display-address').textContent = user.address;
+                document.getElementById('profile-picture-container').innerHTML = `<img src="${user.pic}" alt="${user.name}">`;
+
+                // Tampilkan Beranda & Navigasi
+                showView('home-view');
+                document.getElementById('main-nav').classList.remove('hidden');
+                document.getElementById('main-header').classList.remove('hidden');
+            } else if (u === 'michelle' && p === 'ADM01') {
+                alert('Login Admin Sukses. Sebagai Admin, Anda dapat melihat halaman dashboard khusus yang belum diimplementasikan di versi proto ini.');
+                currentUserId = 'admin';
+                // Implementasikan Dashboard Admin di sini jika diperlukan
+                showView('home-view');
+                document.getElementById('main-nav').classList.remove('hidden');
+                document.getElementById('main-header').classList.remove('hidden');
+            } else {
+                alert('Login gagal. Periksa username dan password.');
+            }
         }
 
         function logout() {
-            currentUser = null;
-            document.getElementById("loginPage").style.display = "flex";
-            cart = [];
-            updateCartBadge();
+            currentUserId = null;
+            document.getElementById('login-username').value = '';
+            document.getElementById('login-password').value = '';
+            document.getElementById('main-nav').classList.add('hidden');
+            document.getElementById('main-header').classList.add('hidden');
+            showView('login-view');
         }
 
-        // RENDER NAV SESUAI ROLE
-        function setupNavigation() {
-            document.getElementById("navUsername").innerText = currentUser.nama;
-            document.getElementById("navAvatar").src = currentUser.img;
-
-            const sidebarUl = document.getElementById("sidebarMenuList");
-            sidebarUl.innerHTML = "";
-
-            if (currentUser.role === "user") {
-                sidebarUl.innerHTML = `
-                    <li onclick="openPage('home')" class="active-menu"><i class="fa-solid fa-house"></i> Beranda</li>
-                    <li onclick="openPage('keranjang')"><i class="fa-solid fa-bag-shopping"></i> Keranjang</li>
-                    <li onclick="openPage('pesanan')"><i class="fa-solid fa-box-archive"></i> Pesanan Saya</li>
-                    <li onclick="openPage('profil')"><i class="fa-solid fa-user"></i> Profil Saya</li>
-                `;
-                openPage('home');
-            } else {
-                sidebarUl.innerHTML = `
-                    <li onclick="openPage('adminDashboard')" class="active-menu"><i class="fa-solid fa-chart-line"></i> Dashboard</li>
-                    <li onclick="openPage('adminProduk')"><i class="fa-solid fa-boxes-packing"></i> Input / Kelola Produk</li>
-                    <li onclick="openPage('adminLaporan')"><i class="fa-solid fa-file-invoice-dollar"></i> Laporan Toko</li>
-                    <li onclick="openPage('adminPesanan')"><i class="fa-solid fa-list-check"></i> Pesanan Pelanggan</li>
-                `;
-                openPage('adminDashboard');
-                renderAdminTables();
-            }
-        }
-
-        function openProfileNav() {
-            if(currentUser && currentUser.role === 'user') openPage('profil');
-        }
-
-        // OPEN PAGE CONTROL
-        function openPage(pageId) {
-            document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-            document.getElementById(pageId).classList.add("active");
-
-            // Render konten spesifik halaman
-            if (pageId === "profil") renderProfilePage();
-            if (pageId === "pesanan") renderUserOrders();
-            if (pageId === "keranjang") renderCart();
-        }
-
-        // RENDER PRODUCTS IN HOME
+        // 5. Menampilkan Daftar Produk (GRID Halaman 1)
         function renderProducts() {
-            const grid = document.getElementById("productGridList");
-            grid.innerHTML = "";
+            const list = document.getElementById('product-list');
+            list.innerHTML = ''; // Kosongkan
+            
             products.forEach(p => {
-                grid.innerHTML += `
-                    <div class="product-card" onclick="openProductModal(${p.id})">
-                        <img src="${p.foto[0]}" alt="${p.nama}">
-                        <div class="product-title">${p.nama}</div>
-                        <div class="product-price">Rp${p.harga.toLocaleString("id-ID")}</div>
-                        <div class="product-info">
-                            <span>⭐ ${p.rating}</span>
-                            <span>${p.terjual} Terjual</span>
+                const card = `
+                    <div class="product-card" onclick="openProductDetail(${p.id})">
+                        ${p.isPromo ? `<span class="special-promo">PROMO</span>` : ''}
+                        ${p.isMall ? `<span class="mall-badge">Mall</span>` : ''}
+                        <img src="${p.img}" alt="${p.name}">
+                        <div class="product-details">
+                            <div class="product-name">${p.name}</div>
+                            <div class="product-price-row">
+                                <span class="product-rating">&#9733; ${p.rating.toFixed(1)}</span>
+                                <span class="sold-count">| ${p.sold} terjual</span>
+                            </div>
+                            <div class="product-price">Rp${p.price.toLocaleString('id-ID')}</div>
                         </div>
-                        <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(${p.id})">+ Keranjang</button>
                     </div>
                 `;
+                list.innerHTML += card;
             });
         }
+        renderProducts(); // Jalankan pertama kali
 
-        // PRODUCT MODAL (SHOPEE STYLE)
-        let selectedModalQty = 1;
-        let selectedModalVar = 0;
+        // 6. Halaman Detail Produk (Muncuk seperti Gambar 2)
+        function openProductDetail(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
 
-        function openProductModal(id) {
-            const p = products.find(prod => prod.id === id);
-            selectedModalQty = 1;
-            selectedModalVar = 0;
+            showView('product-detail-view');
+            const container = document.getElementById('product-detail-content');
+            
+            // Variasi & Ukuran (Placeholder Button)
+            let varietyHtml = product.varieties.map((v, index) => `<button class="variation-btn ${index === 0 ? 'selected' : ''}" onclick="selectVariation(this)">${v}</button>`).join('');
+            let sizeHtml = product.sizes ? product.sizes.map(s => `<button class="variation-btn">${s}</button>`).join('') : '';
 
-            const modalBody = document.getElementById("modalProductBody");
-            modalBody.innerHTML = `
-                <div>
-                    <div class="gallery-main">
-                        <img id="mainImg" src="${p.foto[0]}">
+            container.innerHTML = `
+                <img src="${product.img}" class="product-main-img" alt="${product.name}">
+                
+                <div class="detail-card">
+                    <div class="detail-price">Rp${product.price.toLocaleString('id-ID')}</div>
+                    <div class="detail-name">${product.isMall ? '<span class="detail-mall-badge">Mall</span>' : ''} ${product.name}</div>
+                    <div class="rating-sold-row">
+                        <span class="detail-stars">&#9733; ${product.rating.toFixed(1)}</span>
+                        <span>(${product.rating.toFixed(1)}) Penilaian</span>
+                        <span>|</span>
+                        <span>${product.sold} Terjual</span>
                     </div>
-                    <div class="gallery-thumbs">
-                        ${p.foto.map((f, i) => `<img src="${f}" class="${i===0?'active-thumb':''}" onclick="changeModalImg('${f}', this)">`).join('')}
+                    <div style="font-size: 0.85rem; color: #4caf50; display: flex; align-items: center; gap: 5px;">
+                        &#128666; Bebas Pengembalian
                     </div>
                 </div>
-                <div>
-                    <h2>${p.nama}</h2>
-                    <div style="color:var(--text-muted); font-size:13px; margin: 8px 0;">⭐ ${p.rating} | ${p.terjual} Terjual | Sisa Stok: <b>${p.stok}</b></div>
-                    <h2 style="color:var(--army); margin-bottom:15px;">Rp${p.harga.toLocaleString("id-ID")}</h2>
-                    <p style="font-size:13px; color:#555; margin-bottom:15px;">${p.deskripsi}</p>
-                    
-                    <div style="margin-bottom:15px;">
-                        <label style="font-size:13px; font-weight:bold;">Pilihan Varian:</label><br>
-                        ${p.varian.map((v, i) => `<span class="variant-opt ${i===0?'selected':''}" onclick="selectVariant(this)">${v}</span>`).join('')}
-                    </div>
 
-                    <div class="qty-picker">
-                        <label style="font-size:13px; font-weight:bold;">Jumlah:</label>
-                        <button onclick="changeModalQty(-1)">-</button>
-                        <span id="modalQtyVal">1</span>
-                        <button onclick="changeModalQty(1)">+</button>
-                    </div>
+                <div class="detail-card">
+                    <div class="section-title">Pilih Variasi</div>
+                    <div class="variation-container">${varietyHtml}</div>
+                    ${product.sizes ? `<div class="variation-container">${sizeHtml}</div>` : ''}
+                </div>
 
-                    <div style="display:flex; gap:10px; margin-top:20px;">
-                        <button class="btn-add-cart" style="background:var(--sage-soft);" onclick="addToCartFromModal(${p.id})">+ Keranjang</button>
-                        <button class="btn-add-cart" style="background:var(--army);" onclick="buyNowFromModal(${p.id})">Beli Sekarang</button>
+                <div class="detail-card">
+                    <div class="section-title">Deskripsi Produk</div>
+                    <div class="description-text">${product.description}</div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="section-title">Informasi Penjual</div>
+                    <div class="shop-info">
+                        <div class="shop-avatar"></div> <!-- Placeholder Avatar Toko -->
+                        <div>
+                            <div class="shop-name">Toko NAYS Fashion</div>
+                            <div class="shop-rating-info">Aktif 5 menit lalu | ${product.location}</div>
+                        </div>
+                        <button style="border: 1px solid #ccc; color: #555; background: white; padding: 5px 12px; border-radius: 4px; font-size: 0.85rem; margin-left: auto;">Kunjungi</button>
                     </div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="section-title">Ulasan Pelanggan</div>
+                    <div class="review-card">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar"></div> <!-- Placeholder Avatar Ulasan -->
+                            <div class="reviewer-name">malik_abdulazis00</div>
+                            <span style="color:#fcc419;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                        </div>
+                        <div class="review-text">Lucu banget tasnya, relpict juga sesuai gambar. Bahannya lembut dan kokoh. Recomended pokoknya!</div>
+                    </div>
+                </div>
+
+                <!-- Jarak bawah untuk Tombol Aksi -->
+                <div style="height: 60px;"></div>
+
+                <div class="detail-bottom-actions">
+                    <div class="action-icon-btn">
+                        <svg class="icon"><path d="M2 17h2v.5H3v1h1v.5H2v1h3v-4H2v1zm19-2h1v1.5h-1V15zm0 3h1v1.5h-1V18zm-1-1h1v1h-1v-1zm1-3h1v1.5h-1V14zm-1-1h1v1h-1v-1zm1-3h1v1.5h-1V11zm-1-1h1v1h-1v-1zm1-3h1v1.5h-1V8zm-1-1h1v1h-1v-1zm1-3h1v1.5h-1V5zm-1-1h1v1h-1V4zM4 11h2v.5H5v1h1v.5H4v1h3v-4H4v1zm0-6h2v.5H5v1h1v.5H4v1h3V5H4v1zm14 13h1V6h-1v12zm-3 0h1V6h-1v12z"></path></svg>
+                        Toko
+                    </div>
+                    <div class="action-icon-btn">
+                        <svg class="icon"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"></path></svg>
+                        Chat
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart(${product.id})">Keranjang</button>
+                    <button class="buy-now-btn">Beli Sekarang</button>
                 </div>
             `;
-            document.getElementById("productModal").style.display = "flex";
         }
 
-        function changeModalImg(src, el) {
-            document.getElementById("mainImg").src = src;
-            document.querySelectorAll(".gallery-thumbs img").forEach(i => i.classList.remove("active-thumb"));
-            el.classList.add("active-thumb");
+        function selectVariation(button) {
+            // Hapus seleksi dari semua tombol di container yang sama
+            const siblings = button.parentElement.querySelectorAll('.variation-btn');
+            siblings.forEach(s => s.classList.remove('selected'));
+            // Tambahkan seleksi ke tombol yang di klik
+            button.classList.add('selected');
         }
 
-        function selectVariant(el) {
-            document.querySelectorAll(".variant-opt").forEach(v => v.classList.remove("selected"));
-            el.classList.add("selected");
+        // 7. Fungsi Keranjang Belanja
+        function updateCartCounter() {
+            const count = shoppingCart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-counter-display').textContent = count;
         }
 
-        function changeModalQty(amt) {
-            if (selectedModalQty + amt >= 1) {
-                selectedModalQty += amt;
-                document.getElementById("modalQtyVal").innerText = selectedModalQty;
-            }
-        }
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
 
-        function closeModal() {
-            document.getElementById("productModal").style.display = "none";
-        }
+            const existingItem = shoppingCart.find(item => item.id === productId);
 
-        // CART LOGIC
-        function addToCart(id, qty = 1) {
-            if (!currentUser || currentUser.role !== "user") {
-                alert("Silahkan login sebagai pelanggan untuk berbelanja!");
-                return;
-            }
-            const p = products.find(prod => prod.id === id);
-            const exist = cart.find(item => item.id === id);
-            if (exist) {
-                exist.qty += qty;
+            if (existingItem) {
+                existingItem.quantity += 1; // Tambah jumlah jika sudah ada
             } else {
-                cart.push({ ...p, qty: qty });
-            }
-            updateCartBadge();
-            alert(`${p.nama} (${qty}) berhasil masuk keranjang!`);
-        }
-
-        function addToCartFromModal(id) {
-            addToCart(id, selectedModalQty);
-            closeModal();
-        }
-
-        function buyNowFromModal(id) {
-            addToCart(id, selectedModalQty);
-            closeModal();
-            openPage('keranjang');
-        }
-
-        function updateCartBadge() {
-            const count = cart.reduce((acc, curr) => acc + curr.qty, 0);
-            document.getElementById("cartBadgeCount").innerText = count;
-        }
-
-        function renderCart() {
-            const container = document.getElementById("isiKeranjang");
-            if (cart.length === 0) {
-                container.innerHTML = "Keranjang kamu masih kosong.";
-                document.getElementById("totalHarga").innerText = "Total : Rp0";
-                return;
+                // Ambil variasi pertama sebagai default
+                const selectedVariation = product.varieties[0];
+                shoppingCart.push({ ...product, quantity: 1, variation: selectedVariation });
             }
 
-            let html = "";
-            let total = 0;
-            cart.forEach((item, idx) => {
-                const sub = item.harga * item.qty;
-                total += sub;
-                html += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                        <div style="display:flex; align-items:center; gap:10px;">
-                            <img src="${item.foto[0]}" style="width:50px; height:50px; border-radius:8px; object-fit:cover;">
-                            <div>
-                                <b>${item.nama}</b><br>
-                                <small>Rp${item.harga.toLocaleString("id-ID")} x ${item.qty}</small>
+            updateCartCounter();
+            alert(`${product.name} telah ditambahkan ke keranjang.`);
+        }
+
+        function populateCart() {
+            const container = document.getElementById('cart-items-container');
+            const totalDisplay = document.getElementById('cart-total-price');
+            container.innerHTML = '';
+            let totalPrice = 0;
+
+            if (shoppingCart.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">Keranjang kosong.</p>';
+            } else {
+                shoppingCart.forEach((item, index) => {
+                    const price = item.price * item.quantity;
+                    totalPrice += price;
+
+                    container.innerHTML += `
+                        <div class="cart-item">
+                            <input type="checkbox" checked>
+                            <img src="${item.img}" alt="${item.name}">
+                            <div class="cart-item-details">
+                                <div class="cart-item-name">${item.name}</div>
+                                <div class="cart-item-variation">Varian: ${item.variation}</div>
+                                <div class="cart-item-price">Rp${item.price.toLocaleString('id-ID')}</div>
                             </div>
+                            <div class="quantity-control">
+                                <span class="qty-btn" onclick="changeQty(${index}, -1)">&#128172; -</span>
+                                <input type="number" class="qty-input" value="${item.quantity}">
+                                <span class="qty-btn" onclick="changeQty(${index}, 1)">&#128172; +</span>
+                            </div>
+                            <div class="cart-item-delete" onclick="removeFromCart(${index})">&#128465;</div>
                         </div>
-                        <div>
-                            <b>Rp${sub.toLocaleString("id-ID")}</b>
-                            <button onclick="removeFromCart(${idx})" style="background:red; color:white; border:none; padding:5px 8px; border-radius:5px; margin-left:10px; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-            document.getElementById("totalHarga").innerText = `Total : Rp${total.toLocaleString("id-ID")}`;
+                    `;
+                });
+            }
+            totalDisplay.textContent = `Rp${totalPrice.toLocaleString('id-ID')}`;
+        }
+
+        function changeQty(index, delta) {
+            shoppingCart[index].quantity += delta;
+            if (shoppingCart[index].quantity < 1) shoppingCart[index].quantity = 1; // Batasi minimal 1
+            updateCartCounter();
+            populateCart(); // Render ulang keranjang
         }
 
         function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartBadge();
-            renderCart();
+            shoppingCart.splice(index, 1);
+            updateCartCounter();
+            populateCart();
         }
 
-        // CHECKOUT & PESANAN PELANGGAN
-        function openCheckoutModal() {
-            if (cart.length === 0) return alert("Keranjang kosong!");
-            document.getElementById("coAlamat").value = currentUser.alamat || "";
-            document.getElementById("checkoutModal").style.display = "flex";
-        }
+        // 8. Pesanan Sederhana
+        function populateOrders() {
+            const container = document.getElementById('orders-list-container');
+            container.innerHTML = '';
 
-        function closeCheckoutModal() {
-            document.getElementById("checkoutModal").style.display = "none";
-        }
-
-        function processCheckout() {
-            const addr = document.getElementById("coAlamat").value;
-            if (!addr) return alert("Isi alamat pengiriman!");
-
-            const total = cart.reduce((acc, curr) => acc + (curr.harga * curr.qty), 0);
-            const itemsSummary = cart.map(c => `${c.nama} (${c.qty})`).join(", ");
-
-            const newOrd = {
-                id: "ORD-0" + (globalOrders.length + 1),
-                buyer: currentUser.nama,
-                items: itemsSummary,
-                total: total,
-                status: "Diproses"
-            };
-
-            globalOrders.push(newOrd);
-            cart = [];
-            updateCartBadge();
-            closeCheckoutModal();
-            alert("Pesanan berhasil dibuat!");
-            openPage('pesanan');
-        }
-
-        function renderUserOrders() {
-            const box = document.getElementById("userOrderHistory");
-            const myOrders = globalOrders.filter(o => o.buyer === currentUser.nama);
-
-            if (myOrders.length === 0) {
-                box.innerHTML = "<p>Belum ada riwayat pesanan.</p>";
-                return;
+            // Dummy pesanan untuk Ana Febriyanti
+            if (currentUserId === 'ana') {
+                container.innerHTML = `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-id">ORD#12345678</div>
+                            <div class="order-status">Dikirim</div>
+                        </div>
+                        <div class="order-items">
+                            Tote Bag Pink Elegan - NAYS x 1
+                        </div>
+                        <div class="order-total-price">Rp75.000</div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">Belum ada pesanan.</p>';
             }
-
-            box.innerHTML = myOrders.map(o => `
-                <div class="card-box">
-                    <div style="display:flex; justify-content:space-between;">
-                        <b>Kode ID: ${o.id}</b>
-                        <span style="color:var(--army); font-weight:bold;">${o.status}</span>
-                    </div>
-                    <p style="margin:8px 0; font-size:14px;">🛍️ Produk: ${o.items}</p>
-                    <p style="font-weight:bold;">Total: Rp${o.total.toLocaleString("id-ID")}</p>
-                </div>
-            `).join('');
         }
 
-        // PROFIL PELANGGAN
-        function renderProfilePage() {
-            const p = document.getElementById("profileContent");
-            p.innerHTML = `
-                <div style="display:flex; align-items:center; gap:20px; margin-bottom:20px;">
-                    <img src="${currentUser.img}" style="width:80px; height:80px; border-radius:50%; object-fit:cover;">
-                    <div>
-                        <h2>${currentUser.nama}</h2>
-                        <span style="color:var(--text-muted);">Pelanggan Setia</span>
-                    </div>
-                </div>
-                <p><b>Email:</b> ${currentUser.email}</p><br>
-                <p><b>No Telepon:</b> ${currentUser.telp}</p><br>
-                <p><b>Alamat Utama:</b> ${currentUser.alamat}</p>
-            `;
-        }
-
-        // ADMIN FEATURES
-        function renderAdminTables() {
-            // View Produk Table
-            const pTable = document.getElementById("adminTableProduct");
-            pTable.innerHTML = products.map(p => `
-                <tr>
-                    <td><img src="${p.foto[0]}" style="width:40px; height:40px; border-radius:6px; object-fit:cover;"></td>
-                    <td>${p.nama}</td>
-                    <td>Rp${p.harga.toLocaleString("id-ID")}</td>
-                    <td>${p.stok}</td>
-                </tr>
-            `).join('');
-
-            // All Orders Table
-            const oTable = document.getElementById("adminAllOrdersTable");
-            oTable.innerHTML = globalOrders.map((o, i) => `
-                <tr>
-                    <td>${i+1}</td>
-                    <td><b>${o.buyer}</b></td>
-                    <td>${o.items}</td>
-                    <td>Rp${o.total.toLocaleString("id-ID")}</td>
-                    <td><span style="color:green; font-weight:bold;">${o.status}</span></td>
-                </tr>
-            `).join('');
-        }
-
-        function addNewProduct() {
-            const name = document.getElementById("newProdName").value;
-            const price = parseInt(document.getElementById("newProdPrice").value);
-            const img = document.getElementById("newProdImg").value || "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500";
-            const stock = parseInt(document.getElementById("newProdStock").value);
-
-            if (!name || !price) return alert("Lengkapi data barang!");
-
-            products.unshift({
-                id: products.length + 1,
-                nama: name,
-                harga: price,
-                stok: stock || 10,
-                rating: 5.0,
-                terjual: 0,
-                foto: [img],
-                deskripsi: "Produk terbaru pilihan admin.",
-                varian: ["Standard"]
-            });
-
-            renderProducts();
-            renderAdminTables();
-            alert("Produk Baru Berhasil Ditambahkan!");
-        }
     </script>
 </body>
-
 </html>
