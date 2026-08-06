@@ -94,9 +94,6 @@
       font-size: 14px;
       outline: none;
     }
-    .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
-      border-color: var(--primary);
-    }
 
     /* ==========================================================================
        TOAST NOTIFICATION
@@ -161,7 +158,6 @@
       border: 2px solid var(--surface);
     }
 
-    /* Bottom Navigation Bar */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -246,7 +242,7 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
-    /* CUSTOMER MARKETPLACE VIEW */
+    /* MARKETPLACE VIEW */
     .banner-slider {
       width: 100%;
       height: 140px;
@@ -292,7 +288,6 @@
       display: flex;
       flex-direction: column;
       cursor: pointer;
-      position: relative;
     }
     .product-img {
       width: 100%;
@@ -307,11 +302,23 @@
     .badge-store { font-size: 9px; background: var(--secondary); color: var(--primary); padding: 2px 6px; border-radius: 4px; width: fit-content; margin-bottom: 4px; }
 
     /* DETAIL PRODUCT PAGE */
-    .detail-img { width: 100%; height: 320px; object-fit: cover; border-radius: 0 0 var(--radius) var(--radius); }
+    .detail-img { width: 100%; height: 320px; object-fit: cover; border-radius: 0 0 var(--radius) var(--radius); transition: all 0.3s ease; }
     .detail-container { padding: 16px; background: var(--surface); margin-top: -10px; border-radius: 16px 16px 0 0; }
     .variant-selector { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 16px; }
     .variant-opt { padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 12px; cursor: pointer; }
     .variant-opt.active { border-color: var(--primary); background: var(--secondary); color: var(--primary); font-weight: 600; }
+
+    /* REVIEWS SECTION */
+    .review-card {
+      background: var(--bg-color);
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-size: 12px;
+    }
+    .review-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .review-user { font-weight: 600; color: var(--text-dark); }
+    .review-date { font-size: 10px; color: var(--text-muted); }
 
     /* CART & CHECKOUT */
     .cart-item, .order-card {
@@ -338,10 +345,8 @@
     .profile-header { text-align: center; padding: 20px; background: var(--surface); border-radius: var(--radius); margin-bottom: 16px; }
     .profile-img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); margin-bottom: 10px; }
 
-    /* Utility */
     .text-center { text-align: center; }
     .mt-10 { margin-top: 10px; }
-    .mb-10 { margin-bottom: 10px; }
     .flex-between { display: flex; justify-content: space-between; align-items: center; }
   </style>
 </head>
@@ -364,10 +369,6 @@
         </button>
       </div>
     </header>
-
-    <!-- ==========================================================================
-       PAGES CONTENT
-       ========================================================================== -->
 
     <!-- 1. LOGIN PAGE -->
     <div id="login-page" class="page active">
@@ -403,7 +404,6 @@
         <i class="fa-solid fa-gift" style="font-size:40px; opacity:0.8;"></i>
       </div>
 
-      <!-- Category Filter -->
       <div class="category-scroll no-scrollbar">
         <div class="cat-chip active" onclick="filterCategory('All', this)">Semua</div>
         <div class="cat-chip" onclick="filterCategory('Shoulder Bag', this)">Shoulder Bag</div>
@@ -411,24 +411,17 @@
         <div class="cat-chip" onclick="filterCategory('Tote Bag', this)">Tote Bag</div>
       </div>
 
-      <!-- Product List -->
-      <div class="product-grid" id="customer-product-list">
-        <!-- Dynamic rendering -->
-      </div>
+      <div class="product-grid" id="customer-product-list"></div>
     </div>
 
     <!-- 3. PRODUCT DETAIL PAGE -->
     <div id="product-detail-page" class="page" style="padding:0;">
-      <div id="detail-content">
-        <!-- Dynamic rendering -->
-      </div>
+      <div id="detail-content"></div>
     </div>
 
     <!-- 4. CART PAGE -->
     <div id="cart-page" class="page">
-      <div id="cart-items-container">
-        <!-- Dynamic rendering -->
-      </div>
+      <div id="cart-items-container"></div>
       <div id="cart-footer" class="checkout-summary" style="display:none; margin-top:20px;">
         <div class="summary-row total">
           <span>Total</span>
@@ -504,12 +497,12 @@
       <div id="admin-dashboard-recent-orders"></div>
     </div>
 
-    <!-- 8. ADMIN INPUT/EDIT PRODUCT PAGE -->
+    <!-- 8. ADMIN INPUT PAGE -->
     <div id="admin-input-page" class="page">
       <form id="product-form" onsubmit="saveProduct(event)">
         <input type="hidden" id="input-prod-id">
         <div class="input-group">
-          <label>URL Gambar Produk</label>
+          <label>URL Gambar Utama (Default)</label>
           <input type="url" id="input-prod-img" placeholder="https://..." required>
         </div>
         <div class="input-group">
@@ -526,7 +519,7 @@
         </div>
         <div class="input-group">
           <label>Pilihan Warna (Pisahkan dengan koma)</label>
-          <input type="text" id="input-prod-colors" placeholder="Pink, Hitam, Cream" required>
+          <input type="text" id="input-prod-colors" placeholder="Cream, Pink, Hitam" required>
         </div>
         <div class="input-group">
           <label>Harga (Rp)</label>
@@ -544,7 +537,7 @@
       </form>
     </div>
 
-    <!-- 9. ADMIN VIEW PRODUCTS PAGE -->
+    <!-- 9. ADMIN PRODUCTS PAGE -->
     <div id="admin-products-page" class="page">
       <div id="admin-product-list"></div>
     </div>
@@ -585,7 +578,7 @@
           0819283830201
         </div>
         <div>
-          <strong style="color:var(--text-muted); font-size:11px; display:block;">ALAMAT toko</strong>
+          <strong style="color:var(--text-muted); font-size:11px; display:block;">ALAMAT TOKO</strong>
           Jl. Pemuda No. 11, Jakarta Selatan, Indonesia
         </div>
       </div>
@@ -595,21 +588,14 @@
       </button>
     </div>
 
-    <!-- ==========================================================================
-       BOTTOM NAVIGATION BAR
-       ========================================================================== -->
-    <nav class="bottom-nav" id="main-nav" style="display:none;">
-      <!-- Dynamic Nav Items via JS -->
-    </nav>
+    <!-- BOTTOM NAVIGATION BAR -->
+    <nav class="bottom-nav" id="main-nav" style="display:none;"></nav>
 
   </div>
 
-  <!-- ==========================================================================
-     JAVASCRIPT LOGIC
-     ========================================================================== -->
   <script>
-    /* STATE MANAGEMENT */
-    let currentUser = null; // { role: 'customer'|'admin', username: '' }
+    /* STATE MANAGEMENT & COLOR IMAGES MAP */
+    let currentUser = null;
     let selectedRole = 'customer';
     let currentCategoryFilter = 'All';
     let selectedDetailProduct = null;
@@ -617,7 +603,18 @@
     let selectedVariant = 'Standard';
     let historyStack = [];
 
-    // Sample Initial Products
+    // Mapping Gambar Tas Berdasarkan Warna
+    const colorImageMap = {
+      "Cream": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=500",
+      "Putih": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=500",
+      "Hitam": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=500",
+      "Coklat Tua": "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=500",
+      "Maroon": "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&q=80&w=500",
+      "Pink": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=500",
+      "Biru Muda": "https://images.unsplash.com/photo-1614179689702-355944cd0918?auto=format&fit=crop&q=80&w=500"
+    };
+
+    // Product Data with Reviews
     let products = [
       {
         id: 1,
@@ -627,9 +624,19 @@
         stock: 12,
         rating: 4.9,
         sold: 142,
-        colors: ["Cream", "Pink", "Hitam"],
+        colors: ["Cream", "Pink", "Hitam", "Putih"],
+        colorMap: {
+          "Cream": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=500",
+          "Pink": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=500",
+          "Hitam": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=500",
+          "Putih": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=500"
+        },
         img: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=500",
-        desc: "Shoulder bag sintetis premium dengan desain modern. Cocok untuk kuliah maupun hangout."
+        desc: "Shoulder bag sintetis premium dengan desain modern. Cocok untuk kuliah maupun hangout.",
+        reviews: [
+          { name: "Clarissa M.", rating: 5, date: "12 Mei 2026", comment: "Tasnya bagus banget! Bahan kulit sintetisnya halus dan kelihatan mewah." },
+          { name: "Nabila A.", rating: 5, date: "28 Apr 2026", comment: "Warna creamnya sesuai foto. Jahitannya juga rapi banget!" }
+        ]
       },
       {
         id: 2,
@@ -639,9 +646,17 @@
         stock: 8,
         rating: 4.8,
         sold: 98,
-        colors: ["Putih", "Biru Muda", "Pink"],
+        colors: ["Pink", "Biru Muda", "Putih"],
+        colorMap: {
+          "Pink": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=500",
+          "Biru Muda": "https://images.unsplash.com/photo-1614179689702-355944cd0918?auto=format&fit=crop&q=80&w=500",
+          "Putih": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=500"
+        },
         img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=500",
-        desc: "Tas selempang kecil yang imut dan praktis. Muat HP, dompet lipat, dan kosmetik."
+        desc: "Tas selempang kecil yang imut dan praktis. Muat HP, dompet lipat, dan kosmetik.",
+        reviews: [
+          { name: "Siti Rahma", rating: 5, date: "02 Jun 2026", comment: "Suka bgt sama warna pink nya, cute banget dipake jalan-jalan!" }
+        ]
       },
       {
         id: 3,
@@ -652,8 +667,16 @@
         rating: 5.0,
         sold: 210,
         colors: ["Coklat Tua", "Cream", "Hitam"],
+        colorMap: {
+          "Coklat Tua": "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=500",
+          "Cream": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=500",
+          "Hitam": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=500"
+        },
         img: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=500",
-        desc: "Tote bag bahan kanvas tebal kompartemen luas. Sangat muat banyak barang bawaan."
+        desc: "Tote bag bahan kanvas tebal kompartemen luas. Sangat muat banyak barang bawaan.",
+        reviews: [
+          { name: "Dewi Lestari", rating: 5, date: "15 Jan 2026", comment: "Muat laptop dan peralatan kuliah lainnya. Bahan tebal!" }
+        ]
       },
       {
         id: 4,
@@ -664,13 +687,20 @@
         rating: 4.9,
         sold: 67,
         colors: ["Maroon", "Hitam"],
-        img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=500",
-        desc: "Tas dengan motif quilted elegan memberi kesan mewah untuk acara formal maupun pesta."
+        colorMap: {
+          "Maroon": "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&q=80&w=500",
+          "Hitam": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=500"
+        },
+        img: "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&q=80&w=500",
+        desc: "Tas dengan motif quilted elegan memberi kesan mewah untuk acara formal maupun pesta.",
+        reviews: [
+          { name: "Jessica T.", rating: 5, date: "20 Jul 2026", comment: "Tampak mewah banget! Rantai masnya kokoh ga gampang luntur." }
+        ]
       }
     ];
 
-    let cart = []; // [{ product, color, variant, qty }]
-    let orders = []; // [{ id, date, customer, items, total, status }]
+    let cart = [];
+    let orders = [];
 
     /* ROUTING & NAVIGATION */
     function navigateTo(pageId, pushToHistory = true) {
@@ -682,7 +712,6 @@
       const activePage = document.getElementById(pageId);
       if (activePage) activePage.classList.add('active');
 
-      // Update Header Title & Back Button
       const pageTitleEl = document.getElementById('page-title');
       const backBtn = document.getElementById('back-btn');
 
@@ -692,7 +721,6 @@
         backBtn.style.display = 'none';
       }
 
-      // Dynamic titles & views
       switch(pageId) {
         case 'customer-home':
           pageTitleEl.innerText = "Girl's Store";
@@ -822,7 +850,6 @@
 
     function updateNavActiveState(pageId) {
       document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
-      // Match active nav item simple logic
       const navs = document.querySelectorAll('.nav-item');
       if (currentUser?.role === 'customer') {
         if (pageId === 'customer-home') navs[0]?.classList.add('active');
@@ -869,15 +896,18 @@
       `).join('');
     }
 
-    /* PRODUCT DETAIL */
+    /* PRODUCT DETAIL WITH DYNAMIC IMAGE & REVIEWS */
     function openProductDetail(id) {
       selectedDetailProduct = products.find(p => p.id === id);
       selectedColor = selectedDetailProduct.colors[0];
       selectedVariant = 'Standard';
 
+      // Set initial image based on colorMap or default
+      const initialImg = selectedDetailProduct.colorMap?.[selectedColor] || colorImageMap[selectedColor] || selectedDetailProduct.img;
+
       const container = document.getElementById('detail-content');
       container.innerHTML = `
-        <img src="${selectedDetailProduct.img}" class="detail-img" alt="${selectedDetailProduct.name}">
+        <img src="${initialImg}" id="main-detail-img" class="detail-img" alt="${selectedDetailProduct.name}">
         <div class="detail-container">
           <span class="badge-store">Girl's Store • Jakarta Selatan</span>
           <h2 style="font-size:16px; margin:4px 0 8px;">${selectedDetailProduct.name}</h2>
@@ -908,9 +938,17 @@
           <hr style="border:none; border-top:1px solid var(--border); margin:12px 0;">
 
           <h4 style="font-size:13px; margin-bottom:6px;">Deskripsi Produk</h4>
-          <p style="font-size:12px; color:#555; line-height:1.5; margin-bottom:24px;">${selectedDetailProduct.desc}</p>
+          <p style="font-size:12px; color:#555; line-height:1.5; margin-bottom:20px;">${selectedDetailProduct.desc}</p>
 
-          <div style="display:flex; gap:10px;">
+          <hr style="border:none; border-top:1px solid var(--border); margin:12px 0;">
+
+          <!-- ULASAN PELANGGAN SECTION -->
+          <h4 style="font-size:13px; margin-bottom:10px;"><i class="fa-solid fa-comments" style="color:var(--primary);"></i> Ulasan Pelanggan (${selectedDetailProduct.reviews ? selectedDetailProduct.reviews.length : 0})</h4>
+          <div id="reviews-list">
+            ${renderReviews(selectedDetailProduct.reviews)}
+          </div>
+
+          <div style="display:flex; gap:10px; margin-top:24px;">
             <button class="btn btn-outline" onclick="addToCart()"><i class="fa-solid fa-cart-plus"></i> + Keranjang</button>
             <button class="btn btn-primary" onclick="buyNow()">Beli Sekarang</button>
           </div>
@@ -919,10 +957,23 @@
       navigateTo('product-detail-page');
     }
 
+    // Ubah Warna & Gambar Tas Sekaligus
     function selectColor(color, el) {
       selectedColor = color;
       el.parentElement.querySelectorAll('.variant-opt').forEach(o => o.classList.remove('active'));
       el.classList.add('active');
+
+      // Cari URL Gambar Sesuai Warna
+      const imgEl = document.getElementById('main-detail-img');
+      const targetImg = selectedDetailProduct.colorMap?.[color] || colorImageMap[color] || selectedDetailProduct.img;
+
+      if (imgEl && targetImg) {
+        imgEl.style.opacity = '0.4';
+        setTimeout(() => {
+          imgEl.src = targetImg;
+          imgEl.style.opacity = '1';
+        }, 150);
+      }
     }
 
     function selectVariant(variant, el) {
@@ -931,8 +982,28 @@
       el.classList.add('active');
     }
 
+    function renderReviews(reviews) {
+      if (!reviews || reviews.length === 0) {
+        return `<p style="font-size:12px; color:var(--text-muted);">Belum ada ulasan untuk produk ini.</p>`;
+      }
+      return reviews.map(r => `
+        <div class="review-card">
+          <div class="review-header">
+            <span class="review-user">${r.name}</span>
+            <span class="review-date">${r.date}</span>
+          </div>
+          <div style="color:#FFB800; font-size:10px; margin-bottom:4px;">
+            ${'<i class="fa-solid fa-star"></i>'.repeat(r.rating)}
+          </div>
+          <p style="color:#444;">"${r.comment}"</p>
+        </div>
+      `).join('');
+    }
+
     /* CART & CHECKOUT LOGIC */
     function addToCart() {
+      const activeImg = selectedDetailProduct.colorMap?.[selectedColor] || colorImageMap[selectedColor] || selectedDetailProduct.img;
+      
       const existing = cart.find(item => item.product.id === selectedDetailProduct.id && item.color === selectedColor && item.variant === selectedVariant);
       if (existing) {
         existing.qty += 1;
@@ -941,18 +1012,21 @@
           product: selectedDetailProduct,
           color: selectedColor,
           variant: selectedVariant,
+          selectedImg: activeImg,
           qty: 1
         });
       }
       updateCartBadge();
-      showToast("Berhasil ditambahkan ke keranjang!");
+      showToast(`Tas warna ${selectedColor} ditambahkan!`);
     }
 
     function buyNow() {
+      const activeImg = selectedDetailProduct.colorMap?.[selectedColor] || colorImageMap[selectedColor] || selectedDetailProduct.img;
       cart = [{
         product: selectedDetailProduct,
         color: selectedColor,
         variant: selectedVariant,
+        selectedImg: activeImg,
         qty: 1
       }];
       updateCartBadge();
@@ -985,7 +1059,7 @@
         total += itemTotal;
         return `
           <div class="cart-item">
-            <img src="${item.product.img}" class="cart-img" alt="${item.product.name}">
+            <img src="${item.selectedImg || item.product.img}" class="cart-img" alt="${item.product.name}">
             <div class="cart-details">
               <div style="font-weight:600; font-size:13px;">${item.product.name}</div>
               <div style="font-size:11px; color:var(--text-muted);">Warna: ${item.color} | Variasi: ${item.variant}</div>
@@ -1019,7 +1093,7 @@
         subtotal += itemTotal;
         return `
           <div class="cart-item">
-            <img src="${item.product.img}" class="cart-img" alt="${item.product.name}">
+            <img src="${item.selectedImg || item.product.img}" class="cart-img" alt="${item.product.name}">
             <div class="cart-details">
               <div style="font-weight:600; font-size:13px;">${item.product.name}</div>
               <div style="font-size:11px; color:var(--text-muted);">Warna: ${item.color} | ${item.variant}</div>
@@ -1057,7 +1131,6 @@
 
       orders.unshift(newOrder);
 
-      // Reduce product stock
       cart.forEach(ci => {
         const prod = products.find(p => p.id === ci.product.id);
         if (prod) {
@@ -1119,7 +1192,7 @@
             <span style="color:var(--primary);">${order.id}</span>
           </div>
           <div style="font-size:11px; color:var(--text-muted); margin:4px 0;">
-            ${order.items.map(i => `${i.product.name} (${i.qty})`).join(', ')}
+            ${order.items.map(i => `${i.product.name} (${i.color}) x${i.qty}`).join(', ')}
           </div>
           <div class="flex-between" style="font-size:12px;">
             <span>Total: Rp ${order.total.toLocaleString('id-ID')}</span>
@@ -1146,19 +1219,18 @@
       const desc = document.getElementById('input-prod-desc').value;
 
       if (id) {
-        // Edit existing
         const prod = products.find(p => p.id == id);
         if (prod) {
           Object.assign(prod, { name, category, colors, price, stock, img, desc });
           showToast("Produk berhasil diperbarui!");
         }
       } else {
-        // New product
         const newProd = {
           id: Date.now(),
           name, category, colors, price, stock, img, desc,
           rating: 5.0,
-          sold: 0
+          sold: 0,
+          reviews: []
         };
         products.unshift(newProd);
         showToast("Produk baru berhasil ditambahkan!");
@@ -1222,19 +1294,9 @@
 
       const totalRevenue = orders.reduce((sum, o) => sum + o.total, 0);
 
-      if (type === 'harian') {
-        titleEl.innerText = "Laporan Penjualan Harian";
-        countEl.innerText = orders.length;
-        revenueEl.innerText = `Rp ${totalRevenue.toLocaleString('id-ID')}`;
-      } else if (type === 'bulanan') {
-        titleEl.innerText = "Laporan Penjualan Bulanan";
-        countEl.innerText = orders.length;
-        revenueEl.innerText = `Rp ${totalRevenue.toLocaleString('id-ID')}`;
-      } else {
-        titleEl.innerText = "Laporan Penjualan Tahunan";
-        countEl.innerText = orders.length;
-        revenueEl.innerText = `Rp ${totalRevenue.toLocaleString('id-ID')}`;
-      }
+      titleEl.innerText = `Laporan Penjualan ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+      countEl.innerText = orders.length;
+      revenueEl.innerText = `Rp ${totalRevenue.toLocaleString('id-ID')}`;
     }
 
     /* TOAST SYSTEM */
