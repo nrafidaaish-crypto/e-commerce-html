@@ -3,17 +3,587 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shopee Clone - Custom Role</title>
+  <title>Shopee Clone - All in One File</title>
   
+  <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
+  
+  <style>
+    :root {
+      --shopee-orange: #ee4d2d;
+      --bg-gray: #f4f4f4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+      background-color: #222;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 420px;
+      min-height: 100vh;
+      background-color: var(--bg-gray);
+      position: relative;
+      padding-bottom: 60px;
+    }
+
+    /* LOGIN SCREEN OVERLAY */
+    #page-login {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 420px;
+      height: 100vh;
+      background: linear-gradient(180deg, #ff5722, #ee4d2d);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-box {
+      background: white;
+      width: 100%;
+      padding: 30px 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .login-logo {
+      font-size: 50px;
+      color: var(--shopee-orange);
+      margin-bottom: 10px;
+    }
+
+    .login-box h2 {
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .login-box p {
+      font-size: 13px;
+      color: #777;
+      margin-bottom: 20px;
+    }
+
+    .btn-role {
+      width: 100%;
+      padding: 12px;
+      margin: 6px 0;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-customer {
+      background: var(--shopee-orange);
+      color: white;
+    }
+
+    .btn-admin {
+      background: #333;
+      color: white;
+    }
+
+    /* HEADER SHOPEE */
+    .header {
+      background-color: var(--shopee-orange);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .search-bar {
+      background: white;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      padding: 6px 10px;
+      flex-grow: 1;
+    }
+
+    .search-bar input {
+      border: none;
+      outline: none;
+      width: 100%;
+      margin: 0 6px;
+      font-size: 13px;
+      color: #ee4d2d;
+    }
+
+    .icon-search, .icon-camera {
+      color: #757575;
+      font-size: 14px;
+    }
+
+    .header-icons {
+      display: flex;
+      color: white;
+      gap: 12px;
+      font-size: 18px;
+    }
+
+    .icon-badge {
+      position: relative;
+    }
+
+    .badge {
+      position: absolute;
+      top: -6px;
+      right: -8px;
+      background: white;
+      color: var(--shopee-orange);
+      font-size: 9px;
+      font-weight: bold;
+      padding: 1px 4px;
+      border-radius: 8px;
+      border: 1px solid var(--shopee-orange);
+    }
+
+    /* GRID PRODUK */
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      padding: 6px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .card-img-wrap {
+      position: relative;
+      width: 100%;
+      height: 180px;
+    }
+
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .badge-discount {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #ffe880;
+      color: #ee4d2d;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 2px 4px;
+    }
+
+    .badge-mall {
+      position: absolute;
+      top: 5px;
+      left: 0;
+      background: #d0011b;
+      color: white;
+      font-size: 9px;
+      font-weight: bold;
+      padding: 1px 4px;
+    }
+
+    .card-info {
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-grow: 1;
+    }
+
+    .card-title {
+      font-size: 12px;
+      line-height: 1.3;
+      height: 32px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      color: #222;
+    }
+
+    .card-price {
+      color: var(--shopee-orange);
+      font-weight: bold;
+      font-size: 14px;
+      margin-top: 6px;
+    }
+
+    .card-footer-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: #757575;
+      margin-top: 4px;
+    }
+
+    .rating-tag {
+      background: #fff8e7;
+      color: #ffab00;
+      padding: 1px 3px;
+      border-radius: 2px;
+    }
+
+    /* DETAIL PRODUK */
+    .detail-view {
+      background: #fff;
+    }
+
+    .detail-top-nav {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 12px;
+      z-index: 10;
+    }
+
+    .btn-back, .top-right-actions i {
+      background: rgba(0,0,0,0.4);
+      color: white;
+      padding: 8px;
+      border-radius: 50%;
+      font-size: 14px;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .top-right-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .detail-main-img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+    }
+
+    .flash-sale-bar {
+      background: linear-gradient(90deg, #ff4500, #ee4d2d);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 12px;
+      align-items: center;
+      font-size: 12px;
+    }
+
+    .fs-left {
+      font-weight: bold;
+      font-style: italic;
+      font-size: 14px;
+    }
+
+    .timer-box {
+      background: #000;
+      padding: 1px 3px;
+      border-radius: 2px;
+      font-weight: bold;
+    }
+
+    .detail-price-section {
+      padding: 12px;
+      border-bottom: 8px solid #f4f4f4;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .current-price {
+      color: var(--shopee-orange);
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .old-price {
+      color: #999;
+      text-decoration: line-through;
+      font-size: 12px;
+    }
+
+    .sold-count {
+      margin-left: auto;
+      font-size: 11px;
+      color: #555;
+    }
+
+    .detail-title {
+      font-size: 14px;
+      font-weight: 500;
+      margin-top: 6px;
+      line-height: 1.3;
+    }
+
+    .detail-info-row {
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      border-bottom: 1px solid #eee;
+      color: #333;
+    }
+
+    .rating-section {
+      padding: 12px;
+    }
+
+    .rating-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .review-box {
+      background: #fafafa;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+
+    .reviewer-name {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .variansi {
+      color: #888;
+      margin: 2px 0;
+    }
+
+    .review-comment {
+      color: #222;
+      margin-top: 4px;
+      font-size: 12px;
+    }
+
+    .review-img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-top: 8px;
+    }
+
+    /* HALAMAN SAYA & ADMIN */
+    .shopee-profile-header {
+      background: linear-gradient(180deg, #ff5722, #ee4d2d);
+      color: white;
+      padding: 15px 12px 30px 12px;
+      position: relative;
+    }
+
+    .seller-btn {
+      background: rgba(0,0,0,0.2);
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      margin-bottom: 12px;
+    }
+
+    .profile-info-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: white;
+      color: #ee4d2d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .user-badge {
+      background: rgba(255,255,255,0.3);
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 8px;
+    }
+
+    .shopee-menu-section {
+      background: white;
+      margin-top: 8px;
+      padding: 12px;
+    }
+
+    .menu-header-title {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .see-all {
+      font-size: 11px;
+      color: #888;
+      font-weight: normal;
+    }
+
+    .order-status-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      text-align: center;
+      font-size: 11px;
+      color: #555;
+    }
+
+    .status-item i {
+      font-size: 20px;
+      color: #444;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .admin-card {
+      background: white;
+      margin: 10px;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px dashed #ee4d2d;
+    }
+
+    .admin-card h3 {
+      font-size: 13px;
+      color: #ee4d2d;
+      margin-bottom: 10px;
+    }
+
+    .admin-card input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .admin-card button {
+      width: 100%;
+      padding: 9px;
+      background: #333;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* BOTTOM NAV */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 6px 0;
+      border-top: 1px solid #e0e0e0;
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 10px;
+      color: #666;
+      cursor: pointer;
+    }
+
+    .nav-item i {
+      font-size: 18px;
+      margin-bottom: 2px;
+    }
+
+    .nav-item.active {
+      color: var(--shopee-orange);
+    }
+
+    .badge-parent {
+      position: relative;
+    }
+
+    .num-badge {
+      position: absolute;
+      top: -4px;
+      right: 12px;
+      background: var(--shopee-orange);
+      color: white;
+      font-size: 9px;
+      padding: 0 4px;
+      border-radius: 8px;
+    }
+
+    .nav-b {
+      right: 4px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
 </head>
 <body>
 
   <div class="app-container">
 
-    <!-- ================= 1. LOGIN AWAL (ADMIN / PELANGGAN) ================= -->
+    <!-- 1. HALAMAN LOGIN AWAL -->
     <div id="page-login">
       <div class="login-box">
         <i class="fa-solid fa-bag-shopping login-logo"></i>
@@ -30,7 +600,7 @@
       </div>
     </div>
 
-    <!-- ================= 2. HEADER SEARCH (PERSIS SHOPEE) ================= -->
+    <!-- 2. HEADER SEARCH -->
     <div id="app-header" class="header">
       <div class="search-bar">
         <i class="fa-solid fa-magnifying-glass icon-search"></i>
@@ -46,14 +616,12 @@
       </div>
     </div>
 
-    <!-- ================= 3. HALAMAN BERANDA (GRID PRODUK SHOPEE) ================= -->
+    <!-- 3. HALAMAN BERANDA -->
     <div id="page-home" class="page-content">
-      <div class="product-grid" id="product-container">
-        <!-- Di-render via JavaScript -->
-      </div>
+      <div class="product-grid" id="product-container"></div>
     </div>
 
-    <!-- ================= 4. HALAMAN DETAIL PRODUK (PERSIS GAMBAR 2) ================= -->
+    <!-- 4. HALAMAN DETAIL PRODUK -->
     <div id="page-detail" class="page-content hidden detail-view">
       <div class="detail-top-nav">
         <i class="fa-solid fa-arrow-left btn-back" onclick="showPage('home')"></i>
@@ -93,7 +661,6 @@
         <i class="fa-solid fa-chevron-right"></i>
       </div>
 
-      <!-- Rating Section -->
       <div class="rating-section">
         <div class="rating-header">
           <div><b>4.6</b> ⭐ Penilaian Produk (12,2RB)</div>
@@ -110,7 +677,7 @@
       </div>
     </div>
 
-    <!-- ================= 5. HALAMAN SAYA / PROFIL & ADMIN ================= -->
+    <!-- 5. HALAMAN SAYA / PROFIL & ADMIN -->
     <div id="page-profile" class="page-content hidden">
       <div class="shopee-profile-header">
         <div class="seller-btn">Mulai Jual <i class="fa-solid fa-chevron-right"></i></div>
@@ -123,7 +690,7 @@
         </div>
       </div>
 
-      <!-- FORM KHUSUS ADMIN -->
+      <!-- FORM ADMIN -->
       <div id="admin-panel" class="hidden">
         <div class="admin-card">
           <h3><i class="fa-solid fa-sliders"></i> Panel Kelola Produk (Admin)</h3>
@@ -134,7 +701,7 @@
         </div>
       </div>
 
-      <!-- MENU SAYA PERSIS SHOPEE (GAMBAR 3) -->
+      <!-- MENU SAYA -->
       <div class="shopee-menu-section">
         <div class="menu-header-title">
           <span>Pesanan Saya</span>
@@ -163,14 +730,13 @@
       </div>
 
       <div class="shopee-menu-section">
-        <div class="menu-list-item" onclick="logout()">
+        <div class="menu-list-item" onclick="logout()" style="cursor: pointer;">
           <span style="color: red; font-weight: bold;"><i class="fa-solid fa-right-from-bracket"></i> Keluar / Ganti Akun</span>
-          <i class="fa-solid fa-chevron-right"></i>
         </div>
       </div>
     </div>
 
-    <!-- ================= 6. BOTTOM NAV (PERSIS SHOPEE) ================= -->
+    <!-- 6. BOTTOM NAVIGATION -->
     <div id="app-nav" class="bottom-nav">
       <div class="nav-item active" onclick="showPage('home')">
         <i class="fa-solid fa-house"></i>
@@ -193,6 +759,164 @@
 
   </div>
 
-  <script src="script.js"></script>
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    let products = [
+      {
+        id: 1,
+        title: "Tas Selempang Wanita Inara Bags",
+        price: 7500,
+        oldPrice: "Rp20.000",
+        discount: "-63%",
+        sold: "10RB+",
+        rating: "4.8",
+        image: "https://images.tokopedia.net/img/cache/700/VqbcmM/2023/11/17/289e6e88-3485-4876-b33a-86111fdbbc02.jpg",
+        reviewImg: "https://images.tokopedia.net/img/cache/700/VqbcmM/2023/11/17/289e6e88-3485-4876-b33a-86111fdbbc02.jpg"
+      },
+      {
+        id: 2,
+        title: "Kandang Kucing Kandang Anjing Pagar Biru+Pink Pet C...",
+        price: 4800,
+        oldPrice: "Rp10.000",
+        discount: "-52%",
+        sold: "10RB+",
+        rating: "4.8",
+        image: "https://images.tokopedia.net/img/cache/700/product-1/2020/8/10/7272898/7272898_c33b7470-b1d6-4fa2-9440-424d8fbb4409_700_700",
+        reviewImg: "https://images.tokopedia.net/img/cache/700/product-1/2020/8/10/7272898/7272898_c33b7470-b1d6-4fa2-9440-424d8fbb4409_700_700"
+      },
+      {
+        id: 3,
+        title: "Tutup Botol Kecap/Saus/Sirup Panjang Bercorong Karet Teb...",
+        price: 14500,
+        oldPrice: "Rp25.000",
+        discount: "PROMO XTRA",
+        sold: "5RB+",
+        rating: "4.9",
+        image: "https://images.tokopedia.net/img/cache/700/VqbcmM/2021/9/13/ecbb5efd-a60d-4a17-b769-cf4d1f2b9631.jpg",
+        reviewImg: "https://images.tokopedia.net/img/cache/700/VqbcmM/2021/9/13/ecbb5efd-a60d-4a17-b769-cf4d1f2b9631.jpg"
+      }
+    ];
+
+    function loginAs(role) {
+      document.getElementById('page-login').classList.add('hidden');
+      
+      const roleBadge = document.getElementById('user-role-badge');
+      const userName = document.getElementById('user-name');
+      const adminPanel = document.getElementById('admin-panel');
+
+      if (role === 'admin') {
+        userName.innerText = "Admin Toko";
+        roleBadge.innerText = "Administrator";
+        adminPanel.classList.remove('hidden');
+      } else {
+        userName.innerText = "aaishhrf_fd";
+        roleBadge.innerText = "Classic";
+        adminPanel.classList.add('hidden');
+      }
+
+      showPage('home');
+      renderProducts();
+    }
+
+    function logout() {
+      document.getElementById('page-login').classList.remove('hidden');
+    }
+
+    function renderProducts() {
+      const container = document.getElementById('product-container');
+      container.innerHTML = '';
+
+      products.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.onclick = () => openDetail(p);
+
+        card.innerHTML = `
+          <div class="card-img-wrap">
+            <img src="${p.image}" alt="${p.title}">
+            <span class="badge-discount">${p.discount}</span>
+          </div>
+          <div class="card-info">
+            <div class="card-title">${p.title}</div>
+            <div class="card-price">Rp${p.price.toLocaleString('id-ID')}</div>
+            <div class="card-footer-meta">
+              <span class="rating-tag">⭐ ${p.rating}</span>
+              <span>${p.sold} terjual</span>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function showPage(pageName) {
+      document.querySelectorAll('.page-content').forEach(el => el.classList.add('hidden'));
+      
+      const header = document.getElementById('app-header');
+      const nav = document.getElementById('app-nav');
+
+      if (pageName === 'home') {
+        document.getElementById('page-home').classList.remove('hidden');
+        header.classList.remove('hidden');
+        nav.classList.remove('hidden');
+      } else if (pageName === 'profile') {
+        document.getElementById('page-profile').classList.remove('hidden');
+        header.classList.add('hidden');
+        nav.classList.remove('hidden');
+      } else if (pageName === 'detail') {
+        document.getElementById('page-detail').classList.remove('hidden');
+        header.classList.add('hidden');
+        nav.classList.add('hidden');
+      }
+
+      const navItems = document.querySelectorAll('.nav-item');
+      navItems.forEach(item => item.classList.remove('active'));
+      if (pageName === 'home') navItems[0].classList.add('active');
+      if (pageName === 'profile') navItems[3].classList.add('active');
+    }
+
+    function openDetail(product) {
+      document.getElementById('detail-img').src = product.image;
+      document.getElementById('review-img-thumb').src = product.reviewImg;
+      document.getElementById('detail-title').innerText = product.title;
+      document.getElementById('detail-price').innerText = "Rp" + product.price.toLocaleString('id-ID');
+      document.getElementById('detail-old-price').innerText = product.oldPrice || "Rp20.000";
+      
+      showPage('detail');
+    }
+
+    function addProduct() {
+      const name = document.getElementById('input-name').value;
+      const price = parseInt(document.getElementById('input-price').value);
+      const img = document.getElementById('input-img').value;
+
+      if (!name || !price) {
+        alert('Isi nama dan harga produk terlebih dahulu!');
+        return;
+      }
+
+      const newProduct = {
+        id: Date.now(),
+        title: name,
+        price: price,
+        oldPrice: "Rp" + (price * 2).toLocaleString('id-ID'),
+        discount: "-50%",
+        sold: "0",
+        rating: "5.0",
+        image: img || "https://images.tokopedia.net/img/cache/700/VqbcmM/2023/11/17/289e6e88-3485-4876-b33a-86111fdbbc02.jpg",
+        reviewImg: img || "https://images.tokopedia.net/img/cache/700/VqbcmM/2023/11/17/289e6e88-3485-4876-b33a-86111fdbbc02.jpg"
+      };
+
+      products.unshift(newProduct);
+      alert('Produk berhasil ditambahkan!');
+      
+      document.getElementById('input-name').value = '';
+      document.getElementById('input-price').value = '';
+      document.getElementById('input-img').value = '';
+
+      renderProducts();
+      showPage('home');
+    }
+  </script>
 </body>
 </html>
