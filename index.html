@@ -1,1781 +1,657 @@
-
 <!DOCTYPE html>
 <html lang="id">
 
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Michelle Store Marketplace</title>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
-}
-
-body{
-    background:#f8fafc;
-    color:#1e293b;
-}
-
-
-/* HEADER */
-
-.header{
-
-    position:sticky;
-    top:0;
-    z-index:10;
-    background:white;
-    height:70px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:0 35px;
-    box-shadow:0 3px 15px rgba(0,0,0,.08);
-
-}
-
-
-.logo{
-
-    font-size:25px;
-    font-weight:bold;
-    color:#ec4899;
-
-}
-
-
-.user{
-
-    display:flex;
-    align-items:center;
-    gap:15px;
-
-}
-
-
-.user img{
-
-    width:40px;
-    height:40px;
-    border-radius:50%;
-
-}
-
-
-
-
-/* LAYOUT */
-
-
-.container{
-
-    display:flex;
-
-}
-
-
-
-.sidebar{
-
-    width:230px;
-    min-height:calc(100vh - 70px);
-    background:white;
-    padding:25px;
-    box-shadow:2px 0 10px rgba(0,0,0,.05);
-
-}
-
-
-.sidebar h3{
-
-    color:#ec4899;
-    margin-bottom:20px;
-
-}
-
-
-.sidebar li{
-
-    list-style:none;
-    padding:13px;
-    margin:8px 0;
-    border-radius:12px;
-    cursor:pointer;
-
-}
-
-
-.sidebar li:hover{
-
-    background:#fce7f3;
-    color:#ec4899;
-
-}
-
-
-
-
-
-.main{
-
-    flex:1;
-    padding:30px;
-
-}
-
-
-
-
-.page{
-
-    display:none;
-
-}
-
-
-.active{
-
-    display:block;
-
-}
-
-
-
-
-/* BANNER */
-
-
-.banner{
-
-    background:linear-gradient(
-        135deg,
-        #f9a8d4,
-        #ec4899
-    );
-
-    padding:35px;
-    border-radius:25px;
-    color:white;
-    margin-bottom:25px;
-
-}
-
-
-
-
-/* CARD */
-
-
-.cards{
-
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:20px;
-
-}
-
-
-.card{
-
-    background:white;
-    padding:20px;
-    border-radius:20px;
-    box-shadow:0 5px 20px rgba(0,0,0,.06);
-
-}
-
-
-
-
-/* PRODUK */
-
-
-.product-grid{
-
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:25px;
-
-}
-
-
-.product{
-
-    background:white;
-    border-radius:20px;
-    padding:15px;
-    box-shadow:0 5px 20px rgba(0,0,0,.08);
-
-}
-
-
-.product img{
-
-    width:100%;
-    height:200px;
-    object-fit:cover;
-    border-radius:15px;
-
-}
-
-
-
-.product h3{
-
-    margin-top:15px;
-
-}
-
-
-
-.price{
-
-    color:#ec4899;
-    font-weight:bold;
-    margin:10px 0;
-
-}
-
-
-
-button{
-
-    border:none;
-    padding:12px 18px;
-    border-radius:12px;
-    cursor:pointer;
-
-}
-
-
-
-.btn{
-
-    background:#ec4899;
-    color:white;
-
-}
-
-
-
-.btn:hover{
-
-    background:#db2777;
-
-}
-
-
-
-
-/* TABLE */
-
-
-table{
-
-    width:100%;
-    border-collapse:collapse;
-    background:white;
-    border-radius:15px;
-    overflow:hidden;
-
-}
-
-
-
-th{
-
-    background:#ec4899;
-    color:white;
-    padding:12px;
-
-}
-
-
-
-td{
-
-    padding:12px;
-    border-bottom:1px solid #eee;
-
-}
-
-
-
-
-
-/* CART */
-
-
-.cart-box{
-
-    background:white;
-    padding:25px;
-    border-radius:20px;
-    margin-top:20px;
-
-}
-
-
-
-.checkout{
-
-    background:#16a34a;
-    color:white;
-
-}
-
-
-
-
-@media(max-width:900px){
-
-
-.sidebar{
-
-    width:80px;
-
-}
-
-
-.sidebar h3{
-
-    display:none;
-
-}
-
-
-.main{
-
-    padding:15px;
-
-}
-
-
-.product-grid,
-.cards{
-
-    grid-template-columns:1fr;
-
-}
-
-
-}
-
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michelle Store Marketplace</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #1e293b;
+        }
+
+        /* HEADER */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: white;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 35px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, .08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #ec4899;
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        /* LAYOUT */
+        .container {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 230px;
+            min-height: calc(100vh - 70px);
+            background: white;
+            padding: 25px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, .05);
+        }
+
+        .sidebar h3 {
+            color: #ec4899;
+            margin-bottom: 20px;
+        }
+
+        .sidebar li {
+            list-style: none;
+            padding: 13px;
+            margin: 8px 0;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .sidebar li:hover {
+            background: #fce7f3;
+            color: #ec4899;
+        }
+
+        .main {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        /* BANNER */
+        .banner {
+            background: linear-gradient(135deg, #f9a8d4, #ec4899);
+            padding: 35px;
+            border-radius: 25px;
+            color: white;
+            margin-bottom: 25px;
+        }
+
+        /* CARD */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, .06);
+        }
+
+        /* PRODUK */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .product {
+            background: white;
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, .08);
+        }
+
+        .product img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .product h3 {
+            margin-top: 15px;
+        }
+
+        .price {
+            color: #ec4899;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        button {
+            border: none;
+            padding: 12px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .btn {
+            background: #ec4899;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #db2777;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, .05);
+        }
+
+        th {
+            background: #ec4899;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* CART */
+        .cart-box {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin-top: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, .05);
+        }
+
+        .checkout {
+            background: #16a34a;
+            color: white;
+        }
+
+        @media(max-width:900px) {
+            .sidebar {
+                width: 80px;
+            }
+
+            .sidebar h3 {
+                display: none;
+            }
+
+            .main {
+                padding: 15px;
+            }
+
+            .product-grid,
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
-
-<!-- HEADER -->
-
-
-<div class="header">
-
-
-<div class="logo">
-
-🛍 Michelle Store
-
-</div>
-
-
-
-<div class="user">
-
-
-<span>
-Michelle
-</span>
-
-
-<img src="https://i.pravatar.cc/100?img=47">
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-<div class="container">
-
-
-<!-- SIDEBAR -->
-
-
-<div class="sidebar">
-
-
-<h3>
-Menu
-</h3>
-
-
-<ul>
-
-
-<li onclick="openPage('home')">
-🏠 Home
-</li>
-
-
-<li onclick="openPage('produk')">
-🛒 Produk
-</li>
-
-
-<li onclick="openPage('keranjang')">
-🛍 Keranjang
-</li>
-
-
-<li onclick="openPage('pesanan')">
-📦 Pesanan
-</li>
-
-
-<li onclick="openPage('pelanggan')">
-👥 Pelanggan
-</li>
-
-
-<li onclick="openPage('laporan')">
-📊 Laporan
-</li>
-
-
-</ul>
-
-
-</div>
-
-
-
-<div class="main">
-
-
-
-<!-- ================= HOME ================= -->
-
-
-<div id="home" class="page active">
-
-
-<div class="banner">
-
-
-<h1>
-Selamat Datang di Michelle Store ✨
-</h1>
-
-
-<p>
-Belanja fashion perempuan dengan mudah dan aman.
-</p>
-
-
-<br>
-
-
-<p>
-Dipercaya oleh Eva, Ana, dan Leya
-</p>
-
-
-</div>
-
-
-
-
-
-<div class="cards">
-
-
-<div class="card">
-
-<h3>
-Produk Terjual
-</h3>
-
-<h2>
-1.200+
-</h2>
-
-</div>
-
-
-
-<div class="card">
-
-<h3>
-Pelanggan
-</h3>
-
-<h2>
-560
-</h2>
-
-</div>
-
-
-
-
-<div class="card">
-
-<h3>
-Rating Toko
-</h3>
-
-<h2>
-⭐ 4.9
-</h2>
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-</div>
-
-
-
-
-
-
-
-<!-- ================= PRODUK ================= -->
-
-
-<div id="produk" class="page">
-
-
-<h2>
-🛒 Produk Terbaru
-</h2>
-
-
-<br>
-
-
-
-<div class="product-grid">
-
-
-
-<!-- FLATSHOES -->
-
-
-<div class="product">
-
-
-<img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500">
-
-
-<h3>
-Flatshoes
-</h3>
-
-
-<p>
-Sepatu wanita nyaman untuk aktivitas sehari-hari.
-</p>
-
-
-<div class="price">
-Rp150.000
-</div>
-
-
-
-<button 
-class="btn"
-onclick="tambahKeranjang(
-'Flatshoes',
-150000
-)">
-
-+ Keranjang
-
-</button>
-
-
-</div>
-
-
-
-
-
-
-
-<!-- CARDIGAN -->
-
-
-<div class="product">
-
-
-<img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500">
-
-
-<h3>
-Cardigan Perempuan
-</h3>
-
-
-<p>
-Cardigan lembut dengan desain modern.
-</p>
-
-
-<div class="price">
-Rp200.000
-</div>
-
-
-
-<button 
-class="btn"
-onclick="tambahKeranjang(
-'Cardigan Perempuan',
-200000
-)">
-
-+ Keranjang
-
-</button>
-
-
-</div>
-
-
-
-
-
-
-
-
-<!-- JAM TANGAN -->
-
-
-<div class="product">
-
-
-<img src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=500">
-
-
-<h3>
-Jam Tangan Perempuan
-</h3>
-
-
-<p>
-Jam tangan elegan untuk melengkapi gaya.
-</p>
-
-
-<div class="price">
-Rp300.000
-</div>
-
-
-
-<button 
-class="btn"
-onclick="tambahKeranjang(
-'Jam Tangan Perempuan',
-300000
-)">
-
-+ Keranjang
-
-</button>
-
-
-</div>
-
-<!-- POUCH MAKE UP -->
-
-<div class="product">
-
-
-<img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500">
-
-
-<h3>
-Pouch Make Up
-</h3>
-
-
-<p>
-Tempat kosmetik praktis dan cantik untuk dibawa bepergian.
-</p>
-
-
-<div class="price">
-Rp75.000
-</div>
-
-
-<button 
-class="btn"
-onclick="tambahKeranjang(
-'Pouch Make Up',
-75000
-)">
-
-+ Keranjang
-
-</button>
-
-
-</div>
-
-
-
-
-
-<!-- TUMBLR LUCU -->
-
-
-<div class="product">
-
-
-<img src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500">
-
-
-<h3>
-Tumblr Lucu
-</h3>
-
-
-<p>
-Botol minum dengan desain unik dan kekinian.
-</p>
-
-
-<div class="price">
-Rp50.000
-</div>
-
-
-<button 
-class="btn"
-onclick="tambahKeranjang(
-'Tumblr Lucu',
-50000
-)">
-
-+ Keranjang
-
-</button>
-
-
-</div>
-
-
-
-
-
-<!-- SNEAKERS PINK -->
-
-
-<div class="product">
-
-
-<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500">
-
-
-<h3>
-Sneakers Pink
-</h3>
-
-
-<p>
-Sneakers wanita dengan warna pink yang stylish.
-</p>
-
-
-<div class="price">
-Rp350.000
-</div>
-
-
-<button 
-class="btn"
-onclick="tambahKeranjang(
-'Sneakers Pink',
-350000
-)">
-
-+ Keranjang
-
-</button>
-
-
-</div>
-
-
-
-
-
-<!-- HEELS -->
-
-
-<div class="product">
-
-
-<img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500">
-
-
-<h3>
-Heels
-</h3>
-
-
-<p>
-Sepatu heels elegan untuk acara spesial.
-</p>
-
-
-<div class="price">
-Rp250.000
-</div>
-
-
-<button 
-class="btn"
-onclick="tambahKeranjang(
-'Heels',
-250000
-)">
-
-+ Keranjang
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<!-- ================= KERANJANG ================= -->
-
-
-<div id="keranjang" class="page">
-
-
-<h2>
-🛍 Keranjang Belanja
-</h2>
-
-
-
-<div class="cart-box">
-
-
-<div id="isiKeranjang">
-
-
-Keranjang masih kosong.
-
-
-</div>
-
-
-
-<br>
-
-
-<h3 id="totalHarga">
-Total : Rp0
-</h3>
-
-
-
-<br>
-
-
-<button 
-class="checkout"
-onclick="checkout()">
-
-Checkout Sekarang
-
-</button>
-
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<!-- ================= PESANAN ================= -->
-
-
-<div id="pesanan" class="page">
-
-
-<h2>
-📦 Pesanan Saya
-</h2>
-
-<div id="riwayatPesanan">
-
-</div>
-
-<br>
-
-<table>
-
-<tr>
-<th>ID</th>
-<th>Pembeli</th>
-<th>Produk</th>
-<th>Status</th>
-</tr>
-
-
-<tr>
-<td>
-001
-</td>
-
-<td>
-Ana
-</td>
-
-<td>
-Cardigan Perempuan
-</td>
-
-<td>
-Selesai
-</td>
-</tr>
-
-<tr>
-<td>
-002
-</td>
-
-<td>
-Leya
-</td>
-
-<td>
-Flatshoes
-</td>
-
-<td>
-Dikirim
-</td>
-</tr>
-
-
-<tr>
-<td>
-003
-</td>
-
-<td>
-Eva
-</td>
-
-<td>
-Pouch Make Up
-</td>
-
-<td>
-Dikirim
-</td>
-</tr>
-
-
-<tr>
-<td>
-004
-</td>
-
-<td>
-Karla
-</td>
-
-<td>
-Sneakers Pink
-</td>
-
-<td>
-Diproses
-</td>
-</tr>
-
-
-<tr>
-<td>
-005
-</td>
-
-<td>
-Bulan
-</td>
-
-<td>
-Heels
-</td>
-
-<td>
-Menunggu
-</td>
-</tr>
-
-</table>
-
-}
-
-
-<!-- ==================== PELANGGAN ======================== -->
-
-
-
-function tampilPelanggan(){
-
-document.getElementById("pelanggan").innerHTML=`
-
-<h2>👥 Data Pelanggan</h2>
-
-<table>
-
-<tr>
-<th>ID</th>
-<th>Nama</th>
-<th>Aktivitas</th>
-<th>Status</th>
-</tr>
-
-<tr>
-<td>01</td>
-<td>Ana</td>
-<td>Membeli Cardigan Perempuan</td>
-<td>Aktif</td>
-</tr>
-
-<tr>
-<td>02</td>
-<td>Leya</td>
-<td>Membeli Flatshoes</td>
-<td>Aktif</td>
-</tr>
-
-<tr>
-<td>03</td>
-<td>Eva</td>
-<td>Membeli Pouch Make Up</td>
-<td>Aktif</td>
-</tr>
-
-<tr>
-<td>04</td>
-<td>Karla</td>
-<td>Membeli Sneakers Pink</td>
-<td>Aktif</td>
-</tr>
-
-<tr>
-<td>05</td>
-<td>Bulan</td>
-<td>Membeli Heels</td>
-<td>Aktif</td>
-</tr>
-
-</table>
-
-`;
-
-}
-
-
-<!-- ======================= LAPORAN ======================= -->
-
-<div id="laporan" class="page">
-
-<h2>
-📊 Laporan Penjualan
-</h2>
-
-<br>
-
-<div class="cards">
-
-<div class="card">
-<h3>
-Total Pendapatan
-</h3>
-
-<h2>
-Rp15.000.000
-</h2>
-
-</div>
-
-
-<div class="card">
-<h3>
-Barang Terjual
-</h3>
-
-<h2>
-250
-</h2>
-
-</div>
-
-
-<div class="card">
-<h3>
-Pesanan Selesai
-</h3>
-
-<h2>
-230
-</h2>
-
-</div>
-
-</div>
-
-
-<br><br>
-
-<h3>
-Grafik Penjualan
-</h3>
-
-
-<br>
-
-
-<div style="
-height:220px;
-background:#fce7f3;
-border-radius:20px;
-display:flex;
-align-items:end;
-gap:25px;
-padding:30px;
-">
-
-
-
-<div style="
-height:80px;
-width:40px;
-background:#ec4899;
-border-radius:10px;
-"></div>
-
-
-
-
-<div style="
-height:150px;
-width:40px;
-background:#ec4899;
-border-radius:10px;
-"></div>
-
-
-
-
-<div style="
-height:190px;
-width:40px;
-background:#ec4899;
-border-radius:10px;
-"></div>
-
-
-
-
-<div style="
-height:120px;
-width:40px;
-background:#ec4899;
-border-radius:10px;
-"></div>
-
-
-
-<div style="
-height:210px;
-width:40px;
-background:#ec4899;
-border-radius:10px;
-"></div>
-
-
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-
-
-<!-- ================= CHECKOUT POPUP ================= -->
-
-
-<div id="checkoutBox"
-
-style="
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.5);
-align-items:center;
-justify-content:center;
-">
-
-
-
-<div style="
-background:white;
-width:380px;
-padding:30px;
-border-radius:25px;
-">
-
-
-
-<h2>
-Checkout Pesanan
-</h2>
-
-
-<br>
-
-
-
-<select id="namaPembeli">
-
-<option value="">-- Pilih Pembeli --</option>
-
-<option value="Ana">Ana</option>
-
-<option value="Leya">Leya</option>
-
-<option value="Eva">Eva</option>
-
-<option value="Karla">Karla</option>
-
-<option value="Bulan">Bulan</option>
-
-</select>
-
-
-
-<input
-id="alamat"
-placeholder="Alamat Pengiriman"
-style="
-width:100%;
-padding:12px;
-margin-bottom:12px;
-border-radius:10px;
-border:1px solid #ddd;
-">
-
-
-
-<select
-id="pembayaran"
-style="
-width:100%;
-padding:12px;
-margin-bottom:15px;
-border-radius:10px;
-border:1px solid #ddd;
-">
-
-
-<option>
-Pilihan Pembayaran
-</option>
-
-
-<option>
-COD
-</option>
-
-
-<option>
-E-Wallet
-</option>
-
-
-<option>
-QRIS
-</option>
-
-
-</select>
-
-
-
-<button 
-class="checkout"
-onclick="buatPesanan()">
-
-Buat Pesanan
-
-</button>
-
-
-
-
-<button
-class="btn"
-onclick="tutupCheckout()">
-
-Batal
-
-</button>
-
-
-
-</div>
-
-
-</div>
-
-
-<script>
-
-
-// ================= NAVIGASI HALAMAN =================
-
-
-function openPage(page){
-
-
-let pages = document.querySelectorAll(".page");
-
-
-pages.forEach(function(item){
-
-item.classList.remove("active");
-
-});
-
-
-
-document.getElementById(page)
-.classList.add("active");
-
-
-}
-
-
-
-
-
-
-
-// ================= KERANJANG =================
-
-
-
-let keranjang = [];
-
-
-let riwayat = [];
-
-
-function tambahKeranjang(nama,harga){
-
-
-keranjang.push({
-
-nama:nama,
-
-harga:harga
-
-});
-
-
-
-tampilkanKeranjang();
-
-
-
-alert(
-nama + 
-" berhasil ditambahkan ke keranjang!"
-);
-
-
-
-openPage("keranjang");
-
-
-}
-
-
-
-
-
-
-function tampilkanKeranjang(){
-
-
-let isi = document.getElementById("isiKeranjang");
-
-
-let total = document.getElementById("totalHarga");
-
-
-
-if(keranjang.length==0){
-
-
-isi.innerHTML="Keranjang masih kosong";
-
-
-total.innerHTML="Total : Rp0";
-
-
-return;
-
-
-}
-
-
-
-let hasil="";
-
-let jumlah=0;
-
-
-
-keranjang.forEach(function(item,index){
-
-
-
-hasil +=
-
-`
-<p>
-${index+1}. ${item.nama}
--
-Rp${item.harga.toLocaleString("id-ID")}
-
-<button 
-onclick="hapusKeranjang(${index})"
-style="
-background:#ef4444;
-color:white;
-padding:5px 10px;
-margin-left:10px;
-border-radius:8px;
-">
-
-X
-
-</button>
-
-</p>
-`;
-
-
-
-jumlah += item.harga;
-
-
-
-});
-
-
-
-isi.innerHTML=hasil;
-
-
-total.innerHTML=
-"Total : Rp"+
-jumlah.toLocaleString("id-ID");
-
-
-}
-
-
-
-
-
-
-function hapusKeranjang(index){
-
-
-keranjang.splice(index,1);
-
-
-tampilkanKeranjang();
-
-
-}
-
-
-
-
-
-
-
-// ================= CHECKOUT =================
-
-
-
-function checkout(){
-
-
-if(keranjang.length==0){
-
-
-alert(
-"Keranjang masih kosong!"
-);
-
-
-return;
-
-
-}
-
-
-
-document.getElementById("checkoutBox")
-.style.display="flex";
-
-
-}
-
-
-
-
-function tutupCheckout(){
-
-
-document.getElementById("checkoutBox")
-.style.display="none";
-
-
-}
-
-
-
-
-
-
-
-function buatPesanan(){
-
-let nama =
-document.getElementById("namaPembeli").value;
-
-
-let alamat =
-document.getElementById("alamat").value;
-
-
-let bayar =
-document.getElementById("pembayaran").value;
-
-
-
-if(nama=="" || alamat==""){
-
-alert("Data checkout belum lengkap!");
-
-return;
-
-}
-
-
-
-let total = 0;
-
-let daftarProduk = "";
-
-
-keranjang.forEach(function(item){
-
-total += item.harga;
-
-daftarProduk += item.nama + ", ";
-
-});
-
-
-
-riwayat.push({
-
-nama:nama,
-
-produk:daftarProduk,
-
-total:total,
-
-status:"Diproses",
-
-pembayaran:bayar,
-
-alamat:alamat
-
-});
-
-
-
-tampilkanRiwayat();
-
-
-
-alert(
-"Pesanan berhasil dibuat!"
-);
-
-
-
-keranjang=[];
-
-tampilkanKeranjang();
-
-
-tutupCheckout();
-
-
-openPage("pesanan");
-
-
-}
-
-
-
-function tampilkanRiwayat(){
-
-let tempat =
-document.getElementById("riwayatPesanan");
-
-
-let hasil="";
-
-
-riwayat.forEach(function(item,index){
-
-
-hasil += `
-
-<div class="cart-box">
-
-
-<h3>
-Pesanan #${index+1}
-</h3>
-
-
-<p>
-👤 Pembeli : ${item.nama}
-</p>
-
-
-<p>
-🛍 Produk : ${item.produk}
-</p>
-
-
-<p>
-💰 Total : Rp${item.total.toLocaleString("id-ID")}
-</p>
-
-
-<p>
-💳 Pembayaran : ${item.pembayaran}
-</p>
-
-
-<p>
-📍 Alamat : ${item.alamat}
-</p>
-
-
-<p>
-Status :
-<b>${item.status}</b>
-</p>
-
-
-</div>
-
-`;
-
-
-});
-
-
-tempat.innerHTML = hasil;
-
-
-}
-
-
-</script>
-
-
-
-</div>
-
-
-</div>
-
-
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">🛍 Michelle Store</div>
+        <div class="user">
+            <span>Michelle</span>
+            <img src="https://i.pravatar.cc/100?img=47" alt="User Avatar">
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <h3>Menu</h3>
+            <ul>
+                <li onclick="openPage('home')">🏠 Home</li>
+                <li onclick="openPage('produk')">🛒 Produk</li>
+                <li onclick="openPage('keranjang')">🛍 Keranjang</li>
+                <li onclick="openPage('pesanan')">📦 Pesanan</li>
+                <li onclick="openPage('pelanggan')">👥 Pelanggan</li>
+                <li onclick="openPage('laporan')">📊 Laporan</li>
+            </ul>
+        </div>
+
+        <div class="main">
+
+            <!-- ================= HOME ================= -->
+            <div id="home" class="page active">
+                <div class="banner">
+                    <h1>Selamat Datang di Michelle Store ✨</h1>
+                    <p>Belanja fashion perempuan dengan mudah dan aman.</p>
+                    <br>
+                    <p>Dipercaya oleh Eva, Ana, dan Leya</p>
+                </div>
+
+                <div class="cards">
+                    <div class="card">
+                        <h3>Produk Terjual</h3>
+                        <h2>1.200+</h2>
+                    </div>
+                    <div class="card">
+                        <h3>Pelanggan</h3>
+                        <h2>560</h2>
+                    </div>
+                    <div class="card">
+                        <h3>Rating Toko</h3>
+                        <h2>⭐ 4.9</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= PRODUK ================= -->
+            <div id="produk" class="page">
+                <h2>🛒 Produk Terbaru</h2>
+                <br>
+                <div class="product-grid">
+
+                    <!-- FLATSHOES -->
+                    <div class="product">
+                        <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500" alt="Flatshoes">
+                        <h3>Flatshoes</h3>
+                        <p>Sepatu wanita nyaman untuk aktivitas sehari-hari.</p>
+                        <div class="price">Rp150.000</div>
+                        <button class="btn" onclick="tambahKeranjang('Flatshoes', 150000)">+ Keranjang</button>
+                    </div>
+
+                    <!-- CARDIGAN -->
+                    <div class="product">
+                        <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500" alt="Cardigan">
+                        <h3>Cardigan Perempuan</h3>
+                        <p>Cardigan lembut dengan desain modern.</p>
+                        <div class="price">Rp200.000</div>
+                        <button class="btn" onclick="tambahKeranjang('Cardigan Perempuan', 200000)">+ Keranjang</button>
+                    </div>
+
+                    <!-- JAM TANGAN -->
+                    <div class="product">
+                        <img src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=500" alt="Jam Tangan">
+                        <h3>Jam Tangan Perempuan</h3>
+                        <p>Jam tangan elegan untuk melengkapi gaya.</p>
+                        <div class="price">Rp300.000</div>
+                        <button class="btn" onclick="tambahKeranjang('Jam Tangan Perempuan', 300000)">+ Keranjang</button>
+                    </div>
+
+                    <!-- POUCH MAKE UP -->
+                    <div class="product">
+                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500" alt="Pouch Make Up">
+                        <h3>Pouch Make Up</h3>
+                        <p>Tempat kosmetik praktis dan cantik untuk dibawa bepergian.</p>
+                        <div class="price">Rp75.000</div>
+                        <button class="btn" onclick="tambahKeranjang('Pouch Make Up', 75000)">+ Keranjang</button>
+                    </div>
+
+                    <!-- TUMBLR LUCU -->
+                    <div class="product">
+                        <img src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500" alt="Tumblr Lucu">
+                        <h3>Tumblr Lucu</h3>
+                        <p>Botol minum dengan desain unik dan kekinian.</p>
+                        <div class="price">Rp50.000</div>
+                        <button class="btn" onclick="tambahKeranjang('Tumblr Lucu', 50000)">+ Keranjang</button>
+                    </div>
+
+                    <!-- SNEAKERS PINK -->
+                    <div class="product">
+                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500" alt="Sneakers Pink">
+                        <h3>Sneakers Pink</h3>
+                        <p>Sneakers wanita dengan warna pink yang stylish.</p>
+                        <div class="price">Rp350.000</div>
+                        <button class="btn" onclick="tambahKeranjang('Sneakers Pink', 350000)">+ Keranjang</button>
+                    </div>
+
+                    <!-- HEELS -->
+                    <div class="product">
+                        <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500" alt="Heels">
+                        <h3>Heels</h3>
+                        <p>Sepatu heels elegan untuk acara spesial.</p>
+                        <div class="price">Rp250.000</div>
+                        <button class="btn" onclick="tambahKeranjang('Heels', 250000)">+ Keranjang</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ================= KERANJANG ================= -->
+            <div id="keranjang" class="page">
+                <h2>🛍 Keranjang Belanja</h2>
+                <div class="cart-box">
+                    <div id="isiKeranjang">Keranjang masih kosong.</div>
+                    <br>
+                    <h3 id="totalHarga">Total : Rp0</h3>
+                    <br>
+                    <button class="checkout" onclick="checkout()">Checkout Sekarang</button>
+                </div>
+            </div>
+
+            <!-- ================= PESANAN ================= -->
+            <div id="pesanan" class="page">
+                <h2>📦 Pesanan Saya</h2>
+                <br>
+                <div id="riwayatPesanan"></div>
+                <br>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Pembeli</th>
+                            <th>Produk</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>001</td>
+                            <td>Ana</td>
+                            <td>Cardigan Perempuan</td>
+                            <td>Selesai</td>
+                        </tr>
+                        <tr>
+                            <td>002</td>
+                            <td>Leya</td>
+                            <td>Flatshoes</td>
+                            <td>Dikirim</td>
+                        </tr>
+                        <tr>
+                            <td>003</td>
+                            <td>Eva</td>
+                            <td>Pouch Make Up</td>
+                            <td>Dikirim</td>
+                        </tr>
+                        <tr>
+                            <td>004</td>
+                            <td>Karla</td>
+                            <td>Sneakers Pink</td>
+                            <td>Diproses</td>
+                        </tr>
+                        <tr>
+                            <td>005</td>
+                            <td>Bulan</td>
+                            <td>Heels</td>
+                            <td>Menunggu</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ================= PELANGGAN ================= -->
+            <div id="pelanggan" class="page">
+                <h2>👥 Data Pelanggan</h2>
+                <br>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>Aktivitas</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01</td>
+                            <td>Ana</td>
+                            <td>Membeli Cardigan Perempuan</td>
+                            <td>Aktif</td>
+                        </tr>
+                        <tr>
+                            <td>02</td>
+                            <td>Leya</td>
+                            <td>Membeli Flatshoes</td>
+                            <td>Aktif</td>
+                        </tr>
+                        <tr>
+                            <td>03</td>
+                            <td>Eva</td>
+                            <td>Membeli Pouch Make Up</td>
+                            <td>Aktif</td>
+                        </tr>
+                        <tr>
+                            <td>04</td>
+                            <td>Karla</td>
+                            <td>Membeli Sneakers Pink</td>
+                            <td>Aktif</td>
+                        </tr>
+                        <tr>
+                            <td>05</td>
+                            <td>Bulan</td>
+                            <td>Membeli Heels</td>
+                            <td>Aktif</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ================= LAPORAN ================= -->
+            <div id="laporan" class="page">
+                <h2>📊 Laporan Penjualan</h2>
+                <br>
+                <div class="cards">
+                    <div class="card">
+                        <h3>Total Pendapatan</h3>
+                        <h2>Rp15.000.000</h2>
+                    </div>
+                    <div class="card">
+                        <h3>Barang Terjual</h3>
+                        <h2>250</h2>
+                    </div>
+                    <div class="card">
+                        <h3>Pesanan Selesai</h3>
+                        <h2>230</h2>
+                    </div>
+                </div>
+
+                <br><br>
+                <h3>Grafik Penjualan</h3>
+                <br>
+
+                <div style="height:220px; background:#fce7f3; border-radius:20px; display:flex; align-items:flex-end; gap:25px; padding:30px;">
+                    <div style="height:80px; width:40px; background:#ec4899; border-radius:10px;" title="Bulan 1"></div>
+                    <div style="height:150px; width:40px; background:#ec4899; border-radius:10px;" title="Bulan 2"></div>
+                    <div style="height:190px; width:40px; background:#ec4899; border-radius:10px;" title="Bulan 3"></div>
+                    <div style="height:120px; width:40px; background:#ec4899; border-radius:10px;" title="Bulan 4"></div>
+                    <div style="height:210px; width:40px; background:#ec4899; border-radius:10px;" title="Bulan 5"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ================= CHECKOUT POPUP ================= -->
+    <div id="checkoutBox" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,.5); align-items:center; justify-content:center; z-index:100;">
+        <div style="background:white; width:380px; padding:30px; border-radius:25px;">
+            <h2>Checkout Pesanan</h2>
+            <br>
+            <select id="namaPembeli" style="width:100%; padding:12px; margin-bottom:12px; border-radius:10px; border:1px solid #ddd;">
+                <option value="">-- Pilih Pembeli --</option>
+                <option value="Ana">Ana</option>
+                <option value="Leya">Leya</option>
+                <option value="Eva">Eva</option>
+                <option value="Karla">Karla</option>
+                <option value="Bulan">Bulan</option>
+            </select>
+
+            <input id="alamat" placeholder="Alamat Pengiriman" style="width:100%; padding:12px; margin-bottom:12px; border-radius:10px; border:1px solid #ddd;">
+
+            <select id="pembayaran" style="width:100%; padding:12px; margin-bottom:15px; border-radius:10px; border:1px solid #ddd;">
+                <option value="">Pilihan Pembayaran</option>
+                <option value="COD">COD</option>
+                <option value="E-Wallet">E-Wallet</option>
+                <option value="QRIS">QRIS</option>
+            </select>
+
+            <div style="display:flex; gap:10px; justify-content:flex-end;">
+                <button class="checkout" onclick="buatPesanan()">Buat Pesanan</button>
+                <button class="btn" onclick="tutupCheckout()">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // ================= NAVIGASI HALAMAN =================
+        function openPage(page) {
+            let pages = document.querySelectorAll(".page");
+            pages.forEach(function(item) {
+                item.classList.remove("active");
+            });
+
+            document.getElementById(page).classList.add("active");
+        }
+
+        // ================= KERANJANG =================
+        let keranjang = [];
+        let riwayat = [];
+
+        function tambahKeranjang(nama, harga) {
+            keranjang.push({
+                nama: nama,
+                harga: harga
+            });
+
+            tampilkanKeranjang();
+            alert(nama + " berhasil ditambahkan ke keranjang!");
+            openPage("keranjang");
+        }
+
+        function tampilkanKeranjang() {
+            let isi = document.getElementById("isiKeranjang");
+            let total = document.getElementById("totalHarga");
+
+            if (keranjang.length == 0) {
+                isi.innerHTML = "Keranjang masih kosong";
+                total.innerHTML = "Total : Rp0";
+                return;
+            }
+
+            let hasil = "";
+            let jumlah = 0;
+
+            keranjang.forEach(function(item, index) {
+                hasil += `
+                <p style="margin-bottom: 8px;">
+                    ${index+1}. ${item.nama} - Rp${item.harga.toLocaleString("id-ID")}
+                    <button onclick="hapusKeranjang(${index})" style="background:#ef4444; color:white; padding:3px 8px; margin-left:10px; border-radius:8px;">X</button>
+                </p>`;
+                jumlah += item.harga;
+            });
+
+            isi.innerHTML = hasil;
+            total.innerHTML = "Total : Rp" + jumlah.toLocaleString("id-ID");
+        }
+
+        function hapusKeranjang(index) {
+            keranjang.splice(index, 1);
+            tampilkanKeranjang();
+        }
+
+        // ================= CHECKOUT =================
+        function checkout() {
+            if (keranjang.length == 0) {
+                alert("Keranjang masih kosong!");
+                return;
+            }
+            document.getElementById("checkoutBox").style.display = "flex";
+        }
+
+        function tutupCheckout() {
+            document.getElementById("checkoutBox").style.display = "none";
+        }
+
+        function buatPesanan() {
+            let nama = document.getElementById("namaPembeli").value;
+            let alamat = document.getElementById("alamat").value;
+            let bayar = document.getElementById("pembayaran").value;
+
+            if (nama == "" || alamat == "" || bayar == "") {
+                alert("Data checkout belum lengkap!");
+                return;
+            }
+
+            let total = 0;
+            let daftarProduk = "";
+
+            keranjang.forEach(function(item) {
+                total += item.harga;
+                daftarProduk += item.nama + ", ";
+            });
+
+            // Hapus koma terakhir
+            daftarProduk = daftarProduk.slice(0, -2);
+
+            riwayat.push({
+                nama: nama,
+                produk: daftarProduk,
+                total: total,
+                status: "Diproses",
+                pembayaran: bayar,
+                alamat: alamat
+            });
+
+            tampilkanRiwayat();
+            alert("Pesanan berhasil dibuat!");
+
+            keranjang = [];
+            tampilkanKeranjang();
+            tutupCheckout();
+            openPage("pesanan");
+        }
+
+        function tampilkanRiwayat() {
+            let tempat = document.getElementById("riwayatPesanan");
+            let hasil = "";
+
+            riwayat.forEach(function(item, index) {
+                hasil += `
+                <div class="cart-box">
+                    <h3>Pesanan #${index+1}</h3>
+                    <p>👤 Pembeli : ${item.nama}</p>
+                    <p>🛍 Produk : ${item.produk}</p>
+                    <p>💰 Total : Rp${item.total.toLocaleString("id-ID")}</p>
+                    <p>💳 Pembayaran : ${item.pembayaran}</p>
+                    <p>📍 Alamat : ${item.alamat}</p>
+                    <p>Status : <b>${item.status}</b></p>
+                </div>`;
+            });
+
+            tempat.innerHTML = hasil;
+        }
+    </script>
 </body>
 
 </html>
