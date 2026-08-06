@@ -3,545 +3,906 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChicBoutique - Store & Admin</title>
+    <title>Girl's Store - Shopee Style Marketplace</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icon CDN -->
+    <!-- FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .active-tab {
-            border-bottom: 3px solid #ec4899;
-            color: #ec4899;
-            font-weight: bold;
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pinkPrimary: '#FF69B4',
+                        pinkSoft: '#FFF0F5',
+                        pinkDeep: '#DB7093',
+                        pinkLight: '#FFB6C1',
+                    }
+                }
+            }
         }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+<body class="bg-gray-100 font-sans text-gray-800">
 
-    <!-- NAVBAR HEADER -->
-    <nav class="bg-white shadow-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="#" onclick="showSection('customer-page')" class="text-2xl font-bold text-pink-600 tracking-wider">
-                <i class="fa-solid me-2"></i>ChicBoutique ✨
-            </a>
-            <div class="flex items-center space-x-4">
-                <button onclick="showSection('customer-page')" class="text-gray-600 hover:text-pink-600 font-medium">
-                    <i class="fa-solid fa-store me-1"></i> Toko
+    <div id="app" class="max-w-md mx-auto bg-pinkSoft min-h-screen relative shadow-2xl flex flex-col justify-between pb-16">
+
+        <!-- ================= PAGE 0: LOGIN ================= -->
+        <div id="page-login" class="p-6 flex flex-col justify-center min-h-screen bg-gradient-to-b from-pinkLight to-pinkSoft">
+            <div class="text-center mb-8">
+                <i class="fa-solid fa-bag-shopping text-6xl text-pinkDeep mb-2"></i>
+                <h1 class="text-3xl font-bold text-pinkDeep tracking-wide">Girl's Store</h1>
+                <p class="text-sm text-pinkDeep font-medium">Marketplace Tas Wanita Elegant & Cute</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-lg border border-pinkLight">
+                <h2 class="text-xl font-bold text-gray-700 mb-4 text-center">Masuk Akun</h2>
+                
+                <div class="mb-4">
+                    <label class="block text-sm text-gray-600 mb-1">Username</label>
+                    <input type="text" id="login-username" placeholder="Masukkan Username" class="w-full p-2.5 rounded-lg border border-pinkLight focus:outline-none focus:ring-2 focus:ring-pinkPrimary text-sm">
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-sm text-gray-600 mb-1">Password</label>
+                    <input type="password" id="login-password" placeholder="Masukkan Password" class="w-full p-2.5 rounded-lg border border-pinkLight focus:outline-none focus:ring-2 focus:ring-pinkPrimary text-sm">
+                </div>
+
+                <button onclick="handleLogin()" class="w-full bg-pinkPrimary text-white py-3 rounded-xl font-bold hover:bg-pinkDeep transition shadow-md">
+                    LOGIN
                 </button>
-                <button id="admin-nav-btn" onclick="openAdminModal()" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-full text-sm font-semibold transition">
-                    <i class="fa-solid fa-user-shield me-1"></i> Admin Area
-                </button>
+
+                <div class="mt-6 p-3 bg-pinkSoft rounded-lg text-xs text-gray-600 border border-pinkLight">
+                    <p class="font-bold mb-1">Kredensial Pengujian:</p>
+                    <p><b>Admin:</b> GSTORE / GS01</p>
+                    <p><b>Pelanggan:</b> evaline / ev01</p>
+                </div>
             </div>
         </div>
-    </nav>
 
-    <!-- ========================================== -->
-    <!-- 1. HALAMAN PELANGGAN (TOKO / LIST BARANG)  -->
-    <!-- ========================================== -->
-    <main id="customer-page" class="max-w-7xl mx-auto px-4 py-8">
-        <!-- Hero Banner -->
-        <div class="bg-gradient-to-r from-pink-400 to-rose-400 rounded-2xl p-6 md:p-10 text-white mb-8 shadow-lg">
-            <h1 class="text-3xl md:text-5xl font-extrabold mb-2">Koleksi Fashion & Beauty Estetik ✨</h1>
-            <p class="text-pink-100 text-sm md:text-base">Temukan gaya terbaikmu dengan produk berkualitas tinggi kami.</p>
-        </div>
-
-        <!-- Grid Produk -->
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Produk Pilihan</h2>
-        <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            <!-- Dynamic Rendered via JS -->
-        </div>
-    </main>
-
-    <!-- ========================================== -->
-    <!-- 2. DETAIL PRODUK MODAL (PELANGGAN)         -->
-    <!-- ========================================== -->
-    <div id="product-detail-modal" class="fixed inset-0 bg-black/60 hidden z-50 overflow-y-auto p-4 flex items-center justify-center">
-        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeDetailModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Foto Produk -->
-                <div>
-                    <img id="detail-img" src="" class="w-full h-80 object-cover rounded-xl border">
+        <!-- ================= NAVBAR ATAS (UNTUK PELANGGAN) ================= -->
+        <div id="header-user" class="hidden sticky top-0 z-40 bg-pinkPrimary p-3 shadow-md">
+            <div class="flex items-center space-x-2">
+                <div class="flex-1 bg-white flex items-center rounded-lg px-3 py-1.5 shadow-inner">
+                    <i class="fa-solid fa-magnifying-glass text-pinkDeep mr-2"></i>
+                    <input type="text" placeholder="Tas Selempang Cewek Kekinian" class="w-full bg-transparent text-xs focus:outline-none">
+                    <i class="fa-solid fa-camera text-gray-400"></i>
                 </div>
-                <!-- Info Produk -->
-                <div>
-                    <span id="detail-badge" class="bg-pink-100 text-pink-600 text-xs px-2.5 py-1 rounded-full font-semibold">Ready Stock</span>
-                    <h2 id="detail-title" class="text-2xl font-bold mt-2 text-gray-800"></h2>
-                    <p id="detail-price" class="text-2xl font-extrabold text-pink-600 my-2"></p>
-                    <p id="detail-sold" class="text-sm text-gray-500 mb-4"></p>
-                    
-                    <!-- Pilihan Varian / Shades -->
-                    <div class="mb-4">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Pilih Varian / Shade:</label>
-                        <div id="detail-varieties" class="flex flex-wrap gap-2"></div>
+                <div class="relative cursor-pointer" onclick="navigateTo('cart')">
+                    <i class="fa-solid fa-cart-shopping text-white text-xl p-1"></i>
+                    <span id="cart-badge" class="absolute -top-1 -right-2 bg-white text-pinkDeep text-[10px] font-bold px-1.5 py-0.2 rounded-full border border-pinkPrimary">0</span>
+                </div>
+                <i class="fa-solid fa-comment-dots text-white text-xl p-1"></i>
+            </div>
+        </div>
+
+        <!-- ================= CONTENT AREA ================= -->
+        <div id="main-content" class="flex-1">
+
+            <!-- PAGE 1: BERANDA PELANGGAN (FOTO 1) -->
+            <div id="page-home" class="hidden p-2">
+                <!-- Promo Banner -->
+                <div class="bg-gradient-to-r from-pinkDeep to-pinkPrimary text-white p-3 rounded-xl mb-3 flex justify-between items-center shadow-md">
+                    <div>
+                        <span class="bg-yellow-300 text-pinkDeep text-[10px] font-bold px-2 py-0.5 rounded">Girl's Store Exclusive</span>
+                        <h3 class="font-bold text-sm mt-1">PROMO SPESIAL AGUSTUS</h3>
+                        <p class="text-[10px]">Diskon hingga 63% All Item Bags!</p>
+                    </div>
+                    <i class="fa-solid fa-gift text-3xl opacity-80"></i>
+                </div>
+
+                <!-- Product Grid (2 Column Shopee Style) -->
+                <div id="product-grid" class="grid grid-cols-2 gap-2">
+                    <!-- Dynamic Product Cards Injected Here -->
+                </div>
+            </div>
+
+            <!-- PAGE 2: DETAIL PRODUK (FOTO 2) -->
+            <div id="page-detail" class="hidden bg-white min-h-screen">
+                <div class="relative">
+                    <button onclick="navigateTo('home')" class="absolute top-3 left-3 bg-black/40 text-white w-8 h-8 rounded-full z-10 flex items-center justify-center">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <img id="detail-img" src="" class="w-full h-72 object-cover">
+                    <span class="absolute bottom-2 right-2 bg-black/50 text-white text-[10px] px-2 py-0.5 rounded-full">1/24</span>
+                </div>
+
+                <div class="bg-gradient-to-r from-pinkPrimary to-pinkDeep text-white p-2 flex justify-between items-center">
+                    <div>
+                        <span class="text-xs bg-white text-pinkDeep px-1 rounded font-bold">FLASH SALE</span>
+                        <div class="text-lg font-bold" id="detail-price">Rp7.500</div>
+                    </div>
+                    <div class="text-[10px] text-right">
+                        <div>BERAKHIR DALAM</div>
+                        <div class="font-mono bg-black/30 px-1 rounded inline-block">02 : 02 : 35</div>
+                    </div>
+                </div>
+
+                <div class="p-3">
+                    <span class="bg-pinkPrimary text-white text-[10px] px-1 rounded font-bold mr-1">Star+</span>
+                    <h1 id="detail-title" class="font-semibold text-sm inline">Tas Selempang Wanita Inara Bags</h1>
+                    <div class="text-xs text-gray-500 mt-1">10RB+ Terjual</div>
+
+                    <hr class="my-3 border-gray-200">
+
+                    <div>
+                        <h3 class="text-xs font-bold text-gray-700 mb-2">Pilihan Warna</h3>
+                        <div id="detail-colors" class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+                            <!-- Color Swatches Injected Here -->
+                        </div>
                     </div>
 
-                    <p id="detail-desc" class="text-gray-600 text-sm mb-6"></p>
-                    <button class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 rounded-xl shadow-md transition">
-                        <i class="fa-solid fa-cart-shopping me-2"></i> Beli Sekarang
+                    <hr class="my-3 border-gray-200">
+
+                    <div>
+                        <h3 class="text-xs font-bold text-gray-700 mb-1">Deskripsi Produk</h3>
+                        <p id="detail-desc" class="text-xs text-gray-600 leading-relaxed"></p>
+                    </div>
+
+                    <hr class="my-3 border-gray-200">
+
+                    <!-- Store Info & Rating Section -->
+                    <div class="bg-pinkSoft p-2.5 rounded-lg border border-pinkLight">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-10 h-10 bg-pinkDeep rounded-full flex items-center justify-center text-white font-bold text-sm">GS</div>
+                            <div>
+                                <h4 class="text-xs font-bold">Girl's Store (Official)</h4>
+                                <p class="text-[10px] text-gray-500">Aktif 7 menit lalu | Jakarta Selatan</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reviews -->
+                    <div class="mt-4">
+                        <h3 class="text-xs font-bold text-gray-700 mb-2">Penilaian Produk (12,2RB)</h3>
+                        <div class="bg-gray-50 p-2 rounded text-xs">
+                            <div class="flex items-center text-yellow-400 text-[10px] mb-1">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <span class="text-gray-600 ml-2">evaline_sydney</span>
+                            </div>
+                            <p class="text-gray-600">Lucu banget tasnya, realpict sesuai gambar! Warna maroon elegan banget. Next order lagi! ❤️❤️</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Action Bar -->
+                <div class="fixed bottom-0 max-w-md w-full bg-white border-t border-gray-200 flex items-center z-30">
+                    <button onclick="addToCartCurrent()" class="flex-1 bg-pinkLight text-pinkDeep py-3 font-semibold text-xs flex flex-col items-center justify-center border-r">
+                        <i class="fa-solid fa-cart-plus text-base"></i>
+                        <span>+ Keranjang</span>
+                    </button>
+                    <button onclick="openVariationModal()" class="flex-1 bg-pinkPrimary text-white py-3 font-semibold text-xs flex flex-col items-center justify-center">
+                        <i class="fa-solid fa-bag-shopping text-base"></i>
+                        <span>Beli Sekarang</span>
                     </button>
                 </div>
             </div>
 
-            <hr class="my-6">
+            <!-- PAGE 3: KERANJANG SAYA (FOTO 3) -->
+            <div id="page-cart" class="hidden bg-gray-50 min-h-screen pb-20">
+                <div class="bg-white p-3 flex items-center justify-between border-b sticky top-0 z-20">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-arrow-left text-pinkPrimary cursor-pointer" onclick="navigateTo('home')"></i>
+                        <h2 class="font-bold text-sm">Keranjang Saya (<span id="cart-count-header">0</span>)</h2>
+                    </div>
+                    <span class="text-xs text-pinkPrimary font-semibold cursor-pointer">Ubah</span>
+                </div>
 
-            <!-- BAGIAN ULASAN PELANGGAN -->
-            <div>
-                <h3 class="text-xl font-bold text-gray-800 mb-4"><i class="fa-solid fa-star text-yellow-400 me-2"></i>Ulasan Pembeli</h3>
-                <div id="detail-reviews" class="space-y-4 max-h-60 overflow-y-auto pr-2">
-                    <!-- Dynamic Reviews -->
+                <div id="cart-items-container" class="p-2 space-y-2">
+                    <!-- Dynamic Cart Items Injected Here -->
+                </div>
+
+                <!-- Cart Bottom Checkout Bar -->
+                <div class="fixed bottom-12 max-w-md w-full bg-white border-t border-gray-200 p-2 flex items-center justify-between z-30">
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" checked class="accent-pinkPrimary">
+                        <span class="text-xs font-semibold">Semua</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="text-right">
+                            <span class="text-[10px] text-gray-500">Total</span>
+                            <div class="text-pinkPrimary font-bold text-sm" id="cart-total-price">Rp0</div>
+                        </div>
+                        <button onclick="checkoutFromCart()" class="bg-pinkPrimary text-white px-5 py-2 rounded-lg text-xs font-bold shadow">
+                            Checkout (<span id="cart-selected-count">0</span>)
+                        </button>
+                    </div>
                 </div>
             </div>
+
+            <!-- MODAL VARIATION SELECTION (FOTO 4) -->
+            <div id="modal-variation" class="hidden fixed inset-0 bg-black/50 z-50 flex items-end max-w-md mx-auto">
+                <div class="bg-white w-full rounded-t-2xl p-4 max-h-[80vh] overflow-y-auto relative animate-slide-up">
+                    <button onclick="closeVariationModal()" class="absolute top-3 right-3 text-gray-400 text-lg">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                    <div class="flex space-x-3 pb-3 border-b border-gray-100">
+                        <img id="var-img" src="" class="w-20 h-20 object-cover rounded-lg border">
+                        <div>
+                            <div class="text-pinkPrimary font-bold text-lg" id="var-price">Rp7.500</div>
+                            <div class="text-xs text-gray-400">Stok: 99752</div>
+                        </div>
+                    </div>
+
+                    <div class="py-3">
+                        <h4 class="text-xs font-bold text-gray-700 mb-2">Warna / Variasi</h4>
+                        <div id="var-options" class="flex flex-wrap gap-2">
+                            <!-- Variant Buttons -->
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center py-3 border-t border-gray-100">
+                        <span class="text-xs font-bold text-gray-700">Jumlah</span>
+                        <div class="flex items-center border rounded">
+                            <button onclick="updateVarQty(-1)" class="px-2 py-1 text-xs border-r">-</button>
+                            <span id="var-qty" class="px-3 text-xs font-bold">1</span>
+                            <button onclick="updateVarQty(1)" class="px-2 py-1 text-xs border-l">+</button>
+                        </div>
+                    </div>
+
+                    <button onclick="proceedToCheckout()" class="w-full bg-pinkPrimary text-white py-3 rounded-xl text-xs font-bold mt-2 shadow-md">
+                        BELI SEKARANG
+                    </button>
+                </div>
+            </div>
+
+            <!-- PAGE 4: CHECKOUT (FOTO 5) -->
+            <div id="page-checkout" class="hidden bg-gray-100 min-h-screen pb-20">
+                <div class="bg-white p-3 flex items-center space-x-3 border-b sticky top-0 z-20">
+                    <i class="fa-solid fa-arrow-left text-pinkPrimary cursor-pointer" onclick="navigateTo('cart')"></i>
+                    <h2 class="font-bold text-sm">Checkout</h2>
+                </div>
+
+                <!-- Alamat Pengiriman -->
+                <div class="bg-white p-3 mb-2 flex items-start space-x-2 border-b">
+                    <i class="fa-solid fa-location-dot text-pinkPrimary mt-1"></i>
+                    <div class="flex-1 text-xs">
+                        <div class="font-bold text-gray-800" id="checkout-address-name">Evaline Sydney (+62) 861-9293-06482</div>
+                        <p class="text-gray-500 mt-0.5" id="checkout-address-detail">Jl. Anggrek No 20, Bandung, Jawa Timur, Indonesia</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-400 text-xs mt-1"></i>
+                </div>
+
+                <!-- Item Order -->
+                <div id="checkout-items-list" class="bg-white p-3 mb-2 border-b">
+                    <!-- Dynamic Checkout Item -->
+                </div>
+
+                <!-- Opsi Pengiriman -->
+                <div class="bg-pinkSoft/40 p-3 mb-2 border-y border-pinkLight/30 text-xs">
+                    <div class="flex justify-between items-center font-bold text-pinkDeep">
+                        <span>Opsi Pengiriman</span>
+                        <span>Hemat Kargo (Rp0)</span>
+                    </div>
+                    <p class="text-[10px] text-gray-500 mt-1">Garansi tiba 9 - 10 Ags</p>
+                </div>
+
+                <!-- Total Payment Summary -->
+                <div class="bg-white p-3 mb-2 border-b text-xs space-y-2">
+                    <div class="flex justify-between text-gray-600">
+                        <span>Subtotal Produk</span>
+                        <span id="co-subtotal">Rp0</span>
+                    </div>
+                    <div class="flex justify-between text-gray-600">
+                        <span>Subtotal Pengiriman</span>
+                        <span>Rp0</span>
+                    </div>
+                    <div class="flex justify-between font-bold text-gray-800 pt-2 border-t">
+                        <span>Total Pembayaran</span>
+                        <span class="text-pinkPrimary text-sm" id="co-total">Rp0</span>
+                    </div>
+                </div>
+
+                <!-- Checkout Action -->
+                <div class="fixed bottom-0 max-w-md w-full bg-white border-t border-gray-200 p-2 flex justify-between items-center z-30">
+                    <div class="text-right flex-1 mr-3">
+                        <span class="text-[10px] text-gray-500">Total Pembayaran</span>
+                        <div class="text-pinkPrimary font-bold text-base" id="co-total-bottom">Rp0</div>
+                    </div>
+                    <button onclick="processOrder()" class="bg-pinkPrimary text-white px-6 py-2.5 rounded-lg text-xs font-bold shadow-md">
+                        Buat Pesanan
+                    </button>
+                </div>
+            </div>
+
+            <!-- PAGE 5: DASHBOARD ADMIN -->
+            <div id="page-admin-dashboard" class="hidden p-3 bg-gray-50 min-h-screen">
+                <div class="bg-pinkPrimary text-white p-4 rounded-xl mb-4 shadow">
+                    <h2 class="font-bold text-lg">Dashboard Admin GSTORE</h2>
+                    <p class="text-xs opacity-90">Kelola Toko & Inventaris Produk Girl's Store</p>
+                </div>
+
+                <!-- Form Input Barang -->
+                <div class="bg-white p-4 rounded-xl shadow-sm mb-4 border border-pinkLight">
+                    <h3 class="text-xs font-bold text-gray-700 mb-3 uppercase tracking-wider flex items-center">
+                        <i class="fa-solid fa-plus-circle text-pinkPrimary mr-2"></i>Tambah Produk Baru
+                    </h3>
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <label class="block text-gray-600 mb-1">Nama Tas</label>
+                            <input type="text" id="admin-p-name" placeholder="Contoh: Tote Bag Canvas Premium" class="w-full p-2 border rounded focus:outline-pinkPrimary">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-gray-600 mb-1">Kategori/Jenis</label>
+                                <select id="admin-p-type" class="w-full p-2 border rounded focus:outline-pinkPrimary">
+                                    <option>Shoulder Bag</option>
+                                    <option>Sling Bag</option>
+                                    <option>Tote Bag</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-600 mb-1">Harga (Rp)</label>
+                                <input type="number" id="admin-p-price" placeholder="7500" class="w-full p-2 border rounded focus:outline-pinkPrimary">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-gray-600 mb-1">Warna Tersedia</label>
+                            <input type="text" id="admin-p-colors" placeholder="Cream, Maroon, Pink, Hitam" class="w-full p-2 border rounded focus:outline-pinkPrimary">
+                        </div>
+                        <button onclick="adminAddProduct()" class="w-full bg-pinkPrimary text-white py-2 rounded font-bold shadow hover:bg-pinkDeep">
+                            Simpan Produk
+                        </button>
+                    </div>
+                </div>
+
+                <!-- View Barang -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-pinkLight">
+                    <h3 class="text-xs font-bold text-gray-700 mb-3 uppercase tracking-wider flex items-center">
+                        <i class="fa-solid fa-boxes-stacked text-pinkPrimary mr-2"></i>Daftar Barang Toko
+                    </h3>
+                    <div id="admin-product-list" class="space-y-2 text-xs">
+                        <!-- Admin Product View List -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 6: LAPORAN ADMIN -->
+            <div id="page-admin-reports" class="hidden p-3 bg-gray-50 min-h-screen">
+                <h2 class="font-bold text-base text-gray-800 mb-3">Laporan Penjualan Toko</h2>
+                
+                <div class="grid grid-cols-3 gap-2 mb-4">
+                    <div class="bg-white p-3 rounded-xl shadow-sm border border-pinkLight text-center">
+                        <span class="text-[10px] text-gray-500">Harian</span>
+                        <div class="font-bold text-sm text-pinkPrimary">Rp150.000</div>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl shadow-sm border border-pinkLight text-center">
+                        <span class="text-[10px] text-gray-500">Bulanan</span>
+                        <div class="font-bold text-sm text-pinkPrimary">Rp4.250.000</div>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl shadow-sm border border-pinkLight text-center">
+                        <span class="text-[10px] text-gray-500">Tahunan</span>
+                        <div class="font-bold text-sm text-pinkPrimary">Rp51.000.000</div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-pinkLight">
+                    <h3 class="text-xs font-bold text-gray-700 mb-3">Rincian Transaksi Terbaru</h3>
+                    <div id="admin-order-history" class="space-y-2 text-xs">
+                        <!-- Dynamic Order History for Admin -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 7: PROFIL (ADMIN & PELANGGAN) -->
+            <div id="page-profile" class="hidden p-4 bg-gray-50 min-h-screen">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-pinkLight text-center mb-4">
+                    <img id="profile-img" src="" class="w-24 h-24 rounded-full mx-auto border-4 border-pinkLight mb-3 object-cover shadow">
+                    <h2 id="profile-name" class="font-bold text-lg text-gray-800"></h2>
+                    <span id="profile-role-badge" class="bg-pinkSoft text-pinkDeep text-xs px-3 py-1 rounded-full font-semibold border border-pinkLight"></span>
+                    
+                    <div class="mt-6 text-left text-xs space-y-3 border-t pt-4">
+                        <div class="flex items-center text-gray-600">
+                            <i class="fa-solid fa-envelope w-6 text-pinkPrimary text-sm"></i>
+                            <span id="profile-email"></span>
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <i class="fa-solid fa-phone w-6 text-pinkPrimary text-sm"></i>
+                            <span id="profile-phone"></span>
+                        </div>
+                        <div class="flex items-start text-gray-600">
+                            <i class="fa-solid fa-location-dot w-6 text-pinkPrimary text-sm mt-0.5"></i>
+                            <span id="profile-address"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Riwayat Pesanan Saya (Khusus Pelanggan) -->
+                <div id="user-order-history-section" class="bg-white p-4 rounded-2xl shadow-sm border border-pinkLight mb-4 hidden">
+                    <h3 class="text-xs font-bold text-gray-700 mb-3 flex items-center">
+                        <i class="fa-solid fa-receipt text-pinkPrimary mr-2"></i>Riwayat Pesanan Saya
+                    </h3>
+                    <div id="user-order-history" class="space-y-2 text-xs">
+                        <!-- User Order History Injected Here -->
+                    </div>
+                </div>
+
+                <button onclick="handleLogout()" class="w-full bg-red-500 text-white py-3 rounded-xl font-bold text-xs shadow hover:bg-red-600 transition">
+                    LOGOUT
+                </button>
+            </div>
+
         </div>
+
+        <!-- ================= NAVBAR BAWAH (PERSISTENT NAVIGATION) ================= -->
+        <div id="bottom-nav" class="hidden fixed bottom-0 max-w-md w-full bg-white border-t border-gray-200 flex justify-around py-2 z-40">
+            <!-- Nav buttons dynamically populated based on Role -->
+        </div>
+
     </div>
 
-    <!-- ========================================== -->
-    <!-- 3. LOGIN ADMIN MODAL                       -->
-    <!-- ========================================== -->
-    <div id="admin-login-modal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-sm w-full p-6 relative">
-            <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-gray-400 text-xl">&times;</button>
-            <h2 class="text-2xl font-bold text-center text-pink-600 mb-4">Login Admin</h2>
-            <form onsubmit="handleAdminLogin(event)" class="space-y-4">
-                <div>
-                    <label class="text-sm font-semibold text-gray-600">Username</label>
-                    <input type="text" id="admin-user" required class="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-pink-400 outline-none">
-                </div>
-                <div>
-                    <label class="text-sm font-semibold text-gray-600">Password</label>
-                    <input type="password" id="admin-pass" required class="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-pink-400 outline-none">
-                </div>
-                <button type="submit" class="w-full bg-pink-500 text-white py-2.5 rounded-lg font-bold hover:bg-pink-600">Masuk Dashboard</button>
-                <p class="text-xs text-center text-gray-400">Gunakan: user <b>admin</b> & pass <b>123</b></p>
-            </form>
-        </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- 4. DASHBOARD ADMIN (ADMIN PAGE)            -->
-    <!-- ========================================== -->
-    <section id="admin-dashboard-page" class="hidden max-w-7xl mx-auto px-4 py-8">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-            <div>
-                <h1 class="text-3xl font-bold text-gray-800">Panel Admin Store</h1>
-                <p class="text-gray-500 text-sm">Kelola produk, inventaris, dan laporan penjualan.</p>
-            </div>
-            <button onclick="logoutAdmin()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold text-sm">
-                <i class="fa-solid fa-right-from-bracket me-1"></i> Keluar
-            </button>
-        </div>
-
-        <!-- TAB NAVIGASI ADMIN -->
-        <div class="flex border-b border-gray-200 mb-6">
-            <button id="tab-btn-dashboard" onclick="switchAdminTab('dashboard')" class="px-6 py-3 font-semibold text-gray-600 active-tab">
-                <i class="fa-solid fa-chart-line me-2"></i>Dashboard & Produk
-            </button>
-            <button id="tab-btn-reports" onclick="switchAdminTab('reports')" class="px-6 py-3 font-semibold text-gray-600">
-                <i class="fa-solid fa-file-invoice-dollar me-2"></i>Laporan Penjualan
-            </button>
-        </div>
-
-        <!-- SUB-HALAMAN 1: DASHBOARD (INPUT & VIEW BARANG) -->
-        <div id="admin-tab-dashboard">
-            <!-- Stats Brief -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-bold text-gray-400 uppercase">Total Produk</p>
-                        <h3 id="stat-total-prod" class="text-2xl font-extrabold text-gray-800">0</h3>
-                    </div>
-                    <div class="bg-pink-100 p-3 rounded-full text-pink-500"><i class="fa-solid fa-boxes-stacked text-xl"></i></div>
-                </div>
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-bold text-gray-400 uppercase">Total Penjualan</p>
-                        <h3 class="text-2xl font-extrabold text-green-600">18.520 pcs</h3>
-                    </div>
-                    <div class="bg-green-100 p-3 rounded-full text-green-500"><i class="fa-solid fa-cart-shopping text-xl"></i></div>
-                </div>
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-bold text-gray-400 uppercase">Omset Bulan Ini</p>
-                        <h3 class="text-2xl font-extrabold text-blue-600">Rp 45.200.000</h3>
-                    </div>
-                    <div class="bg-blue-100 p-3 rounded-full text-blue-500"><i class="fa-solid fa-wallet text-xl"></i></div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- FORM INPUT BARANG -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-fit">
-                    <h2 class="text-xl font-bold mb-4 text-gray-800"><i class="fa-solid fa-plus-circle me-2 text-pink-500"></i>Input Barang Baru</h2>
-                    <form onsubmit="addNewProduct(event)" class="space-y-4">
-                        <div>
-                            <label class="text-xs font-bold text-gray-600">Nama Produk</label>
-                            <input type="text" id="input-name" required placeholder="Contoh: Lipcream Dior" class="w-full border rounded-lg p-2.5 text-sm outline-none focus:border-pink-500">
-                        </div>
-                        <div>
-                            <label class="text-xs font-bold text-gray-600">Harga (Rp)</label>
-                            <input type="number" id="input-price" required placeholder="650000" class="w-full border rounded-lg p-2.5 text-sm outline-none focus:border-pink-500">
-                        </div>
-                        <div>
-                            <label class="text-xs font-bold text-gray-600">Nama File Gambar (yang disalin ke folder)</label>
-                            <input type="text" id="input-img" required placeholder="tumbler.jpg" class="w-full border rounded-lg p-2.5 text-sm outline-none focus:border-pink-500">
-                        </div>
-                        <div>
-                            <label class="text-xs font-bold text-gray-600">Varian/Shades (Pisahkan dengan koma)</label>
-                            <input type="text" id="input-varieties" required placeholder="Shade 041, Shade 042, Shade 043" class="w-full border rounded-lg p-2.5 text-sm outline-none focus:border-pink-500">
-                        </div>
-                        <div>
-                            <label class="text-xs font-bold text-gray-600">Deskripsi</label>
-                            <textarea id="input-desc" required rows="3" class="w-full border rounded-lg p-2.5 text-sm outline-none focus:border-pink-500"></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-pink-500 hover:bg-pink-600 text-white py-2.5 rounded-lg font-bold transition">Tambah Barang</button>
-                    </form>
-                </div>
-
-                <!-- VIEW BARANG (TABEL) -->
-                <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <h2 class="text-xl font-bold mb-4 text-gray-800"><i class="fa-solid fa-list me-2 text-pink-500"></i>Daftar Barang Saat Ini</h2>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm border-collapse">
-                            <thead>
-                                <tr class="bg-gray-100 text-gray-600 uppercase text-xs">
-                                    <th class="p-3">Gambar</th>
-                                    <th class="p-3">Nama Produk</th>
-                                    <th class="p-3">Harga</th>
-                                    <th class="p-3">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-product-table" class="divide-y divide-gray-100">
-                                <!-- Dynamic Rendered -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SUB-HALAMAN 2: LAPORAN (BULANAN & TAHUNAN) -->
-        <div id="admin-tab-reports" class="hidden space-y-8">
-            <!-- Laporan Bulanan -->
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h2 class="text-xl font-bold text-gray-800 mb-4"><i class="fa-solid fa-calendar-days text-pink-500 me-2"></i>Laporan Penjualan Bulanan (2026)</h2>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-pink-50 text-pink-700">
-                            <tr>
-                                <th class="p-3">Bulan</th>
-                                <th class="p-3">Total Transaksi</th>
-                                <th class="p-3">Produk Terlaris</th>
-                                <th class="p-3">Total Pendapatan</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-100">
-                            <tr><td class="p-3 font-medium">Januari</td><td class="p-3">1,240</td><td class="p-3">Lipcream Dior</td><td class="p-3 font-semibold text-green-600">Rp 42.000.000</td></tr>
-                            <tr><td class="p-3 font-medium">Februari</td><td class="p-3">1,450</td><td class="p-3">Sandal Crocs</td><td class="p-3 font-semibold text-green-600">Rp 51.500.000</td></tr>
-                            <tr><td class="p-3 font-medium">Maret</td><td class="p-3">1,100</td><td class="p-3">Tumbler Aesthetic</td><td class="p-3 font-semibold text-green-600">Rp 38.200.000</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Laporan Tahunan -->
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h2 class="text-xl font-bold text-gray-800 mb-4"><i class="fa-solid fa-chart-column text-pink-500 me-2"></i>Laporan Penjualan Tahunan</h2>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-gray-100 text-gray-700">
-                            <tr>
-                                <th class="p-3">Tahun</th>
-                                <th class="p-3">Jumlah Produk Terjual</th>
-                                <th class="p-3">Pertumbuhan</th>
-                                <th class="p-3">Total Omset</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-100">
-                            <tr><td class="p-3 font-medium">2024</td><td class="p-3">10,500 pcs</td><td class="p-3 text-gray-500">-</td><td class="p-3 font-semibold text-green-600">Rp 320.000.000</td></tr>
-                            <tr><td class="p-3 font-medium">2025</td><td class="p-3">15,800 pcs</td><td class="p-3 text-green-500 font-bold">+50.4%</td><td class="p-3 font-semibold text-green-600">Rp 480.000.000</td></tr>
-                            <tr><td class="p-3 font-medium">2026 (Running)</td><td class="p-3">3,790 pcs</td><td class="p-3 text-blue-500 font-bold">+12.1%</td><td class="p-3 font-semibold text-green-600">Rp 131.700.000</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- JavaScript Logic -->
     <script>
-        // DATA PRODUK (Menyesuaikan gambar yang dikirim)
+        // Database Produk Awal (Variasi Tas Wanita Lengkap)
         let products = [
-            { 
-                id: 1, 
-                name: 'Blouse Polkadot Trendy', 
-                price: 125000, 
-                img: 'blouse.jpg', 
-                rating: 4.9, 
-                sold: '2.4RB+', 
-                varieties: ['Putih Polkadot Hitam', 'Cream Polkadot'], 
-                desc: 'Blouse lengan panjang bermotif polkadot estetik dengan aksen kerutan di pinggang dan tali di bahu.' 
+            {
+                id: 1,
+                name: "Tas Selempang Wanita Inara Bags",
+                type: "Sling Bag",
+                price: 7500,
+                rating: "4.8",
+                sold: "10RB+",
+                location: "KAB. BOGOR",
+                image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80",
+                colors: ["Cream", "Putih", "Hitam", "Maroon", "Pink", "Coklat Tua", "Biru Muda"],
+                desc: "Tas selempang Inara Bags tampil dengan desain simpel namun memberikan kesan mewah saat digunakan. Cocok untuk acara santai maupun formal. Muat banyak barang seperti handphone, dompet, dan kosmetik."
             },
-            { 
-                id: 2, 
-                name: 'Sandal Crocs Classic Pastel', 
-                price: 650000, 
-                img: 'crocs.jpg', 
-                rating: 4.8, 
-                sold: '5RB+', 
-                varieties: ['Soft Pink', 'Cream Beige'], 
-                desc: 'Sandal Crocs sangat nyaman dilengkapi pin/jibbitz karakter laut lucu & estetik.' 
+            {
+                id: 2,
+                name: "Tote Bag Canvas Girl's Aesthetic",
+                type: "Tote Bag",
+                price: 14500,
+                rating: "4.9",
+                sold: "5RB+",
+                location: "KOTA TANGERANG",
+                image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80",
+                colors: ["Cream", "Hitam", "Maroon", "Biru Muda"],
+                desc: "Tote Bag elegan dengan bahan canvas super tebal, dilengkapi dengan zipper/resleting aman. Sangat pas untuk kuliah atau kerja."
             },
-            { 
-                id: 3, 
-                name: 'Pouch Make Up Korean Style', 
-                price: 45000, 
-                img: 'pouch.jpg', 
-                rating: 4.9, 
-                sold: '10RB+', 
-                varieties: ['Pink Dot', 'Kuning Dot', 'Blue Dot', 'White Dot'], 
-                desc: 'Pouch kosmetik kain lembut berkapasitas besar dengan pita estetik.' 
-            },
-            { 
-                id: 4, 
-                name: 'Shoulder Bag Leather Coklat Tua', 
-                price: 289000, 
-                img: 'shoulderbag.jpg', 
-                rating: 4.7, 
-                sold: '1.2RB+', 
-                varieties: ['Dark Brown', 'Vintage Black'], 
-                desc: 'Tas bahu bahan kulit sintetis premium tebal dengan gesper emas elegan.' 
-            },
-            { 
-                id: 5, 
-                name: 'Tote Bag Pink Elegan (My Voyage)', 
-                price: 135000, 
-                img: 'totebag.jpg', 
-                rating: 4.8, 
-                sold: '800+', 
-                varieties: ['Soft Pink', 'Striped Cream'], 
-                desc: 'Tote bag kain kanvas tebal dengan bordir mewah dan kapasitas laptop/buku besar.' 
-            },
-            { 
-                id: 6, 
-                name: 'Skincare YSL Luxury Set', 
-                price: 1850000, 
-                img: 'ysl.jpg', 
-                rating: 5.0, 
-                sold: '450+', 
-                varieties: ['Pure Shots Essence', 'Night Reboot Serum', 'Foundation All Hours'], 
-                desc: 'Rangkaian perawatan wajah mewah dari YSL untuk kulit glowing dan tampak awet muda.' 
-            },
-            { 
-                id: 7, 
-                name: 'Lipcream Dior Addict Lip Tint', 
-                price: 630000, 
-                img: 'dior.jpg', 
-                rating: 4.9, 
-                sold: '3.1RB+', 
-                varieties: ['Dior Shade 041', 'Dior Shade 042', 'Dior Shade 043', 'Dior Shade 044', 'Dior Shade 045'], 
-                desc: 'Lip tint legendaris memberikan warna tahan lama hingga 12 jam dengan hasil akhir lembab natural.' 
-            },
-            { 
-                id: 8, 
-                name: 'Jeans Highwaist Flare Light Blue', 
-                price: 199000, 
-                img: 'jeans.jpg', 
-                rating: 4.8, 
-                sold: '4.5RB+', 
-                varieties: ['Size S (27)', 'Size M (28)', 'Size L (29)', 'Size XL (30)'], 
-                desc: 'Celana jeans highwaist model cutoff flare yang membuat kaki terlihat lebih jenjang.' 
-            },
-            { 
-                id: 9, 
-                name: 'Tumbler Aesthetic Stainless Straw', 
-                price: 149000, 
-                img: 'tumbler.jpg', 
-                rating: 4.9, 
-                sold: '1.8RB+', 
-                varieties: ['Soft Blue', 'Lilac Purple', 'Cream Ivory', 'Hot Pink', 'Sage Green'], 
-                desc: 'Tumbler tahan dingin & panas hingga 12 jam dengan sedotan built-in dan gagang ergonomis.' 
+            {
+                id: 3,
+                name: "Shoulder Bag Vintage Elegant Pink",
+                type: "Shoulder Bag",
+                price: 22000,
+                rating: "4.7",
+                sold: "2RB+",
+                location: "JAKARTA SELATAN",
+                image: "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&w=600&q=80",
+                colors: ["Pink", "Putih", "Cream", "Coklat Tua"],
+                desc: "Tas Bahu berbahan kulit sintetis premium super halus. Tali kokoh, jahitan rapi, memberikan sentuhan ala Korean Style yang cute."
             }
         ];
 
-        // DATA ULASAN SAMPLE
-        const sampleReviews = [
-            { name: "Siti Rahmawati", rating: 5, date: "02 Agu 2026", text: "Bagus banget!! Sesuai foto, bahan/kualitas original dan pengiriman super cepat.", variant: "Default" },
-            { name: "Clarissa A.", rating: 5, date: "28 Jul 2026", text: "Pengemasannya rapi pke bubble wrap tebel. Warnanya sangat cantik!", variant: "Default" },
-            { name: "Nabila Putri", rating: 4, date: "15 Jul 2026", text: "Produknya bagus, bahan halus. Rekomended seller!", variant: "Default" }
-        ];
+        // State Aplikasi
+        let currentUser = null; // 'admin' or 'customer'
+        let cart = [];
+        let orders = [];
+        let selectedProduct = null;
+        let selectedVariant = "";
+        let selectedQty = 1;
 
-        // INITIALIZE APP
-        document.addEventListener('DOMContentLoaded', () => {
-            renderCustomerProducts();
-        });
+        // User Data Profil
+        const profiles = {
+            admin: {
+                username: "GSTORE",
+                name: "Sabine Rylee",
+                email: "Sabineryle@gmail.com",
+                phone: "0819283830201",
+                address: "Jl. pemuda No. 11, Jakarta Selatan, Indonesia",
+                avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80"
+            },
+            customer: {
+                username: "evaline",
+                name: "Evaline Sydney",
+                email: "evalinesydn@gmail.com",
+                phone: "0861929306482",
+                address: "Jl. Anggrek No 20, Bandung, Jawa Timur, Indonesia",
+                avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80"
+            }
+        };
 
-        // RENDER PRODUK PELANGGAN
-        function renderCustomerProducts() {
+        // fungsi Formatter Rupiah
+        function formatRupiah(num) {
+            return "Rp" + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        // Logic Autentikasi Login
+        function handleLogin() {
+            const userIn = document.getElementById('login-username').value.trim();
+            const passIn = document.getElementById('login-password').value.trim();
+
+            if (userIn === "GSTORE" && passIn === "GS01") {
+                currentUser = "admin";
+                setupNavigation();
+                navigateTo('admin-dashboard');
+            } else if (userIn === "evaline" && passIn === "ev01") {
+                currentUser = "customer";
+                setupNavigation();
+                renderProducts();
+                navigateTo('home');
+            } else {
+                alert("Username atau Password salah! Silakan periksa kredensial pengujian.");
+            }
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            document.getElementById('header-user').classList.add('hidden');
+            document.getElementById('bottom-nav').classList.add('hidden');
+            navigateTo('login');
+        }
+
+        // Dynamic Setup Navigasi Bawah
+        function setupNavigation() {
+            const bottomNav = document.getElementById('bottom-nav');
+            const headerUser = document.getElementById('header-user');
+
+            if (currentUser === 'customer') {
+                headerUser.classList.remove('hidden');
+                bottomNav.classList.remove('hidden');
+                bottomNav.innerHTML = `
+                    <button onclick="navigateTo('home')" class="flex flex-col items-center text-pinkPrimary text-[10px]">
+                        <i class="fa-solid fa-house text-base"></i><span>Beranda</span>
+                    </button>
+                    <button onclick="navigateTo('cart')" class="flex flex-col items-center text-gray-400 text-[10px]">
+                        <i class="fa-solid fa-cart-shopping text-base"></i><span>Keranjang</span>
+                    </button>
+                    <button onclick="navigateTo('profile')" class="flex flex-col items-center text-gray-400 text-[10px]">
+                        <i class="fa-solid fa-user text-base"></i><span>Saya</span>
+                    </button>
+                `;
+            } else if (currentUser === 'admin') {
+                headerUser.classList.add('hidden');
+                bottomNav.classList.remove('hidden');
+                bottomNav.innerHTML = `
+                    <button onclick="navigateTo('admin-dashboard')" class="flex flex-col items-center text-pinkPrimary text-[10px]">
+                        <i class="fa-solid fa-gauge text-base"></i><span>Dashboard</span>
+                    </button>
+                    <button onclick="navigateTo('admin-reports')" class="flex flex-col items-center text-gray-400 text-[10px]">
+                        <i class="fa-solid fa-chart-line text-base"></i><span>Laporan</span>
+                    </button>
+                    <button onclick="navigateTo('profile')" class="flex flex-col items-center text-gray-400 text-[10px]">
+                        <i class="fa-solid fa-user text-base"></i><span>Profil Admin</span>
+                    </button>
+                `;
+            }
+        }
+
+        // Router Halaman Single Page
+        function navigateTo(pageId) {
+            const pages = ['page-login', 'page-home', 'page-detail', 'page-cart', 'page-checkout', 'page-admin-dashboard', 'page-admin-reports', 'page-profile'];
+            pages.forEach(p => {
+                const el = document.getElementById(p);
+                if (el) el.classList.add('hidden');
+            });
+
+            document.getElementById('page-' + pageId).classList.remove('hidden');
+
+            // Render specific page context
+            if (pageId === 'profile') renderProfilePage();
+            if (pageId === 'cart') renderCartPage();
+            if (pageId === 'admin-dashboard') renderAdminDashboard();
+            if (pageId === 'admin-reports') renderAdminReports();
+        }
+
+        // RENDER PRODUK DI BERANDA (FOTO 1)
+        function renderProducts() {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = products.map(p => `
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition cursor-pointer" onclick="openProductDetail(${p.id})">
-                    <img src="${p.img}" alt="${p.name}" class="w-full h-48 md:h-56 object-cover" onerror="this.src='https://via.placeholder.com/300?text=Gambar+Tidak+Ada'">
-                    <div class="p-4">
-                        <h3 class="font-bold text-gray-800 text-sm md:text-base line-clamp-1">${p.name}</h3>
-                        <p class="text-pink-600 font-extrabold text-base my-1">Rp ${p.price.toLocaleString('id-ID')}</p>
-                        <div class="flex items-center text-xs text-gray-500 space-x-2">
-                            <span><i class="fa-solid fa-star text-yellow-400"></i> ${p.rating}</span>
-                            <span>•</span>
-                            <span>Terjual ${p.sold}</span>
+                <div onclick="openProductDetail(${p.id})" class="bg-white rounded-lg overflow-hidden shadow-sm border border-pinkLight/50 cursor-pointer flex flex-col justify-between">
+                    <div>
+                        <div class="relative">
+                            <img src="${p.image}" class="w-full h-36 object-cover">
+                            <span class="absolute top-1 right-1 bg-pinkPrimary text-white text-[9px] px-1 rounded font-bold">-52%</span>
                         </div>
+                        <div class="p-2">
+                            <h4 class="text-xs font-semibold text-gray-800 line-clamp-2 leading-snug">${p.name}</h4>
+                            <div class="mt-2 flex items-center space-x-1">
+                                <span class="bg-yellow-100 text-yellow-700 text-[9px] px-1 rounded font-bold">PROMO XTRA</span>
+                            </div>
+                            <div class="mt-2 text-pinkPrimary font-bold text-sm">${formatRupiah(p.price)}</div>
+                        </div>
+                    </div>
+                    <div class="px-2 pb-2 text-[10px] text-gray-400 flex justify-between items-center">
+                        <span>⭐ ${p.rating}</span>
+                        <span>${p.sold} terjual</span>
                     </div>
                 </div>
             `).join('');
         }
 
-        // BUKAI MODAL DETAIL PRODUK
+        // OPEN PRODUK DETAIL (FOTO 2)
         function openProductDetail(id) {
-            const product = products.find(p => p.id === id);
-            if(!product) return;
+            selectedProduct = products.find(p => p.id === id);
+            selectedVariant = selectedProduct.colors[0];
+            
+            document.getElementById('detail-img').src = selectedProduct.image;
+            document.getElementById('detail-price').innerText = formatRupiah(selectedProduct.price);
+            document.getElementById('detail-title').innerText = selectedProduct.name;
+            document.getElementById('detail-desc').innerText = selectedProduct.desc;
 
-            document.getElementById('detail-img').src = product.img;
-            document.getElementById('detail-title').innerText = product.name;
-            document.getElementById('detail-price').innerText = `Rp ${product.price.toLocaleString('id-ID')}`;
-            document.getElementById('detail-sold').innerText = `Rating ⭐ ${product.rating} | Terjual ${product.sold}`;
-            document.getElementById('detail-desc').innerText = product.desc;
+            // Render Color Swatches
+            const colorContainer = document.getElementById('detail-colors');
+            colorContainer.innerHTML = selectedProduct.colors.map(c => `
+                <span class="text-[10px] px-2.5 py-1 bg-pinkSoft text-pinkDeep rounded-md border border-pinkLight font-semibold whitespace-nowrap">
+                    ${c}
+                </span>
+            `).join('');
 
-            // Render Tombol Varian / Shades
-            const varContainer = document.getElementById('detail-varieties');
-            varContainer.innerHTML = product.varieties.map((v, idx) => `
-                <button onclick="selectVariety(this)" class="px-3 py-1.5 border text-xs font-semibold rounded-lg ${idx === 0 ? 'border-pink-500 bg-pink-50 text-pink-600' : 'border-gray-200 text-gray-600 hover:border-pink-300'}">
-                    ${v}
+            navigateTo('detail');
+        }
+
+        // MODAL VARIASI (FOTO 4)
+        function openVariationModal() {
+            if (!selectedProduct) return;
+            document.getElementById('var-img').src = selectedProduct.image;
+            document.getElementById('var-price').innerText = formatRupiah(selectedProduct.price);
+            
+            const varContainer = document.getElementById('var-options');
+            varContainer.innerHTML = selectedProduct.colors.map((c, idx) => `
+                <button onclick="selectVariant('${c}')" id="var-btn-${c}" class="var-btn text-xs px-3 py-1.5 rounded-md border ${idx === 0 ? 'border-pinkPrimary text-pinkPrimary bg-pinkSoft' : 'border-gray-200 text-gray-600'} font-medium">
+                    INARA ${c.toUpperCase()}
                 </button>
             `).join('');
 
-            // Render Ulasan
-            const revContainer = document.getElementById('detail-reviews');
-            revContainer.innerHTML = sampleReviews.map(r => `
-                <div class="bg-gray-50 p-3 rounded-xl">
-                    <div class="flex justify-between items-center mb-1">
-                        <span class="font-bold text-xs text-gray-700">${r.name}</span>
-                        <span class="text-[10px] text-gray-400">${r.date}</span>
+            selectedVariant = selectedProduct.colors[0];
+            selectedQty = 1;
+            document.getElementById('var-qty').innerText = selectedQty;
+
+            document.getElementById('modal-variation').classList.remove('hidden');
+        }
+
+        function closeVariationModal() {
+            document.getElementById('modal-variation').classList.add('hidden');
+        }
+
+        function selectVariant(color) {
+            selectedVariant = color;
+            document.querySelectorAll('.var-btn').forEach(btn => {
+                btn.classList.remove('border-pinkPrimary', 'text-pinkPrimary', 'bg-pinkSoft');
+                btn.classList.add('border-gray-200', 'text-gray-600');
+            });
+            const selectedBtn = document.getElementById(`var-btn-${color}`);
+            if(selectedBtn) {
+                selectedBtn.classList.add('border-pinkPrimary', 'text-pinkPrimary', 'bg-pinkSoft');
+            }
+        }
+
+        function updateVarQty(delta) {
+            selectedQty = Math.max(1, selectedQty + delta);
+            document.getElementById('var-qty').innerText = selectedQty;
+        }
+
+        // LOGIC KERANJANG (FOTO 3)
+        function addToCartCurrent() {
+            if (!selectedProduct) return;
+            cart.push({
+                product: selectedProduct,
+                variant: selectedProduct.colors[0],
+                qty: 1
+            });
+            updateCartBadge();
+            alert("Produk berhasil ditambahkan ke keranjang!");
+        }
+
+        function updateCartBadge() {
+            const count = cart.reduce((acc, curr) => acc + curr.qty, 0);
+            document.getElementById('cart-badge').innerText = count;
+            document.getElementById('cart-count-header').innerText = count;
+        }
+
+        function renderCartPage() {
+            updateCartBadge();
+            const container = document.getElementById('cart-items-container');
+            if (cart.length === 0) {
+                container.innerHTML = `<div class="text-center py-12 text-xs text-gray-400">Keranjang belanja Anda masih kosong.</div>`;
+                document.getElementById('cart-total-price').innerText = "Rp0";
+                document.getElementById('cart-selected-count').innerText = "0";
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = cart.map((item, index) => {
+                total += item.product.price * item.qty;
+                return `
+                    <div class="bg-white p-3 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-3">
+                        <input type="checkbox" checked class="accent-pinkPrimary">
+                        <img src="${item.product.image}" class="w-16 h-16 object-cover rounded-lg border">
+                        <div class="flex-1 text-xs">
+                            <h4 class="font-semibold text-gray-800 line-clamp-1">${item.product.name}</h4>
+                            <span class="inline-block bg-pinkSoft text-pinkDeep text-[10px] px-1.5 py-0.5 rounded my-1">
+                                Variasi: ${item.variant}
+                            </span>
+                            <div class="text-pinkPrimary font-bold">${formatRupiah(item.product.price)}</div>
+                        </div>
+                        <div class="flex flex-col items-end space-y-2">
+                            <i onclick="removeFromCart(${index})" class="fa-solid fa-trash text-gray-400 cursor-pointer hover:text-red-500 text-xs"></i>
+                            <span class="text-xs font-bold text-gray-600">x${item.qty}</span>
+                        </div>
                     </div>
-                    <div class="text-yellow-400 text-xs mb-1">${'★'.repeat(r.rating)}</div>
-                    <p class="text-xs text-gray-600">${r.text}</p>
-                    <span class="text-[10px] bg-gray-200 text-gray-600 px-2 py-0.5 rounded mt-2 inline-block">Varian: ${product.varieties[0]}</span>
+                `;
+            }).join('');
+
+            document.getElementById('cart-total-price').innerText = formatRupiah(total);
+            document.getElementById('cart-selected-count').innerText = cart.length;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            renderCartPage();
+        }
+
+        function checkoutFromCart() {
+            if (cart.length === 0) {
+                alert("Keranjang Anda kosong.");
+                return;
+            }
+            renderCheckoutPage(cart);
+        }
+
+        function proceedToCheckout() {
+            closeVariationModal();
+            const directItem = [{
+                product: selectedProduct,
+                variant: selectedVariant,
+                qty: selectedQty
+            }];
+            renderCheckoutPage(directItem);
+        }
+
+        // RENDER CHECKOUT PAGE (FOTO 5)
+        function renderCheckoutPage(itemsToCheckout) {
+            window.currentCheckoutItems = itemsToCheckout;
+            const container = document.getElementById('checkout-items-list');
+            let subtotal = 0;
+
+            container.innerHTML = itemsToCheckout.map(item => {
+                const itemTotal = item.product.price * item.qty;
+                subtotal += itemTotal;
+                return `
+                    <div class="flex items-center space-x-3 py-2 border-b border-gray-100 last:border-0">
+                        <img src="${item.product.image}" class="w-14 h-14 object-cover rounded border">
+                        <div class="flex-1 text-xs">
+                            <h4 class="font-bold text-gray-800 line-clamp-1">${item.product.name}</h4>
+                            <p class="text-[10px] text-gray-400">Variasi: ${item.variant}</p>
+                            <div class="text-pinkPrimary font-bold mt-1">${formatRupiah(item.product.price)}</div>
+                        </div>
+                        <span class="text-xs text-gray-500 font-semibold">x${item.qty}</span>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('co-subtotal').innerText = formatRupiah(subtotal);
+            document.getElementById('co-total').innerText = formatRupiah(subtotal);
+            document.getElementById('co-total-bottom').innerText = formatRupiah(subtotal);
+
+            navigateTo('checkout');
+        }
+
+        // PROSES BUAT PESANAN
+        function processOrder() {
+            if (!window.currentCheckoutItems || window.currentCheckoutItems.length === 0) return;
+
+            const newOrder = {
+                id: 'ORD-' + Math.floor(100000 + Math.random() * 900000),
+                date: new Date().toLocaleDateString('id-ID'),
+                customerName: profiles.customer.name,
+                items: window.currentCheckoutItems,
+                total: window.currentCheckoutItems.reduce((acc, c) => acc + (c.product.price * c.qty), 0)
+            };
+
+            orders.unshift(newOrder);
+            cart = []; // Reset Cart jika checkout
+            updateCartBadge();
+
+            alert(`Pesanan Berhasil Dibuat!\nID Pesanan: ${newOrder.id}\nTerima kasih telah berbelanja di Girl's Store.`);
+            navigateTo('profile');
+        }
+
+        // RENDER HALAMAN PROFIL
+        function renderProfilePage() {
+            const data = profiles[currentUser];
+            document.getElementById('profile-img').src = data.avatar;
+            document.getElementById('profile-name').innerText = data.name;
+            document.getElementById('profile-role-badge').innerText = currentUser === 'admin' ? 'ADMINISTRATOR' : 'PELANGGAN';
+            document.getElementById('profile-email').innerText = data.email;
+            document.getElementById('profile-phone').innerText = data.phone;
+            document.getElementById('profile-address').innerText = data.address;
+
+            const userOrderSec = document.getElementById('user-order-history-section');
+            if (currentUser === 'customer') {
+                userOrderSec.classList.remove('hidden');
+                const container = document.getElementById('user-order-history');
+                if (orders.length === 0) {
+                    container.innerHTML = `<p class="text-gray-400 text-center py-2">Belum ada riwayat pesanan.</p>`;
+                } else {
+                    container.innerHTML = orders.map(o => `
+                        <div class="p-2 bg-pinkSoft/50 rounded-lg border border-pinkLight/50">
+                            <div class="flex justify-between font-bold text-gray-700 mb-1">
+                                <span>${o.id}</span>
+                                <span class="text-pinkPrimary">${formatRupiah(o.total)}</span>
+                            </div>
+                            <p class="text-[10px] text-gray-500">${o.date} - ${o.items.length} Barang</p>
+                        </div>
+                    `).join('');
+                }
+            } else {
+                userOrderSec.classList.add('hidden');
+            }
+        }
+
+        // ADMIN FUNCTIONS
+        function renderAdminDashboard() {
+            const list = document.getElementById('admin-product-list');
+            list.innerHTML = products.map(p => `
+                <div class="p-2 border rounded flex justify-between items-center bg-gray-50">
+                    <div>
+                        <div class="font-bold text-gray-800">${p.name}</div>
+                        <div class="text-[10px] text-gray-500">${p.type} | ${formatRupiah(p.price)}</div>
+                    </div>
+                    <span class="text-[10px] bg-pinkSoft text-pinkDeep px-2 py-0.5 rounded font-bold border border-pinkLight">
+                        Aktif
+                    </span>
                 </div>
             `).join('');
-
-            document.getElementById('product-detail-modal').classList.remove('hidden');
         }
 
-        function selectVariety(btn) {
-            const allBtns = btn.parentElement.querySelectorAll('button');
-            allBtns.forEach(b => b.className = 'px-3 py-1.5 border text-xs font-semibold rounded-lg border-gray-200 text-gray-600 hover:border-pink-300');
-            btn.className = 'px-3 py-1.5 border text-xs font-semibold rounded-lg border-pink-500 bg-pink-50 text-pink-600';
-        }
+        function adminAddProduct() {
+            const name = document.getElementById('admin-p-name').value.trim();
+            const type = document.getElementById('admin-p-type').value;
+            const price = parseInt(document.getElementById('admin-p-price').value);
+            const colorsInput = document.getElementById('admin-p-colors').value.trim();
 
-        function closeDetailModal() {
-            document.getElementById('product-detail-modal').classList.add('hidden');
-        }
-
-        // NAVIGATION LOGIC (ADMIN VS CUSTOMER)
-        function showSection(sectionId) {
-            document.getElementById('customer-page').classList.add('hidden');
-            document.getElementById('admin-dashboard-page').classList.add('hidden');
-            document.getElementById(sectionId).classList.remove('hidden');
-        }
-
-        function openAdminModal() {
-            document.getElementById('admin-login-modal').classList.remove('hidden');
-        }
-        function closeAdminModal() {
-            document.getElementById('admin-login-modal').classList.add('hidden');
-        }
-
-        // ADMIN LOGIN
-        function handleAdminLogin(e) {
-            e.preventDefault();
-            const u = document.getElementById('admin-user').value;
-            const p = document.getElementById('admin-pass').value;
-
-            if(u === 'admin' && p === '123') {
-                closeAdminModal();
-                showSection('admin-dashboard-page');
-                renderAdminTable();
-            } else {
-                alert('Username atau Password Admin Salah!');
+            if (!name || !price) {
+                alert("Mohon isi nama dan harga produk!");
+                return;
             }
-        }
-
-        function logoutAdmin() {
-            showSection('customer-page');
-        }
-
-        // TAB ADMIN SWITCH (DASHBOARD VS REPORTS)
-        function switchAdminTab(tab) {
-            const dashTab = document.getElementById('admin-tab-dashboard');
-            const repTab = document.getElementById('admin-tab-reports');
-            const dashBtn = document.getElementById('tab-btn-dashboard');
-            const repBtn = document.getElementById('tab-btn-reports');
-
-            if(tab === 'dashboard') {
-                dashTab.classList.remove('hidden');
-                repTab.classList.add('hidden');
-                dashBtn.classList.add('active-tab');
-                repBtn.classList.remove('active-tab');
-            } else {
-                dashTab.classList.add('hidden');
-                repTab.classList.remove('hidden');
-                repBtn.classList.add('active-tab');
-                dashBtn.classList.remove('active-tab');
-            }
-        }
-
-        // ADMIN TABLE & BARANG MANAGEMENT
-        function renderAdminTable() {
-            const tbody = document.getElementById('admin-product-table');
-            document.getElementById('stat-total-prod').innerText = products.length;
-
-            tbody.innerHTML = products.map(p => `
-                <tr>
-                    <td class="p-3"><img src="${p.img}" class="w-12 h-12 object-cover rounded-lg"></td>
-                    <td class="p-3 font-semibold text-gray-800">${p.name}</td>
-                    <td class="p-3">Rp ${p.price.toLocaleString('id-ID')}</td>
-                    <td class="p-3">
-                        <button onclick="deleteProduct(${p.id})" class="text-red-500 hover:text-red-700 font-bold text-xs bg-red-50 px-2.5 py-1 rounded">Hapus</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function addNewProduct(e) {
-            e.preventDefault();
-            const name = document.getElementById('input-name').value;
-            const price = parseInt(document.getElementById('input-price').value);
-            const img = document.getElementById('input-img').value;
-            const varieties = document.getElementById('input-varieties').value.split(',').map(v => v.trim());
-            const desc = document.getElementById('input-desc').value;
 
             const newProd = {
                 id: Date.now(),
-                name,
-                price,
-                img,
-                rating: 5.0,
-                sold: 'Baru',
-                varieties,
-                desc
+                name: name,
+                type: type,
+                price: price,
+                rating: "5.0",
+                sold: "0",
+                location: "JAKARTA SELATAN",
+                image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80",
+                colors: colorsInput ? colorsInput.split(',').map(c => c.trim()) : ["Pink", "Putih"],
+                desc: "Produk tas berkualitas tinggi terbaru dari Girl's Store."
             };
 
-            products.push(newProd);
-            renderAdminTable();
-            renderCustomerProducts();
-            e.target.reset();
-            alert('Produk Berhasil Ditambahkan!');
+            products.unshift(newProd);
+            alert("Produk berhasil ditambahkan!");
+            renderAdminDashboard();
+
+            // Clear Input
+            document.getElementById('admin-p-name').value = "";
+            document.getElementById('admin-p-price').value = "";
+            document.getElementById('admin-p-colors').value = "";
         }
 
-        function deleteProduct(id) {
-            if(confirm('Yakin ingin menghapus produk ini?')) {
-                products = products.filter(p => p.id !== id);
-                renderAdminTable();
-                renderCustomerProducts();
+        function renderAdminReports() {
+            const container = document.getElementById('admin-order-history');
+            if (orders.length === 0) {
+                container.innerHTML = `<p class="text-gray-400 text-center py-2">Belum ada transaksi pesanan masuk.</p>`;
+            } else {
+                container.innerHTML = orders.map(o => `
+                    <div class="p-2 border-b last:border-0 flex justify-between items-center">
+                        <div>
+                            <div class="font-bold text-gray-800">${o.id} - ${o.customerName}</div>
+                            <div class="text-[10px] text-gray-500">${o.date}</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-pinkPrimary">${formatRupiah(o.total)}</div>
+                            <span class="text-[9px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded">Lunas</span>
+                        </div>
+                    </div>
+                `).join('');
             }
         }
     </script>
