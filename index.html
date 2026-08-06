@@ -3,372 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aplikasi Toko Online</title>
-  <!-- Google Fonts & Font Awesome Icons -->
+  <title>Shopee Clone - Custom Role</title>
+  
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <style>
-    :root {
-      --primary-color: #ee4d2d; /* Warna Oranye khas Shopee */
-      --bg-color: #f5f5f5;
-      --card-bg: #ffffff;
-      --text-color: #222;
-      --gray-text: #888;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Roboto', sans-serif;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      display: flex;
-      justify-content: center;
-    }
-
-    /* Container HP Simulation */
-    .app-container {
-      width: 100%;
-      max-width: 480px;
-      min-height: 100vh;
-      background-color: #f5f5f5;
-      position: relative;
-      padding-bottom: 60px; /* Space for Bottom Nav */
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    /* ----------------------------------
-       PAGE: LOGIN / ROLE SELECTION
-    ---------------------------------- */
-    #page-login {
-      position: fixed;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 480px;
-      height: 100vh;
-      background: linear-gradient(135deg, #ff6633, var(--primary-color));
-      z-index: 999;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      color: white;
-    }
-
-    .login-box {
-      background: white;
-      color: #333;
-      padding: 30px 20px;
-      border-radius: 12px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-    }
-
-    .login-box h2 {
-      color: var(--primary-color);
-      margin-bottom: 5px;
-    }
-
-    .login-box p {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 25px;
-    }
-
-    .btn-role {
-      width: 100%;
-      padding: 14px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 6px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .btn-customer {
-      background-color: var(--primary-color);
-      color: white;
-    }
-
-    .btn-admin {
-      background-color: #333;
-      color: white;
-    }
-
-    /* ----------------------------------
-       HEADER & NAVIGATION
-    ---------------------------------- */
-    .header {
-      background-color: var(--primary-color);
-      padding: 12px 15px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .search-bar {
-      display: flex;
-      align-items: center;
-      background: white;
-      padding: 8px 12px;
-      border-radius: 4px;
-      gap: 10px;
-    }
-
-    .search-bar input {
-      border: none;
-      outline: none;
-      width: 100%;
-      font-size: 14px;
-    }
-
-    .search-bar i {
-      color: var(--gray-text);
-    }
-
-    .top-icons {
-      display: flex;
-      color: white;
-      gap: 15px;
-      font-size: 18px;
-    }
-
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 480px;
-      background: white;
-      display: flex;
-      justify-content: space-around;
-      padding: 8px 0;
-      border-top: 1px solid #ddd;
-      z-index: 100;
-    }
-
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #666;
-      font-size: 11px;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .nav-item.active {
-      color: var(--primary-color);
-    }
-
-    .nav-item i {
-      font-size: 18px;
-      margin-bottom: 2px;
-    }
-
-    /* ----------------------------------
-       GRID PRODUK (BERANDA SHOPEE)
-    ---------------------------------- */
-    .product-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      padding: 8px;
-    }
-
-    .product-card {
-      background: white;
-      border-radius: 4px;
-      overflow: hidden;
-      cursor: pointer;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .product-card img {
-      width: 100%;
-      height: 170px;
-      object-fit: cover;
-    }
-
-    .badge-discount {
-      position: absolute;
-      top: 0;
-      right: 0;
-      background: rgba(255, 212, 0, 0.9);
-      color: #ee4d2d;
-      font-size: 11px;
-      font-weight: bold;
-      padding: 2px 4px;
-    }
-
-    .product-info {
-      padding: 8px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      flex-grow: 1;
-    }
-
-    .product-title {
-      font-size: 13px;
-      line-height: 1.3;
-      height: 34px;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      margin-bottom: 6px;
-    }
-
-    .product-price {
-      color: var(--primary-color);
-      font-weight: bold;
-      font-size: 15px;
-    }
-
-    .product-meta {
-      font-size: 10px;
-      color: var(--gray-text);
-      display: flex;
-      justify-content: space-between;
-      margin-top: 4px;
-    }
-
-    /* ----------------------------------
-       HALAMAN DETAIL PRODUK
-    ---------------------------------- */
-    .detail-view {
-      background: white;
-      min-height: 100vh;
-    }
-
-    .detail-img {
-      width: 100%;
-      height: 320px;
-      object-fit: cover;
-    }
-
-    .detail-body {
-      padding: 12px;
-    }
-
-    .detail-price-bar {
-      background: linear-gradient(90deg, #ff4500, #ff8c00);
-      color: white;
-      padding: 8px 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .rating-section {
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 8px solid #f5f5f5;
-    }
-
-    .review-card {
-      padding: 10px 0;
-      border-bottom: 1px solid #eee;
-      font-size: 12px;
-    }
-
-    /* ----------------------------------
-       HALAMAN SAYA (PROFIL & ADMIN PANEL)
-    ---------------------------------- */
-    .profile-header {
-      background: linear-gradient(135deg, #ff6633, var(--primary-color));
-      color: white;
-      padding: 20px 15px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--primary-color);
-      font-size: 24px;
-    }
-
-    .menu-group {
-      background: white;
-      margin-top: 10px;
-      padding: 10px 0;
-    }
-
-    .menu-item {
-      padding: 12px 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #f0f0f0;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    /* Form khusus Admin */
-    .admin-form {
-      padding: 15px;
-      background: white;
-      margin: 10px;
-      border-radius: 6px;
-    }
-
-    .admin-form input, .admin-form button {
-      width: 100%;
-      padding: 10px;
-      margin: 6px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    .admin-form button {
-      background: var(--primary-color);
-      color: white;
-      font-weight: bold;
-      border: none;
-    }
-
-    /* Global Hide Class */
-    .hidden {
-      display: none !important;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div class="app-container">
 
-    <!-- ================= HALAMAN LOGIN (DI AWAL) ================= -->
+    <!-- ================= 1. LOGIN AWAL (ADMIN / PELANGGAN) ================= -->
     <div id="page-login">
       <div class="login-box">
+        <i class="fa-solid fa-bag-shopping login-logo"></i>
         <h2>Selamat Datang</h2>
-        <p>Pilih jenis akun untuk masuk ke aplikasi</p>
+        <p>Silakan pilih akses akun kamu:</p>
         
         <button class="btn-role btn-customer" onclick="loginAs('customer')">
           <i class="fa-solid fa-user"></i> Masuk sebagai Pelanggan
@@ -380,109 +30,158 @@
       </div>
     </div>
 
-    <!-- ================= HEADER UTAMA ================= -->
+    <!-- ================= 2. HEADER SEARCH (PERSIS SHOPEE) ================= -->
     <div id="app-header" class="header">
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <div class="search-bar" style="flex-grow: 1;">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Tas Selempang Cewek Kekinian">
-          <i class="fa-solid fa-camera"></i>
-        </div>
-        <div class="top-icons">
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass icon-search"></i>
+        <input type="text" placeholder="Tas Selempang Cewek Kekinian">
+        <i class="fa-solid fa-camera icon-camera"></i>
+      </div>
+      <div class="header-icons">
+        <div class="icon-badge">
           <i class="fa-solid fa-cart-shopping"></i>
-          <i class="fa-solid fa-comment-dots"></i>
+          <span class="badge">64</span>
         </div>
+        <i class="fa-solid fa-comment-dots"></i>
       </div>
     </div>
 
-    <!-- ================= HALAMAN BERANDA (PRODUK LIST) ================= -->
+    <!-- ================= 3. HALAMAN BERANDA (GRID PRODUK SHOPEE) ================= -->
     <div id="page-home" class="page-content">
       <div class="product-grid" id="product-container">
-        <!-- Produk di-render melalui JavaScript -->
+        <!-- Di-render via JavaScript -->
       </div>
     </div>
 
-    <!-- ================= HALAMAN DETAIL PRODUK ================= -->
+    <!-- ================= 4. HALAMAN DETAIL PRODUK (PERSIS GAMBAR 2) ================= -->
     <div id="page-detail" class="page-content hidden detail-view">
-      <div style="position: relative;">
-        <i class="fa-solid fa-arrow-left" onclick="showPage('home')" style="position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.4); color: white; padding: 8px 11px; border-radius: 50%; cursor: pointer;"></i>
-        <img id="detail-img" class="detail-img" src="" alt="Produk">
-      </div>
-      
-      <div class="detail-price-bar">
-        <div>
-          <span style="font-size: 12px;">FLASH SALE</span>
-          <h2 id="detail-price" style="font-size: 20px;">Rp0</h2>
+      <div class="detail-top-nav">
+        <i class="fa-solid fa-arrow-left btn-back" onclick="showPage('home')"></i>
+        <div class="top-right-actions">
+          <i class="fa-solid fa-share-nodes"></i>
+          <i class="fa-solid fa-cart-shopping"></i>
+          <i class="fa-solid fa-ellipsis-vertical"></i>
         </div>
-        <span style="font-size: 11px;">10RB+ Terjual</span>
       </div>
 
-      <div class="detail-body">
-        <h3 id="detail-title" style="font-size: 15px; margin-bottom: 10px;">Judul Produk</h3>
-        <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Garansi Bebas Pengembalian • Gratis Ongkir</p>
+      <img id="detail-img" class="detail-main-img" src="" alt="Detail Produk">
+
+      <div class="flash-sale-bar">
+        <div class="fs-left">
+          <i class="fa-solid fa-bolt"></i> <span>FLASH SALE</span>
+        </div>
+        <div class="fs-right">
+          BERAKHIR DALAM <span class="timer-box">02</span> : <span class="timer-box">02</span> : <span class="timer-box">35</span>
+        </div>
+      </div>
+
+      <div class="detail-price-section">
+        <div class="price-row">
+          <span class="current-price" id="detail-price">Rp0</span>
+          <span class="old-price" id="detail-old-price">Rp20.000</span>
+          <span class="sold-count">10RB+ Terjual</span>
+        </div>
+        <h1 class="detail-title" id="detail-title">Nama Produk</h1>
+      </div>
+
+      <div class="detail-info-row">
+        <span><i class="fa-solid fa-truck-fast" style="color: #00bfa5;"></i> 8 - 9 Ags • <b>Bebas Pengembalian</b></span>
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+      <div class="detail-info-row">
+        <span><i class="fa-solid fa-credit-card" style="color: #ee4d2d;"></i> SPayLater: Cicilan Pasti 0% + Diskon 50RB</span>
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+
+      <!-- Rating Section -->
+      <div class="rating-section">
+        <div class="rating-header">
+          <div><b>4.6</b> ⭐ Penilaian Produk (12,2RB)</div>
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
         
-        <div class="rating-section">
-          <h4>Penilaian Produk (12.2RB)</h4>
-          <div class="review-card">
-            <strong>malik_abdulazis00</strong>
-            <p>⭐⭐⭐⭐⭐</p>
-            <p style="color: #444; margin-top: 4px;">Lucu banget tasnya, realpict juga sesuai gambar! Next order lagi soalnya imut😊</p>
+        <div class="review-box">
+          <div class="reviewer-name">malik_abdulazis00</div>
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <div class="variansi">Variasi: INARA PUTIH</div>
+          <p class="review-comment">Lucu banget tasnya, relpict juga sesuai gambar ❤️❤️ Next order lagi soalnya imut🤭</p>
+          <img class="review-img" id="review-img-thumb" src="" alt="Ulasan Customer">
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 5. HALAMAN SAYA / PROFIL & ADMIN ================= -->
+    <div id="page-profile" class="page-content hidden">
+      <div class="shopee-profile-header">
+        <div class="seller-btn">Mulai Jual <i class="fa-solid fa-chevron-right"></i></div>
+        <div class="profile-info-box">
+          <div class="user-avatar"><i class="fa-solid fa-user" id="user-icon"></i></div>
+          <div>
+            <h2 id="user-name">aaishhrf_fd</h2>
+            <span class="user-badge" id="user-role-badge">Classic</span>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- ================= HALAMAN SAYA / PROFIL / ADMIN ================= -->
-    <div id="page-profile" class="page-content hidden">
-      <div class="profile-header">
-        <div class="avatar">
-          <i class="fa-solid fa-user" id="user-icon"></i>
-        </div>
-        <div>
-          <h3 id="user-name">Nama Pengguna</h3>
-          <span id="user-role-badge" style="background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 10px; font-size: 11px;">Pelanggan</span>
-        </div>
-      </div>
-
-      <!-- Menu khusus ADMIN -->
+      <!-- FORM KHUSUS ADMIN -->
       <div id="admin-panel" class="hidden">
-        <div class="admin-form">
-          <h4 style="margin-bottom: 10px;">Tambah Produk Baru (Admin)</h4>
-          <input type="text" id="input-name" placeholder="Nama Produk">
-          <input type="number" id="input-price" placeholder="Harga (Rp)">
+        <div class="admin-card">
+          <h3><i class="fa-solid fa-sliders"></i> Panel Kelola Produk (Admin)</h3>
+          <input type="text" id="input-name" placeholder="Nama Produk Baru">
+          <input type="number" id="input-price" placeholder="Harga Produk (Rp)">
           <input type="text" id="input-img" placeholder="URL Gambar Produk">
-          <button onclick="addProduct()">Tambah Produk</button>
+          <button onclick="addProduct()">+ Tambah Produk ke Toko</button>
         </div>
       </div>
 
-      <!-- Menu Umum -->
-      <div class="menu-group">
-        <div class="menu-item">
-          <span><i class="fa-solid fa-box-archive" style="color: #ee4d2d; margin-right: 10px;"></i> Pesanan Saya</span>
-          <i class="fa-solid fa-chevron-right" style="color: #ccc;"></i>
+      <!-- MENU SAYA PERSIS SHOPEE (GAMBAR 3) -->
+      <div class="shopee-menu-section">
+        <div class="menu-header-title">
+          <span>Pesanan Saya</span>
+          <span class="see-all">Lihat Riwayat Pesanan <i class="fa-solid fa-chevron-right"></i></span>
         </div>
-        <div class="menu-item">
-          <span><i class="fa-solid fa-wallet" style="color: #ff9900; margin-right: 10px;"></i> Dompet Saya</span>
-          <i class="fa-solid fa-chevron-right" style="color: #ccc;"></i>
+        <div class="order-status-grid">
+          <div class="status-item">
+            <i class="fa-solid fa-wallet"></i>
+            <span>Belum Bayar</span>
+          </div>
+          <div class="status-item">
+            <i class="fa-solid fa-box"></i>
+            <span>Dikemas</span>
+          </div>
+          <div class="status-item badge-parent">
+            <span class="num-badge">1</span>
+            <i class="fa-solid fa-truck"></i>
+            <span>Dikirim</span>
+          </div>
+          <div class="status-item badge-parent">
+            <span class="num-badge">5</span>
+            <i class="fa-solid fa-star"></i>
+            <span>Beri Penilaian</span>
+          </div>
         </div>
-        <div class="menu-item" onclick="logout()">
-          <span><i class="fa-solid fa-right-from-bracket" style="color: red; margin-right: 10px;"></i> Ganti Akun / Logout</span>
-          <i class="fa-solid fa-chevron-right" style="color: #ccc;"></i>
+      </div>
+
+      <div class="shopee-menu-section">
+        <div class="menu-list-item" onclick="logout()">
+          <span style="color: red; font-weight: bold;"><i class="fa-solid fa-right-from-bracket"></i> Keluar / Ganti Akun</span>
+          <i class="fa-solid fa-chevron-right"></i>
         </div>
       </div>
     </div>
 
-    <!-- ================= BOTTOM NAVIGATION BAR ================= -->
+    <!-- ================= 6. BOTTOM NAV (PERSIS SHOPEE) ================= -->
     <div id="app-nav" class="bottom-nav">
       <div class="nav-item active" onclick="showPage('home')">
         <i class="fa-solid fa-house"></i>
         <span>Beranda</span>
       </div>
-      <div class="nav-item" onclick="alert('Fitur Live belum tersedia')">
-        <i class="fa-solid fa-tv"></i>
-        <span>Live</span>
+      <div class="nav-item">
+        <i class="fa-solid fa-circle-play"></i>
+        <span>Live & Video</span>
       </div>
-      <div class="nav-item" onclick="alert('Tidak ada notifikasi baru')">
+      <div class="nav-item badge-parent">
+        <span class="num-badge nav-b">24</span>
         <i class="fa-solid fa-bell"></i>
         <span>Notifikasi</span>
       </div>
@@ -494,162 +193,6 @@
 
   </div>
 
-  <script>
-    // Data Produk Awal
-    let products = [
-      {
-        id: 1,
-        title: "Tas Selempang Wanita Inara Bags Elegant",
-        price: 7500,
-        discount: "-63%",
-        sold: "10RB+",
-        image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60"
-      },
-      {
-        id: 2,
-        title: "Kandang Kucing Kandang Anjing Pagar Pet C...",
-        price: 4800,
-        discount: "-52%",
-        sold: "10RB+",
-        image: "https://images.unsplash.com/photo-1541599540903-216a46ca1dc0?w=500&auto=format&fit=crop&q=60"
-      },
-      {
-        id: 3,
-        title: "Tutup Botol Kecap/Saus/Sirup Panjang Corong",
-        price: 14500,
-        discount: "PROMO",
-        sold: "5RB+",
-        image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&auto=format&fit=crop&q=60"
-      }
-    ];
-
-    let currentUserRole = null;
-
-    // Fungsi Login (Pelanggan / Admin)
-    function loginAs(role) {
-      currentUserRole = role;
-      document.getElementById('page-login').classList.add('hidden');
-      
-      const roleBadge = document.getElementById('user-role-badge');
-      const userName = document.getElementById('user-name');
-      const adminPanel = document.getElementById('admin-panel');
-      const userIcon = document.getElementById('user-icon');
-
-      if (role === 'admin') {
-        userName.innerText = "Admin Toko";
-        roleBadge.innerText = "Administrator";
-        roleBadge.style.background = "#333";
-        adminPanel.classList.remove('hidden');
-        userIcon.className = "fa-solid fa-user-shield";
-      } else {
-        userName.innerText = "aaishhrf_fd";
-        roleBadge.innerText = "Pelanggan Classic";
-        roleBadge.style.background = "rgba(255,255,255,0.2)";
-        adminPanel.classList.add('hidden');
-        userIcon.className = "fa-solid fa-user";
-      }
-
-      showPage('home');
-      renderProducts();
-    }
-
-    // Logout
-    function logout() {
-      document.getElementById('page-login').classList.remove('hidden');
-    }
-
-    // Render Daftar Produk Ke Halaman
-    function renderProducts() {
-      const container = document.getElementById('product-container');
-      container.innerHTML = '';
-
-      products.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.onclick = () => openDetail(p);
-        card.innerHTML = `
-          <div class="badge-discount">${p.discount}</div>
-          <img src="${p.image}" alt="${p.title}">
-          <div class="product-info">
-            <div class="product-title">${p.title}</div>
-            <div class="product-price">Rp${p.price.toLocaleString('id-ID')}</div>
-            <div class="product-meta">
-              <span>⭐ 4.8</span>
-              <span>${p.sold} terjual</span>
-            </div>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    // Navigasi Halaman
-    function showPage(pageName) {
-      document.querySelectorAll('.page-content').forEach(el => el.classList.add('hidden'));
-      
-      const header = document.getElementById('app-header');
-      const nav = document.getElementById('app-nav');
-
-      if (pageName === 'home') {
-        document.getElementById('page-home').classList.remove('hidden');
-        header.classList.remove('hidden');
-        nav.classList.remove('hidden');
-      } else if (pageName === 'profile') {
-        document.getElementById('page-profile').classList.remove('hidden');
-        header.classList.add('hidden');
-        nav.classList.remove('hidden');
-      } else if (pageName === 'detail') {
-        document.getElementById('page-detail').classList.remove('hidden');
-        header.classList.add('hidden');
-        nav.classList.add('hidden');
-      }
-
-      // Update Nav Active State
-      const navItems = document.querySelectorAll('.nav-item');
-      navItems.forEach(item => item.classList.remove('active'));
-      if (pageName === 'home') navItems[0].classList.add('active');
-      if (pageName === 'profile') navItems[3].classList.add('active');
-    }
-
-    // Buka Detail Produk
-    function openDetail(product) {
-      document.getElementById('detail-img').src = product.image;
-      document.getElementById('detail-title').innerText = product.title;
-      document.getElementById('detail-price').innerText = "Rp" + product.price.toLocaleString('id-ID');
-      showPage('detail');
-    }
-
-    // Fungsi Tambah Produk (Khusus Admin)
-    function addProduct() {
-      const name = document.getElementById('input-name').value;
-      const price = parseInt(document.getElementById('input-price').value);
-      const img = document.getElementById('input-img').value;
-
-      if (!name || !price) {
-        alert('Harap isi Nama dan Harga Produk!');
-        return;
-      }
-
-      const newProduct = {
-        id: Date.now(),
-        title: name,
-        price: price,
-        discount: "BARU",
-        sold: "0",
-        image: img || "https://via.placeholder.com/150"
-      };
-
-      products.unshift(newProduct);
-      alert('Produk berhasil ditambahkan!');
-      
-      // Reset Form & Render
-      document.getElementById('input-name').value = '';
-      document.getElementById('input-price').value = '';
-      document.getElementById('input-img').value = '';
-      
-      renderProducts();
-      showPage('home');
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
