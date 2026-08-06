@@ -308,17 +308,43 @@
     .variant-opt { padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 12px; cursor: pointer; }
     .variant-opt.active { border-color: var(--primary); background: var(--secondary); color: var(--primary); font-weight: 600; }
 
-    /* REVIEWS SECTION */
-    .review-card {
-      background: var(--bg-color);
+    /* REVIEWS SECTION ENHANCED (MATCHING SAMPLE IMAGE) */
+    .rating-summary-box {
+      background: #FAFAFA;
+      border: 1px solid var(--border);
+      border-radius: 10px;
       padding: 12px;
-      border-radius: 8px;
+      margin-bottom: 12px;
+      font-size: 12px;
+    }
+    .rating-summary-box h5 {
+      font-size: 12px;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .rating-summary-box ul {
+      list-style: none;
+      padding-left: 0;
+      color: #444;
+      line-height: 1.5;
+    }
+    .review-card {
+      background: var(--surface);
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
       margin-bottom: 10px;
       font-size: 12px;
     }
-    .review-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
-    .review-user { font-weight: 600; color: var(--text-dark); }
+    .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .review-user { font-weight: 600; color: var(--text-dark); font-size: 12px; }
     .review-date { font-size: 10px; color: var(--text-muted); }
+    .review-variant { font-size: 10px; color: var(--text-muted); margin-bottom: 6px; }
+    .review-comment { font-size: 12px; color: #333; margin-bottom: 8px; line-height: 1.4; }
+    .review-photo-list { display: flex; gap: 6px; overflow-x: auto; margin-top: 6px; }
+    .review-photo { width: 70px; height: 70px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); }
 
     /* CART & CHECKOUT */
     .cart-item, .order-card {
@@ -336,7 +362,7 @@
     .summary-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; }
     .summary-row.total { font-size: 15px; font-weight: 700; color: var(--primary); border-top: 1px dashed var(--border); pt: 8px; margin-top: 8px; }
 
-    /* ADMIN DASHBOARD */
+    /* ADMIN DASHBOARD & PROFILES */
     .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
     .stat-card { background: var(--surface); padding: 16px; border-radius: var(--radius); box-shadow: var(--shadow); }
     .stat-card h4 { font-size: 11px; color: var(--text-muted); font-weight: 500; }
@@ -473,6 +499,31 @@
       <div id="customer-order-list"></div>
     </div>
 
+    <!-- 6B. CUSTOMER PROFILE PAGE -->
+    <div id="customer-profile-page" class="page">
+      <div class="profile-header">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=300" alt="Pelanggan" class="profile-img">
+        <span class="badge-store" style="display:inline-block; margin-bottom:6px;">PELANGGAN VIP</span>
+        <h3 style="font-size:16px;">Evaline</h3>
+        <p style="font-size:12px; color:var(--text-muted);">evaline@gmail.com</p>
+      </div>
+
+      <div style="background:var(--surface); padding:16px; border-radius:var(--radius); font-size:13px; display:flex; flex-direction:column; gap:12px;">
+        <div>
+          <strong style="color:var(--text-muted); font-size:11px; display:block;">NOMOR TELEPON</strong>
+          08123456789
+        </div>
+        <div>
+          <strong style="color:var(--text-muted); font-size:11px; display:block;">ALAMAT UTAMA</strong>
+          Jl. Mawar No. 45, Kebayoran Baru, Jakarta Selatan
+        </div>
+        <div>
+          <strong style="color:var(--text-muted); font-size:11px; display:block;">MEMBER SEJAK</strong>
+          Januari 2026
+        </div>
+      </div>
+    </div>
+
     <!-- 7. ADMIN DASHBOARD PAGE -->
     <div id="admin-dashboard-page" class="page">
       <div class="stats-grid">
@@ -572,8 +623,8 @@
         <p style="font-size:12px; color:var(--text-muted);">Sabineryle@gmail.com</p>
       </div>
 
-      <div style="background:var(--surface); padding:16px; border-radius:var(--radius); font-size:13px;">
-        <div style="margin-bottom:12px;">
+      <div style="background:var(--surface); padding:16px; border-radius:var(--radius); font-size:13px; display:flex; flex-direction:column; gap:12px;">
+        <div>
           <strong style="color:var(--text-muted); font-size:11px; display:block;">NOMOR TELEPON</strong>
           0819283830201
         </div>
@@ -581,11 +632,11 @@
           <strong style="color:var(--text-muted); font-size:11px; display:block;">ALAMAT TOKO</strong>
           Jl. Pemuda No. 11, Jakarta Selatan, Indonesia
         </div>
+        <div>
+          <strong style="color:var(--text-muted); font-size:11px; display:block;">STATUS TOKO</strong>
+          Aktif • Terverifikasi
+        </div>
       </div>
-
-      <button class="btn btn-outline mt-10" onclick="logout()" style="margin-top:20px;">
-        <i class="fa-solid fa-right-from-bracket"></i> Keluar
-      </button>
     </div>
 
     <!-- BOTTOM NAVIGATION BAR -->
@@ -614,7 +665,7 @@
       "Biru Muda": "https://images.unsplash.com/photo-1614179689702-355944cd0918?auto=format&fit=crop&q=80&w=500"
     };
 
-    // Product Data with Reviews
+    // Product Data with 5 Detailed Reviews per Product
     let products = [
       {
         id: 1,
@@ -634,8 +685,11 @@
         img: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=500",
         desc: "Shoulder bag sintetis premium dengan desain modern. Cocok untuk kuliah maupun hangout.",
         reviews: [
-          { name: "Clarissa M.", rating: 5, date: "12 Mei 2026", comment: "Tasnya bagus banget! Bahan kulit sintetisnya halus dan kelihatan mewah." },
-          { name: "Nabila A.", rating: 5, date: "28 Apr 2026", comment: "Warna creamnya sesuai foto. Jahitannya juga rapi banget!" }
+          { name: "malik_abdulazis00", rating: 5, date: "02 Ags 2026", variant: "Variasi: Cream", comment: "Lucu banget tasnya, realpict juga sesuai gambar ❤️❤️ Next order lagi soalnya imut 🤭", photo: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=200" },
+          { name: "Clarissa M.", rating: 5, date: "28 Jul 2026", variant: "Variasi: Pink", comment: "Bahan kulit sintetisnya halus dan kelihatan mewah banget. Jahitannya sangat rapi!", photo: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=200" },
+          { name: "Nabila A.", rating: 5, date: "15 Jul 2026", variant: "Variasi: Hitam", comment: "Suka sekali! Kualitas retsleting kokoh dan pengiriman sangat cepat.", photo: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=200" },
+          { name: "Siti Rahma", rating: 4, date: "10 Jun 2026", variant: "Variasi: Putih", comment: "Ukuran pas untuk bawa dompet dan makeup. Bagus untuk acara kondangan.", photo: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=200" },
+          { name: "Dewi Lestari", rating: 5, date: "01 Jun 2026", variant: "Variasi: Cream", comment: "Packaging rapi paka bubble wrap tebal. Tas tidak ada yang cacat sedikitpun.", photo: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=200" }
         ]
       },
       {
@@ -655,7 +709,11 @@
         img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=500",
         desc: "Tas selempang kecil yang imut dan praktis. Muat HP, dompet lipat, dan kosmetik.",
         reviews: [
-          { name: "Siti Rahma", rating: 5, date: "02 Jun 2026", comment: "Suka bgt sama warna pink nya, cute banget dipake jalan-jalan!" }
+          { name: "Anisa Fitri", rating: 5, date: "04 Ags 2026", variant: "Variasi: Pink", comment: "Super cute! Warnanya pastel manis banget, tali selempangnya bisa diatur.", photo: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=200" },
+          { name: "Rina Kusuma", rating: 5, date: "01 Ags 2026", variant: "Variasi: Biru Muda", comment: "Warna birunya gemas! Cocok dipakai jalan-jalan santai.", photo: "https://images.unsplash.com/photo-1614179689702-355944cd0918?auto=format&fit=crop&q=80&w=200" },
+          { name: "Maya S.", rating: 4, date: "20 Jul 2026", variant: "Variasi: Putih", comment: "Bagus dan compact. Muat HP ukuran besar dan lipstik.", photo: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=200" },
+          { name: "Dina Amelia", rating: 5, date: "11 Jul 2026", variant: "Variasi: Pink", comment: "Kualitas sesuai harga, recommended seller!", photo: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=200" },
+          { name: "Tania P.", rating: 5, date: "02 Jul 2026", variant: "Variasi: Biru Muda", comment: "Fast response, pengiriman cepat dan tas sangat lucu.", photo: "https://images.unsplash.com/photo-1614179689702-355944cd0918?auto=format&fit=crop&q=80&w=200" }
         ]
       },
       {
@@ -675,7 +733,11 @@
         img: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=500",
         desc: "Tote bag bahan kanvas tebal kompartemen luas. Sangat muat banyak barang bawaan.",
         reviews: [
-          { name: "Dewi Lestari", rating: 5, date: "15 Jan 2026", comment: "Muat laptop dan peralatan kuliah lainnya. Bahan tebal!" }
+          { name: "Dewi Lestari", rating: 5, date: "03 Ags 2026", variant: "Variasi: Coklat Tua", comment: "Muat laptop 14 inch dan peralatan kuliah. Bahan tebal dan kokoh!", photo: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=200" },
+          { name: "Sarah B.", rating: 5, date: "25 Jul 2026", variant: "Variasi: Cream", comment: "Suka banget style kanvasnya minimalist. Recomended untuk kerja/kuliah.", photo: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=200" },
+          { name: "Fani W.", rating: 5, date: "18 Jul 2026", variant: "Variasi: Hitam", comment: "Bahan kanvas kaku dan tebal, ga gampang meliuk. Top!", photo: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=200" },
+          { name: "Gita K.", rating: 5, date: "05 Jul 2026", variant: "Variasi: Coklat Tua", comment: "Warnanya elegan dan jahitan bagian dalam rapi.", photo: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80&w=200" },
+          { name: "Hani M.", rating: 5, date: "21 Jun 2026", variant: "Variasi: Cream", comment: "Pengiriman cepat, packing aman dengan kotak.", photo: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&q=80&w=200" }
         ]
       },
       {
@@ -694,7 +756,11 @@
         img: "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&q=80&w=500",
         desc: "Tas dengan motif quilted elegan memberi kesan mewah untuk acara formal maupun pesta.",
         reviews: [
-          { name: "Jessica T.", rating: 5, date: "20 Jul 2026", comment: "Tampak mewah banget! Rantai masnya kokoh ga gampang luntur." }
+          { name: "Jessica T.", rating: 5, date: "05 Ags 2026", variant: "Variasi: Maroon", comment: "Tampak mewah banget! Rantai emasnya kokoh tidak gampang luntur.", photo: "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&q=80&w=200" },
+          { name: "Indah P.", rating: 5, date: "29 Jul 2026", variant: "Variasi: Hitam", comment: "Cocok dipadukan dengan gaun malam. Kualitas ala boutique!", photo: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=200" },
+          { name: "Karin L.", rating: 5, date: "14 Jul 2026", variant: "Variasi: Maroon", comment: "Warna maroonnya dalam dan cantik banget di tempat pencahayaan pesta.", photo: "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&q=80&w=200" },
+          { name: "Luna V.", rating: 4, date: "08 Jul 2026", variant: "Variasi: Hitam", comment: "Pengiriman cepat dan tas sangat berkelas.", photo: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=200" },
+          { name: "Mona R.", rating: 5, date: "01 Jul 2026", variant: "Variasi: Maroon", comment: "Sangat memuaskan, teman-teman pada puji tasnya!", photo: "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&q=80&w=200" }
         ]
       }
     ];
@@ -740,6 +806,9 @@
         case 'customer-orders-page':
           pageTitleEl.innerText = "Riwayat Pesanan Saya";
           renderCustomerOrders();
+          break;
+        case 'customer-profile-page':
+          pageTitleEl.innerText = "Profil Pelanggan";
           break;
         case 'admin-dashboard-page':
           pageTitleEl.innerText = "Admin Dashboard";
@@ -814,15 +883,6 @@
       }
     }
 
-    function logout() {
-      currentUser = null;
-      historyStack = [];
-      document.getElementById('main-header').style.display = 'none';
-      document.getElementById('main-nav').style.display = 'none';
-      navigateTo('login-page');
-      showToast("Berhasil keluar.");
-    }
-
     function setupLayoutForUser() {
       document.getElementById('main-header').style.display = 'flex';
       const nav = document.getElementById('main-nav');
@@ -834,7 +894,7 @@
         nav.innerHTML = `
           <button class="nav-item" onclick="navigateTo('customer-home')"><i class="fa-solid fa-store"></i>Marketplace</button>
           <button class="nav-item" onclick="navigateTo('customer-orders-page')"><i class="fa-solid fa-receipt"></i>Pesanan Saya</button>
-          <button class="nav-item" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i>Keluar</button>
+          <button class="nav-item" onclick="navigateTo('customer-profile-page')"><i class="fa-solid fa-user"></i>Profil</button>
         `;
       } else {
         cartBtn.style.display = 'none';
@@ -854,6 +914,7 @@
       if (currentUser?.role === 'customer') {
         if (pageId === 'customer-home') navs[0]?.classList.add('active');
         if (pageId === 'customer-orders-page') navs[1]?.classList.add('active');
+        if (pageId === 'customer-profile-page') navs[2]?.classList.add('active');
       } else if (currentUser?.role === 'admin') {
         if (pageId === 'admin-dashboard-page') navs[0]?.classList.add('active');
         if (pageId === 'admin-input-page') navs[1]?.classList.add('active');
@@ -902,7 +963,6 @@
       selectedColor = selectedDetailProduct.colors[0];
       selectedVariant = 'Standard';
 
-      // Set initial image based on colorMap or default
       const initialImg = selectedDetailProduct.colorMap?.[selectedColor] || colorImageMap[selectedColor] || selectedDetailProduct.img;
 
       const container = document.getElementById('detail-content');
@@ -942,8 +1002,22 @@
 
           <hr style="border:none; border-top:1px solid var(--border); margin:12px 0;">
 
-          <!-- ULASAN PELANGGAN SECTION -->
-          <h4 style="font-size:13px; margin-bottom:10px;"><i class="fa-solid fa-comments" style="color:var(--primary);"></i> Ulasan Pelanggan (${selectedDetailProduct.reviews ? selectedDetailProduct.reviews.length : 0})</h4>
+          <!-- ULASAN PELANGGAN SECTION (Sesuai Desain Gambar Referensi) -->
+          <div class="flex-between" style="margin-bottom:10px;">
+            <h4 style="font-size:14px; font-weight:700;">
+              ${selectedDetailProduct.rating} <i class="fa-solid fa-star" style="color:#FFB800;"></i> Penilaian Produk (${selectedDetailProduct.reviews ? selectedDetailProduct.reviews.length : 0})
+            </h4>
+          </div>
+
+          <!-- Rangkuman Penilaian -->
+          <div class="rating-summary-box">
+            <h5><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--primary);"></i> Rangkuman Penilaian</h5>
+            <ul>
+              <li>• <strong>Tampilan Elegan:</strong> Model simpel tapi terlihat mewah saat dipakai jalan-jalan.</li>
+              <li>• <strong>Muat Banyak:</strong> Bisa masuk HP, dompet, dan kosmetik kecil dalam satu tas.</li>
+            </ul>
+          </div>
+
           <div id="reviews-list">
             ${renderReviews(selectedDetailProduct.reviews)}
           </div>
@@ -957,13 +1031,11 @@
       navigateTo('product-detail-page');
     }
 
-    // Ubah Warna & Gambar Tas Sekaligus
     function selectColor(color, el) {
       selectedColor = color;
       el.parentElement.querySelectorAll('.variant-opt').forEach(o => o.classList.remove('active'));
       el.classList.add('active');
 
-      // Cari URL Gambar Sesuai Warna
       const imgEl = document.getElementById('main-detail-img');
       const targetImg = selectedDetailProduct.colorMap?.[color] || colorImageMap[color] || selectedDetailProduct.img;
 
@@ -982,6 +1054,7 @@
       el.classList.add('active');
     }
 
+    /* RENDER 5 REVIEWS DENGAN FOTO */
     function renderReviews(reviews) {
       if (!reviews || reviews.length === 0) {
         return `<p style="font-size:12px; color:var(--text-muted);">Belum ada ulasan untuk produk ini.</p>`;
@@ -992,10 +1065,16 @@
             <span class="review-user">${r.name}</span>
             <span class="review-date">${r.date}</span>
           </div>
-          <div style="color:#FFB800; font-size:10px; margin-bottom:4px;">
+          <div style="color:#FFB800; font-size:10px; margin-bottom:2px;">
             ${'<i class="fa-solid fa-star"></i>'.repeat(r.rating)}
           </div>
-          <p style="color:#444;">"${r.comment}"</p>
+          <div class="review-variant">${r.variant || 'Variasi: Standard'}</div>
+          <p class="review-comment">${r.comment}</p>
+          ${r.photo ? `
+            <div class="review-photo-list">
+              <img src="${r.photo}" class="review-photo" alt="Ulasan Foto">
+            </div>
+          ` : ''}
         </div>
       `).join('');
     }
