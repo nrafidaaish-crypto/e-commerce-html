@@ -946,6 +946,133 @@ Checkout Sekarang
 
 <!-- ================= PESANAN ================= -->
 
+
+<div id="pesanan" class="page">
+
+
+<h2>
+📦 Pesanan Saya
+</h2>
+
+<div id="riwayatPesanan">
+
+</div>
+
+<br>
+
+<table>
+
+<tr>
+<th>ID</th>
+<th>Pembeli</th>
+<th>Produk</th>
+<th>Status</th>
+</tr>
+
+
+<tr>
+<td>
+001
+</td>
+
+<td>
+Ana
+</td>
+
+<td>
+Cardigan Perempuan
+</td>
+
+<td>
+Selesai
+</td>
+</tr>
+
+</table>
+
+<tr>
+<td>
+002
+</td>
+
+<td>
+Leya
+</td>
+
+<td>
+Flatshoes
+</td>
+
+<td>
+Dikirim
+</td>
+</tr>
+
+
+<tr>
+<td>
+003
+</td>
+
+<td>
+Eva
+</td>
+
+<td>
+Pouch Make Up
+</td>
+
+<td>
+Dikirim
+</td>
+</tr>
+
+
+<tr>
+<td>
+004
+</td>
+
+<td>
+Karla
+</td>
+
+<td>
+Sneakers Pink
+</td>
+
+<td>
+Diproses
+</td>
+</tr>
+
+
+<tr>
+<td>
+005
+</td>
+
+<td>
+Bulan
+</td>
+
+<td>
+Heels
+</td>
+
+<td>
+Menunggu
+</td>
+</tr>
+
+</table>
+
+}
+
+
+<!-- ==================== PELANGGAN ======================== -->
+
+
 function tampilPelanggan(){
 
 document.getElementById("pelanggan").innerHTML=`
@@ -1003,56 +1130,57 @@ document.getElementById("pelanggan").innerHTML=`
 }
 
 
+<!-- ======================= LAPORAN ======================= -->
 
-<!-- ================= LAPORAN ================= -->
+<div id="laporan" class="page">
 
+<h2>
+📊 Laporan Penjualan
+</h2>
 
-function tampilLaporan(){
+<br>
 
-document.getElementById("laporan").innerHTML=`
-
-<h2>📊 Laporan Penjualan</h2>
+<div class="cards">
 
 <div class="card">
+<h3>
+Total Pendapatan
+</h3>
 
-<h3>Total Pendapatan</h3>
-
-<h1>Rp15.000.000</h1>
+<h2>
+Rp15.000.000
+</h2>
 
 </div>
 
+
 <div class="card">
+<h3>
+Barang Terjual
+</h3>
 
-<h3>Total Produk Terjual</h3>
-
-<h1>320</h1>
+<h2>
+250
+</h2>
 
 </div>
 
+
 <div class="card">
+<h3>
+Pesanan Selesai
+</h3>
 
-<h3>Total Pelanggan</h3>
-
-<h1>5</h1>
+<h2>
+230
+</h2>
 
 </div>
 
-<div class="card">
-
-<h3>Pesanan Hari Ini</h3>
-
-<h1>18</h1>
-
 </div>
 
-`;
 
-}
-
-
-
-<br> <br>
-
+<br><br>
 
 <h3>
 Grafik Penjualan
