@@ -216,22 +216,22 @@
       <div id="admin-product-list"></div>
     </div>
 
-         <!-- 11. HALAMAN ADMIN LAPORAN -->
+    <!-- 11. HALAMAN ADMIN LAPORAN -->
     <div id="admin-reports-page" class="page">
-      <!-- Identitas Toko & Periode Laporan -->
+      <!-- Identitas Toko -->
       <div style="background: var(--surface); padding: 12px; border-radius: var(--radius); margin-bottom: 12px; border-left: 4px solid var(--primary); box-shadow: var(--shadow);">
         <div style="font-weight: 700; font-size: 13px; color: var(--text-dark);"><i class="fa-solid fa-store" style="color:var(--primary);"></i> Girl's Store Official</div>
-        <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;" id="report-periode-text">Periode Laporan: Hari Ini (07 Agustus 2026)</div>
+        <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;" id="report-periode-text">Periode Laporan: Hari Ini (07 Ags 2026)</div>
       </div>
 
-      <!-- Navigasi Tab Laporan (Harian, Bulanan, Tahunan) -->
+      <!-- Tab Navigasi Laporan -->
       <div class="role-selector" style="margin-bottom: 16px;">
         <button class="role-btn active" onclick="switchReportTab('harian', this)">Harian</button>
         <button class="role-btn" onclick="switchReportTab('bulanan', this)">Bulanan</button>
         <button class="role-btn" onclick="switchReportTab('tahunan', this)">Tahunan</button>
       </div>
 
-      <!-- Ringkasan Komponen Laporan Keuangan Marketplace -->
+      <!-- Ringkasan Komponen Laporan Keuangan -->
       <div class="checkout-summary" style="margin-top:0; margin-bottom: 16px;">
         <h4 id="report-title" style="margin-bottom:12px; font-size:14px; color:var(--primary); border-bottom: 1px dashed var(--border); padding-bottom: 6px;">Ringkasan Laporan Harian</h4>
         
@@ -258,9 +258,43 @@
         </div>
       </div>
 
-      <!-- Rincian Tabel / Kartu Transaksi Penjualan -->
+      <!-- Rincian Tabel Transaksi -->
       <h4 style="font-size:13px; font-weight:700; margin-bottom:10px; color:var(--text-dark);"><i class="fa-solid fa-list-check" style="color:var(--primary);"></i> Rincian Transaksi Terkait</h4>
       <div id="report-transaction-list"></div>
+    </div>
+
+    <!-- 12. HALAMAN ADMIN PROFIL -->
+    <div id="admin-profile-page" class="page">
+      <div class="profile-header">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300" alt="Admin" class="profile-img">
+        <span class="badge-store" style="display:inline-block; margin-bottom:6px;">SUPER ADMIN & STORE MANAGER</span>
+        <h3 style="font-size:16px;">Sabine Rylee</h3>
+        <p style="font-size:12px; color:var(--text-muted);">Sabineryle@gmail.com</p>
+      </div>
+
+      <div class="admin-info-section">
+        <div class="admin-info-title"><i class="fa-solid fa-user-shield"></i> Detail Akun Manajerial</div>
+        <div class="info-list-item"><span>ID Pegawai</span><span>ADM-GS-2026-001</span></div>
+        <div class="info-list-item"><span>No. Telepon Operational</span><span>+62 812-9988-7766</span></div>
+        <div class="info-list-item"><span>Cabang Wilayah</span><span>HQ Jakarta Selatan</span></div>
+        <div class="info-list-item"><span>Shift Operational</span><span>Shift Utama (08.00 - 17.00 WIB)</span></div>
+      </div>
+
+      <div class="admin-info-section">
+        <div class="admin-info-title"><i class="fa-solid fa-key"></i> Hak Akses & Otoritas Sistem</div>
+        <div class="info-list-item"><span>Manajemen Stok & Harga</span><span style="color:#27ae60;"><i class="fa-solid fa-circle-check"></i> Full Access</span></div>
+        <div class="info-list-item"><span>Otorisasi Pengembalian</span><span style="color:#27ae60;"><i class="fa-solid fa-circle-check"></i> Disetujui</span></div>
+        <div class="info-list-item"><span>Ekspor Laporan Keuangan</span><span style="color:#27ae60;"><i class="fa-solid fa-circle-check"></i> Aktif</span></div>
+      </div>
+
+      <div class="admin-info-section">
+        <div class="admin-info-title"><i class="fa-solid fa-chart-line"></i> Performansi Layanan Store</div>
+        <div class="info-list-item"><span>Kecepatan Balas Chat</span><span>99% (Sangat Cepat)</span></div>
+        <div class="info-list-item"><span>Rating Toko Keseluruhan</span><span>4.9 / 5.0 ★</span></div>
+        <div class="info-list-item"><span>Pesanan Tepat Waktu</span><span>99.8%</span></div>
+      </div>
+
+      <button class="btn btn-outline" style="border-color:#FF3B30; color:#FF3B30;" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Keluar dari Akun Admin</button>
     </div>
 
     <!-- POP-UP MODAL VARIASI WARNA & JUMLAH -->
@@ -300,7 +334,7 @@
 
   </div>
 
-  <!-- SCRIPT PEMANGGILAN JAVASCRIPT (Langsung tanpa folder js/) -->
+  <!-- SCRIPT PEMANGGILAN JAVASCRIPT -->
   <script src="data.js"></script>
   <script src="router.js"></script>
   <script src="auth.js"></script>
