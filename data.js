@@ -179,12 +179,59 @@ let products = [
 let cart = [];
 let orders = [];
 
-/* UTLITY TOAST NOTIFIKASI */
-function showToast(message) {
-  const toast = document.getElementById('toast');
-  document.getElementById('toast-text').innerText = message;
-  toast.classList.add('show');
-  setTimeout(() => {
-    toast.classList.remove('show');
-  }, 3000);
-}
+/* DATA TRANSAKSI AWAL UNTUK LAPORAN MARKETPLACE */
+let orders = [
+  {
+    id: 'GS-882910',
+    date: '07 Ags 2026',
+    month: 'Ags 2026',
+    year: '2026',
+    customer: 'Evaline',
+    items: [
+      { product: products[0], color: 'PUTIH', qty: 2 }
+    ],
+    total: 370000,
+    payment: 'Transfer Bank (BCA)',
+    status: 'Selesai'
+  },
+  {
+    id: 'GS-774102',
+    date: '05 Ags 2026',
+    month: 'Ags 2026',
+    year: '2026',
+    customer: 'Clarissa M.',
+    items: [
+      { product: products[1], color: 'PINK', qty: 1 }
+    ],
+    total: 125000,
+    payment: 'E-Wallet (Gopay)',
+    status: 'Selesai'
+  },
+  {
+    id: 'GS-661034',
+    date: '15 Jul 2026',
+    month: 'Jul 2026',
+    year: '2026',
+    customer: 'Anisa Syarif',
+    items: [
+      { product: products[3], color: 'COKELAT', qty: 1 }
+    ],
+    total: 210000,
+    payment: 'Transfer Bank (Mandiri)',
+    status: 'Selesai'
+  },
+  {
+    id: 'GS-550192',
+    date: '10 Mei 2026',
+    month: 'Mei 2026',
+    year: '2026',
+    customer: 'Siti Nurhaliza',
+    items: [
+      { product: products[2], color: 'HITAM', qty: 3 }
+    ],
+    total: 285000,
+    payment: 'COD (Bayar di Tempat)',
+    status: 'Selesai'
+  }
+];
+
