@@ -179,43 +179,44 @@ let products = [
 let cart = [];
 let orders = [];
 
-/* DATA TRANSAKSI AWAL UNTUK LAPORAN MARKETPLACE */
+/* DATA TRANSAKSI UTUH UNTUK LAPORAN HARIAN, BULANAN, & TAHUNAN */
 let orders = [
   {
     id: 'GS-882910',
     date: '07 Ags 2026',
-    month: 'Ags 2026',
-    year: '2026',
-    customer: 'Evaline',
-    items: [
-      { product: products[0], color: 'PUTIH', qty: 2 }
-    ],
+    category: 'harian',
+    customer: 'Clarissa M.',
+    items: [{ product: products[0], qty: 2 }],
     total: 370000,
     payment: 'Transfer Bank (BCA)',
     status: 'Selesai'
   },
   {
-    id: 'GS-774102',
-    date: '05 Ags 2026',
-    month: 'Ags 2026',
-    year: '2026',
-    customer: 'Clarissa M.',
-    items: [
-      { product: products[1], color: 'PINK', qty: 1 }
-    ],
+    id: 'GS-882911',
+    date: '07 Ags 2026',
+    category: 'harian',
+    customer: 'Evaline',
+    items: [{ product: products[1], qty: 1 }],
     total: 125000,
     payment: 'E-Wallet (Gopay)',
     status: 'Selesai'
   },
   {
+    id: 'GS-774102',
+    date: '01 Ags 2026',
+    category: 'bulanan',
+    customer: 'Anisa Syarif',
+    items: [{ product: products[2], qty: 3 }],
+    total: 285000,
+    payment: 'COD (Bayar di Tempat)',
+    status: 'Selesai'
+  },
+  {
     id: 'GS-661034',
     date: '15 Jul 2026',
-    month: 'Jul 2026',
-    year: '2026',
-    customer: 'Anisa Syarif',
-    items: [
-      { product: products[3], color: 'COKELAT', qty: 1 }
-    ],
+    category: 'bulanan',
+    customer: 'Dinda Kusuma',
+    items: [{ product: products[3], qty: 1 }],
     total: 210000,
     payment: 'Transfer Bank (Mandiri)',
     status: 'Selesai'
@@ -223,15 +224,11 @@ let orders = [
   {
     id: 'GS-550192',
     date: '10 Mei 2026',
-    month: 'Mei 2026',
-    year: '2026',
+    category: 'tahunan',
     customer: 'Siti Nurhaliza',
-    items: [
-      { product: products[2], color: 'HITAM', qty: 3 }
-    ],
-    total: 285000,
-    payment: 'COD (Bayar di Tempat)',
+    items: [{ product: products[4], qty: 2 }],
+    total: 330000,
+    payment: 'E-Wallet (ShopeePay)',
     status: 'Selesai'
   }
 ];
-
