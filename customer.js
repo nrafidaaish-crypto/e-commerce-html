@@ -1,6 +1,6 @@
-/* RENDERING & INTERAKSI PELANGGAN */
 function renderCustomerProducts() {
   const grid = document.getElementById('customer-product-list');
+  if (!grid) return;
   grid.innerHTML = products.map(p => `
     <div class="product-card" onclick="openProductDetail(${p.id})">
       <img src="${p.img}" class="product-img" alt="${p.name}">
@@ -41,7 +41,7 @@ function openProductDetail(id) {
       <hr style="border:none; border-top:1px solid var(--border); margin:12px 0;">
 
       <h4 style="font-size:13px; margin-bottom:6px;">Deskripsi Lengkap Produk</h4>
-      <p style="font-size:12px; color:#555; line-height:1.6; margin-bottom:20px; white-space: pre-line;">${selectedDetailProduct.desc}</p>
+      <p style="font-size:12px; color:#555; line-height:1.6; margin-bottom:20px;">${selectedDetailProduct.desc}</p>
 
       <hr style="border:none; border-top:1px solid var(--border); margin:12px 0;">
 
@@ -139,8 +139,10 @@ function removeFromCart(index) {
 
 function renderCheckout() {
   const container = document.getElementById('checkout-items');
-  let subtotal = 0;
+  const nameEl = document.getElementById('checkout-cust-name');
+  if (nameEl) nameEl.innerText = currentUser ? currentUser.name : 'Pelanggan';
 
+  let subtotal = 0;
   container.innerHTML = cart.map(item => {
     const itemTotal = item.product.price * item.qty;
     subtotal += itemTotal;
@@ -166,7 +168,6 @@ function renderCheckout() {
   document.getElementById('checkout-total').innerText = `Rp ${total.toLocaleString('id-ID')}`;
 }
 
-/* POP-UP MODAL VARIASI WARNA & QUANTITY */
 function openVariantSheetForCart() {
   sheetTargetIndex = null;
   sheetActionMode = 'add_to_cart';
@@ -279,7 +280,8 @@ function processOrder() {
 
   const newOrder = {
     id: 'GS-' + Math.floor(100000 + Math.random() * 900000),
-    date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+    date: '07 Ags 2026',
+    category: 'harian',
     customer: currentUser.name,
     items: [...cart],
     total: total,
@@ -309,7 +311,7 @@ function renderCustomerOrders() {
       </div>
       ${order.items.map(i => `
         <div style="font-size:12px; margin:4px 0;">
-          • ${i.product.name} (${i.color}) x${i.qty}
+          • ${i.product.name} (${i.color || 'Standard'}) x${i.qty}
         </div>
       `).join('')}
       <div class="flex-between" style="border-top:1px dashed var(--border); padding-top:6px; margin-top:6px; font-size:12px;">
