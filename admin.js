@@ -106,13 +106,21 @@ function renderAdminProducts() {
   `).join('');
 }
 
-function switchReportTab(type) {
+function switchReportTab(type, element) {
+  // Mengubah tombol aktif saat diklik
+  if (element) {
+    const container = element.parentElement;
+    container.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+    element.classList.add('active');
+  }
+
   const titleEl = document.getElementById('report-title');
   const countEl = document.getElementById('report-count');
   const revenueEl = document.getElementById('report-revenue');
 
   const totalRevenue = orders.reduce((sum, o) => sum + o.total, 0);
 
+  // Mengubah Judul Laporan (Harian / Bulanan / Tahunan)
   titleEl.innerText = `Laporan Penjualan ${type.charAt(0).toUpperCase() + type.slice(1)}`;
   countEl.innerText = orders.length;
   revenueEl.innerText = `Rp ${totalRevenue.toLocaleString('id-ID')}`;
