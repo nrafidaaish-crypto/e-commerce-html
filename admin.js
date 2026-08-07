@@ -107,21 +107,86 @@ function renderAdminProducts() {
 }
 
 function switchReportTab(type, element) {
-  // Mengubah tombol aktif saat diklik
   if (element) {
     const container = element.parentElement;
     container.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
     element.classList.add('active');
   }
 
+  const periodeText = document.getElementById('report-periode-text');
   const titleEl = document.getElementById('report-title');
   const countEl = document.getElementById('report-count');
+  const itemsSoldEl = document.getElementById('report-items-sold');
+  const grossEl = document.getElementById('report-gross');
+  const feeEl = document.getElementById('report-fee');
   const revenueEl = document.getElementById('report-revenue');
+  const listEl = document.getElementById('report-transaction-list');
 
-  const totalRevenue = orders.reduce((sum, o) => sum + o.total, 0);
+  let filteredOrders = [];
+  const currentDate = '07 Ags 2026';
+  const currentMonth = 'Ags 2026';
+  const currentYear = '2026';
 
-  // Mengubah Judul Laporan (Harian / Bulanan / Tahunan)
-  titleEl.innerText = `Laporan Penjualan ${type.charAt(0).toUpperCase() + type.slice(1)}`;
-  countEl.innerText = orders.length;
-  revenueEl.innerText = `Rp ${totalRevenue.toLocaleString('id-ID')}`;
+  if (type === 'harian') {
+    periodeText.innerText = `Periode Laporan: Hari Ini (${currentDate})`;
+    titleEl.innerText = "Ringkasan Laporan Harian";
+    filteredOrders = orders.filter(o => o.date === currentDate);
+  } else if (type === 'bulanan') {
+    periodeText.innerText = `Periode Laporan: Bulan Ini (${currentMonth})`;
+    titleEl.innerText = "Ringkasan Laporan Bulanan";
+    filteredOrders = orders.filter(o => o.date.includes(currentMonth) || o.month === currentMonth);
+  } else if (type === 'tahunan') {
+    periodeText.innerText = `Periode Laporan: Tahun Ini (${currentYear})`;
+    titleEl.innerText = "Ringkasan Laporan Tahunan";
+    filteredOrders = orders.filter(o => o.date.includes(currentYear) || o.year === currentYear);
+  }
+
+  // Hitung Statistik Laporan
+  const totalCount = filteredOrders.length;
+  let totalItems = 0;
+  let totalGross = 0;
+
+  filteredOrders.forEach(o => {
+    totalGross += o.total || 0;
+    if (o.items) {
+      o.items.forEach(i => totalItems += (i.qty || 1));
+    }
+  });
+
+  const adminFee = Math.round(totalGross * 0.03); // Potongan Biaya Admin Marketplace (3%)
+  const netRevenue = totalGross - adminFee; // Pendapatan Bersih
+
+  // Tampilkan ke UI
+  countEl.innerText = `${totalCount} Pesanan`;
+  itemsSoldEl.innerText = `${totalItems} Pcs`;
+  grossEl.innerText = `Rp ${totalGross.toLocaleString('id-ID')}`;
+  feeEl.innerText = `- Rp ${adminFee.toLocaleString('id-ID')}`;
+  revenueEl.innerText = `Rp ${netRevenue.toLocaleString('id-ID')}`;
+
+  // Tampilkan Daftar Rincian Transaksi
+  if (filteredOrders.length === 0) {
+    listEl.innerHTML = `<p style="font-size:12px; color:var(--text-muted); text-align:center; padding:20px;">Belum ada transaksi pada periode ini.</p>`;
+    return;
+  }
+
+  listEl.innerHTML = filteredOrders.map(o => {
+    const itemNames = o.items ? o.items.map(i => `${i.product.name} (x${i.qty})`).join(', ') : 'Produk';
+    const itemFee = Math.round((o.total || 0) * 0.03);
+    const itemNet = (o.total || 0) - itemFee;
+
+    return `
+      <div style="background:var(--surface); padding:12px; border-radius:var(--radius); margin-bottom:10px; font-size:12px; box-shadow: 0 2px 6px rgba(0,0,0,0.02);">
+        <div class="flex-between" style="border-bottom:1px dashed var(--border); padding-bottom:6px; margin-bottom:6px;">
+          <strong style="color:var(--primary);">${o.id}</strong>
+          <span style="color:var(--text-muted); font-size:11px;">${o.date}</span>
+        </div>
+        <div style="font-weight:600; margin-bottom:2px;">Pembeli: ${o.customer}</div>
+        <div style="color:var(--text-muted); font-size:11px; margin-bottom:6px;">${itemNames}</div>
+        <div class="flex-between" style="font-size:11px; background:#FAF6F8; padding:6px 8px; border-radius:6px;">
+          <span>Omset: <strong>Rp ${(o.total||0).toLocaleString('id-ID')}</strong></span>
+          <span style="color:#27ae60;">Bersih: <strong>Rp ${itemNet.toLocaleString('id-ID')}</strong></span>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
