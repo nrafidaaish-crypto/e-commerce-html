@@ -1,4 +1,3 @@
-/* LOGIKA LOGIN & ROLE SWITCH */
 function switchLoginRole(role) {
   selectedRole = role;
   document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
@@ -17,11 +16,11 @@ function handleLogin(e) {
       currentUser = { role: 'admin', name: 'Sabine Rylee' };
       completeLogin('admin-dashboard-page', "Selamat datang Admin!");
     } else {
-      showToast("Username/Password Admin Salah! (Petunjuk: GSTORE / GS01)");
+      showToast("Username/Password Admin Salah! (GSTORE / GS01)");
     }
   } else {
-    // PELANGGAN BEBAS: Nama dan Password apapun langsung bisa masuk!
-    currentUser = { role: 'customer', name: u || 'Pelanggan VIP' };
+    // PELANGGAN BEBAS BISA ISI USERNAME/PASSWORD BEBAS RANDOM
+    currentUser = { role: 'customer', name: u || 'Pelanggan Store' };
     completeLogin('customer-home', `Selamat datang, ${currentUser.name}!`);
   }
 }
@@ -67,8 +66,10 @@ function setupLayoutForUser() {
       <button class="nav-item" onclick="navigateTo('customer-orders-page')"><i class="fa-solid fa-receipt"></i>Pesanan Saya</button>
       <button class="nav-item" onclick="navigateTo('customer-profile-page')"><i class="fa-solid fa-user"></i>Profil</button>
     `;
-    const profileNameEl = document.querySelector('#customer-profile-page h3');
-    if (profileNameEl) profileNameEl.innerText = currentUser.name;
+    const nameEl = document.getElementById('profile-display-name');
+    const emailEl = document.getElementById('profile-display-email');
+    if (nameEl) nameEl.innerText = currentUser.name;
+    if (emailEl) emailEl.innerText = `${currentUser.name.toLowerCase().replace(/\s+/g, '')}@gmail.com`;
   } else {
     cartBtn.style.display = 'none';
     nav.innerHTML = `
