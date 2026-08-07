@@ -1,4 +1,3 @@
-/* ROUTING DAN PERPINDAHAN HALAMAN */
 function navigateTo(pageId, pushToHistory = true) {
   if (pushToHistory && historyStack[historyStack.length - 1] !== pageId) {
     historyStack.push(pageId);
