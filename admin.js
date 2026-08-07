@@ -1,11 +1,13 @@
-/* LOGIKA ADMIN & MANAJEMEN TOKO */
 function renderAdminDashboard() {
   document.getElementById('stat-products').innerText = products.length;
   document.getElementById('stat-orders').innerText = orders.length;
+  
   const totalSales = orders.reduce((sum, o) => sum + o.total, 0);
   document.getElementById('stat-sales').innerText = `Rp ${totalSales.toLocaleString('id-ID')}`;
 
   const recentContainer = document.getElementById('admin-dashboard-recent-orders');
+  if (!recentContainer) return;
+
   if (orders.length === 0) {
     recentContainer.innerHTML = `<p style="font-size:12px; color:var(--text-muted);">Belum ada pesanan masuk.</p>`;
     return;
@@ -18,11 +20,31 @@ function renderAdminDashboard() {
         <span style="color:var(--primary);">${order.id}</span>
       </div>
       <div style="font-size:11px; color:var(--text-muted); margin:4px 0;">
-        ${order.items.map(i => `${i.product.name} (${i.color}) x${i.qty}`).join(', ')}
+        ${order.items.map(i => `${i.product.name} x${i.qty}`).join(', ')}
       </div>
       <div class="flex-between" style="font-size:12px;">
         <span>Total: Rp ${order.total.toLocaleString('id-ID')}</span>
         <span class="badge-store">${order.status}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderAdminProducts() {
+  const container = document.getElementById('admin-product-list');
+  if (!container) return;
+
+  container.innerHTML = products.map(p => `
+    <div class="cart-item">
+      <img src="${p.img}" class="cart-img" alt="${p.name}">
+      <div class="cart-details">
+        <div style="font-weight:600; font-size:13px;">${p.name}</div>
+        <div style="font-size:11px; color:var(--text-muted);">Stok: ${p.stock} | Terjual: ${p.sold}</div>
+        <div style="font-weight:700; color:var(--primary); font-size:13px; margin-top:2px;">Rp ${p.price.toLocaleString('id-ID')}</div>
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <button onclick="editProduct(${p.id})" class="btn btn-secondary" style="padding:4px 8px; font-size:11px;"><i class="fa-solid fa-pen"></i> Edit</button>
+          <button onclick="deleteProduct(${p.id})" class="btn btn-outline" style="padding:4px 8px; font-size:11px; border-color:#FF3B30; color:#FF3B30;"><i class="fa-solid fa-trash"></i> Hapus</button>
+        </div>
       </div>
     </div>
   `).join('');
@@ -88,24 +110,6 @@ function deleteProduct(id) {
   }
 }
 
-function renderAdminProducts() {
-  const container = document.getElementById('admin-product-list');
-  container.innerHTML = products.map(p => `
-    <div class="cart-item">
-      <img src="${p.img}" class="cart-img" alt="${p.name}">
-      <div class="cart-details">
-        <div style="font-weight:600; font-size:13px;">${p.name}</div>
-        <div style="font-size:11px; color:var(--text-muted);">Stok: ${p.stock}</div>
-        <div style="font-weight:700; color:var(--primary); font-size:13px; margin-top:2px;">Rp ${p.price.toLocaleString('id-ID')}</div>
-        <div style="display:flex; gap:8px; margin-top:8px;">
-          <button onclick="editProduct(${p.id})" class="btn btn-secondary" style="padding:4px 8px; font-size:11px;"><i class="fa-solid fa-pen"></i> Edit</button>
-          <button onclick="deleteProduct(${p.id})" class="btn btn-outline" style="padding:4px 8px; font-size:11px; border-color:#FF3B30; color:#FF3B30;"><i class="fa-solid fa-trash"></i> Hapus</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
 function switchReportTab(type, element) {
   if (element) {
     const container = element.parentElement;
@@ -128,18 +132,16 @@ function switchReportTab(type, element) {
     periodeText.innerText = "Periode Laporan: Hari Ini (07 Ags 2026)";
     titleEl.innerText = "Ringkasan Laporan Harian";
     activeOrders = orders.filter(o => o.category === 'harian' || o.date === '07 Ags 2026');
-    if (activeOrders.length === 0) activeOrders = orders.slice(0, 2);
   } else if (type === 'bulanan') {
     periodeText.innerText = "Periode Laporan: Bulan Ini (Agustus 2026)";
     titleEl.innerText = "Ringkasan Laporan Bulanan";
-    activeOrders = orders.slice(0, 4);
+    activeOrders = orders.filter(o => o.category === 'harian' || o.category === 'bulanan');
   } else if (type === 'tahunan') {
     periodeText.innerText = "Periode Laporan: Tahun Ini (Tahun 2026)";
     titleEl.innerText = "Ringkasan Laporan Tahunan";
     activeOrders = orders;
   }
 
-  // Hitung Angka Laporan
   let totalCount = activeOrders.length;
   let totalItems = 0;
   let totalGross = 0;
@@ -151,8 +153,8 @@ function switchReportTab(type, element) {
     }
   });
 
-  const adminFee = Math.round(totalGross * 0.03); // Biaya Admin 3%
-  const netRevenue = totalGross - adminFee; // Pendapatan Bersih
+  const adminFee = Math.round(totalGross * 0.03);
+  const netRevenue = totalGross - adminFee;
 
   countEl.innerText = `${totalCount} Pesanan`;
   itemsSoldEl.innerText = `${totalItems} Pcs`;
@@ -160,7 +162,11 @@ function switchReportTab(type, element) {
   feeEl.innerText = `- Rp ${adminFee.toLocaleString('id-ID')}`;
   revenueEl.innerText = `Rp ${netRevenue.toLocaleString('id-ID')}`;
 
-  // Tampilkan Rincian Transaksi
+  if (activeOrders.length === 0) {
+    listEl.innerHTML = `<p style="font-size:12px; color:var(--text-muted); text-align:center; padding:20px;">Belum ada transaksi pada periode ini.</p>`;
+    return;
+  }
+
   listEl.innerHTML = activeOrders.map(o => {
     const itemNames = o.items ? o.items.map(i => `${i.product.name} (x${i.qty})`).join(', ') : 'Produk Tas';
     const itemFee = Math.round(o.total * 0.03);
