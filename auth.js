@@ -20,12 +20,9 @@ function handleLogin(e) {
       showToast("Username/Password Admin Salah! (Petunjuk: GSTORE / GS01)");
     }
   } else {
-    if (u === 'evaline' && p === 'ev01') {
-      currentUser = { role: 'customer', name: 'Evaline' };
-      completeLogin('customer-home', "Berhasil masuk!");
-    } else {
-      showToast("Username/Password Pelanggan Salah! (Petunjuk: evaline / ev01)");
-    }
+    // PELANGGAN BEBAS: Nama dan Password apapun langsung bisa masuk!
+    currentUser = { role: 'customer', name: u || 'Pelanggan VIP' };
+    completeLogin('customer-home', `Selamat datang, ${currentUser.name}!`);
   }
 }
 
@@ -70,6 +67,8 @@ function setupLayoutForUser() {
       <button class="nav-item" onclick="navigateTo('customer-orders-page')"><i class="fa-solid fa-receipt"></i>Pesanan Saya</button>
       <button class="nav-item" onclick="navigateTo('customer-profile-page')"><i class="fa-solid fa-user"></i>Profil</button>
     `;
+    const profileNameEl = document.querySelector('#customer-profile-page h3');
+    if (profileNameEl) profileNameEl.innerText = currentUser.name;
   } else {
     cartBtn.style.display = 'none';
     nav.innerHTML = `
